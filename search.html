@@ -133,16 +133,17 @@
             class="w-full pl-12 pr-4 py-4 bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary/20 transition-all text-body"
             placeholder="Search roles or companies"
             type="text"
+            data-search-input
           />
         </div>
-        <div class="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
-          <button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-full text-sm font-semibold whitespace-nowrap">
+        <div class="flex gap-2 overflow-x-auto pb-2 no-scrollbar" data-filter-group>
+          <button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-full text-sm font-semibold whitespace-nowrap" data-filter="Remote">
             <span class="material-symbols-outlined text-sm" data-icon="public">public</span> Remote
           </button>
-          <button class="flex items-center gap-2 px-4 py-2 bg-surface-container-low text-secondary rounded-full text-sm font-semibold whitespace-nowrap">
+          <button class="flex items-center gap-2 px-4 py-2 bg-surface-container-low text-secondary rounded-full text-sm font-semibold whitespace-nowrap" data-filter="Full-time">
             <span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span> Full-time
           </button>
-          <button class="flex items-center gap-2 px-4 py-2 bg-surface-container-low text-secondary rounded-full text-sm font-semibold whitespace-nowrap">
+          <button class="flex items-center gap-2 px-4 py-2 bg-surface-container-low text-secondary rounded-full text-sm font-semibold whitespace-nowrap" data-filter="Salary Range">
             <span class="material-symbols-outlined text-sm" data-icon="payments">payments</span> Salary Range
           </button>
         </div>
@@ -163,7 +164,7 @@
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpDCPvfVWBdpFiiEql1Ywl63j_hSAuHjvNCCcYAs6VNDcSxycC2CHx2CvzoH57Fq-fO69KoKsTq3gHMTb8I57EKPlzMgoJuEove672uu8fgH-YSNNsVTJhILYMT0V0b0TNL28aUWPsPQ45WwzO6JqTiE-jIJUbpIz1nqEcXMpFlZuLDZLfCsA7qYSGVbz2XAMXK2Dnr63iqH4FylsZqzhPIV2kcr2q-b4eWVU8RDWRE1Px8SgOuf3Nv8-iyI40Ki0RqJV0cb35Yhir"
                 />
               </div>
-              <button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container-low transition-colors text-outline">
+              <button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container-low transition-colors text-outline" data-bookmark="unsaved">
                 <span class="material-symbols-outlined" data-icon="bookmark">bookmark</span>
               </button>
             </div>
@@ -186,7 +187,7 @@
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuBe1xaFeh6dfQL6YQtxnxww1EcTamDlXhPj9cE3ZWQbeLwdF-fbVvGJ-E5pKyg926VmrAY-1F_bboiXliZoYNGbg3iUmHcCYZpDQA7B9O9CNZew73AFM_CPx8eCpyecQUXaH87Qq7R4Gt55Kqc8emNm7eePb5tCLSYWKK3jB9frUKT6yeS-COlLN5iM8A4D8yF7w9YWCbI_sDiQQ7kdTc1jeTtMpnef4q-uiEuRFApevC5xYRgD3u062rWrNxOrHSz6Ks4etU_i8otL"
                 />
               </div>
-              <button class="w-10 h-10 rounded-full flex items-center justify-center bg-blue-50 text-blue-600">
+              <button class="w-10 h-10 rounded-full flex items-center justify-center bg-blue-50 text-blue-600" data-bookmark="saved">
                 <span class="material-symbols-outlined" data-icon="bookmark" style="font-variation-settings: 'FILL' 1;">bookmark</span>
               </button>
             </div>
@@ -205,7 +206,7 @@
         <h2 class="text-xl font-extrabold tracking-tight text-on-surface px-1">Active Applications</h2>
         <div class="bg-surface-container-lowest rounded-2xl overflow-hidden">
           <div class="divide-y-0">
-            <div class="flex items-center gap-4 p-4 hover:bg-surface-container-low transition-colors cursor-pointer">
+            <div class="flex items-center gap-4 p-4 hover:bg-surface-container-low transition-colors cursor-pointer" data-application="Lead Developer">
               <div class="w-2 h-2 rounded-full bg-blue-500"></div>
               <div class="flex-1">
                 <p class="text-sm font-bold">Lead Developer</p>
@@ -213,7 +214,7 @@
               </div>
               <span class="material-symbols-outlined text-outline-variant text-sm" data-icon="chevron_right">chevron_right</span>
             </div>
-            <div class="flex items-center gap-4 p-4 hover:bg-surface-container-low transition-colors cursor-pointer">
+            <div class="flex items-center gap-4 p-4 hover:bg-surface-container-low transition-colors cursor-pointer" data-application="Product Architect">
               <div class="w-2 h-2 rounded-full bg-amber-500"></div>
               <div class="flex-1">
                 <p class="text-sm font-bold">Product Architect</p>
@@ -221,7 +222,7 @@
               </div>
               <span class="material-symbols-outlined text-outline-variant text-sm" data-icon="chevron_right">chevron_right</span>
             </div>
-            <div class="flex items-center gap-4 p-4 hover:bg-surface-container-low transition-colors cursor-pointer">
+            <div class="flex items-center gap-4 p-4 hover:bg-surface-container-low transition-colors cursor-pointer" data-application="Interface Designer">
               <div class="w-2 h-2 rounded-full bg-slate-300"></div>
               <div class="flex-1">
                 <p class="text-sm font-bold">Interface Designer</p>
@@ -234,25 +235,26 @@
       </section>
     </main>
     <nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border-t border-slate-200/15 dark:border-slate-800/15 shadow-[0_-4px_20px_0_rgba(0,0,0,0.05)] rounded-t-3xl">
-      <a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 hover:text-blue-600" href="#">
+      <a class="flex flex-col items-center justify-center bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-2xl px-5 py-2" href="search.html" data-nav="search">
         <span class="material-symbols-outlined mb-1" data-icon="search">search</span>
         <span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-wider">Search</span>
       </a>
-      <a class="flex flex-col items-center justify-center bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-2xl px-5 py-2" href="#">
+      <a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 hover:text-blue-600" href="tracker.html" data-nav="tracker">
         <span class="material-symbols-outlined mb-1" data-icon="Assignment_turned_in">assignment_turned_in</span>
         <span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-wider">Tracker</span>
       </a>
-      <a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 hover:text-blue-600" href="#">
+      <a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 hover:text-blue-600" href="generator.html" data-nav="generator">
         <span class="material-symbols-outlined mb-1" data-icon="description">description</span>
         <span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-wider">Resume</span>
       </a>
-      <a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 hover:text-blue-600" href="#">
+      <a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-5 py-2 hover:text-blue-600" href="setting.html" data-nav="settings">
         <span class="material-symbols-outlined mb-1" data-icon="settings">settings</span>
         <span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-wider">Settings</span>
       </a>
     </nav>
-    <button class="fixed right-6 bottom-28 w-14 h-14 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-full shadow-lg flex items-center justify-center transition-transform active:scale-90 duration-200 z-40">
+    <button class="fixed right-6 bottom-28 w-14 h-14 bg-gradient-to-br from-primary to-primary-container text-on-primary rounded-full shadow-lg flex items-center justify-center transition-transform active:scale-90 duration-200 z-40" data-action="go-generator">
       <span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
     </button>
+    <script src="./app.js"></script>
   </body>
 </html>

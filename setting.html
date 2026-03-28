@@ -105,13 +105,13 @@
       <div class="flex items-center gap-8">
         <span class="font-headline text-2xl font-black tracking-tight text-[#0f172a]">Rezzap</span>
         <nav class="hidden gap-6 md:flex">
-          <a class="px-3 py-1 font-body font-bold text-[#2563EB] transition-colors" href="#">Home</a>
-          <a class="px-3 py-1 font-body text-[#64748b] transition-colors hover:text-primary" href="#">Product</a>
-          <a class="px-3 py-1 font-body text-[#64748b] transition-colors hover:text-primary" href="#">Pricing</a>
+          <a class="px-3 py-1 font-body font-bold text-[#2563EB] transition-colors" href="home.html" data-nav="home">Home</a>
+          <a class="px-3 py-1 font-body text-[#64748b] transition-colors hover:text-primary" href="search.html" data-nav="search">Product</a>
+          <a class="px-3 py-1 font-body text-[#64748b] transition-colors hover:text-primary" href="generator.html" data-nav="generator">Pricing</a>
         </nav>
       </div>
       <div class="flex items-center gap-4">
-        <button class="hidden rounded-xl bg-primary px-5 py-2.5 text-sm font-bold text-on-primary transition-all hover:shadow-lg active:scale-95 sm:block">
+        <button class="hidden rounded-xl bg-primary px-5 py-2.5 text-sm font-bold text-on-primary transition-all hover:shadow-lg active:scale-95 sm:block" data-action="go-search">
           Start Applying Now
         </button>
         <div class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-outline-variant/20 bg-surface-container-high">
@@ -137,7 +137,7 @@
             The only copilot that finds, customizes, and applies to jobs for you in seconds.
           </p>
           <div class="flex flex-col items-center gap-4">
-            <button class="flex w-full max-w-md items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-primary to-blue-700 px-10 py-6 text-xl font-bold text-on-primary transition-all hover:shadow-2xl hover:shadow-primary/30 active:scale-95">
+            <button class="flex w-full max-w-md items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-primary to-blue-700 px-10 py-6 text-xl font-bold text-on-primary transition-all hover:shadow-2xl hover:shadow-primary/30 active:scale-95" data-action="go-generator">
               <span class="material-symbols-outlined" data-icon="upload_file">upload_file</span>
               Upload Resume to Begin
             </button>
@@ -223,7 +223,7 @@
             <h2 class="mb-8 font-headline text-3xl font-extrabold leading-tight text-inverse-on-surface md:text-5xl">
               Your dream job is waiting.
             </h2>
-            <button class="rounded-2xl bg-primary px-12 py-5 text-xl font-bold text-on-primary shadow-primary/40 transition-all hover:-translate-y-1 hover:shadow-xl">
+            <button class="rounded-2xl bg-primary px-12 py-5 text-xl font-bold text-on-primary shadow-primary/40 transition-all hover:-translate-y-1 hover:shadow-xl" data-action="go-search">
               Start Applying Now
             </button>
             <p class="mt-8 font-medium text-outline-variant">Join 50,000+ professionals getting hired with Rezzap.</p>
@@ -256,12 +256,13 @@
           <p class="font-body text-sm text-on-surface-variant">© 2024 Intelligent Curator Inc.</p>
         </div>
         <div class="flex gap-8 text-sm font-medium text-on-surface-variant">
-          <a class="transition-colors hover:text-primary" href="#">Privacy</a>
-          <a class="transition-colors hover:text-primary" href="#">Terms</a>
-          <a class="transition-colors hover:text-primary" href="#">Support</a>
-          <a class="transition-colors hover:text-primary" href="#">Twitter</a>
+          <a class="transition-colors hover:text-primary" href="#" data-placeholder="Privacy">Privacy</a>
+          <a class="transition-colors hover:text-primary" href="#" data-placeholder="Terms">Terms</a>
+          <a class="transition-colors hover:text-primary" href="#" data-placeholder="Support">Support</a>
+          <a class="transition-colors hover:text-primary" href="#" data-placeholder="Twitter">Twitter</a>
         </div>
       </div>
     </footer>
+    <script src="./app.js"></script>
   </body>
 </html>

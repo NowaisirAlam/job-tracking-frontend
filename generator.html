@@ -127,23 +127,23 @@
     <aside class="fixed left-0 top-0 h-full w-64 flex flex-col p-6 space-y-6 bg-[#f0f3ff] dark:bg-slate-900 rounded-r-lg z-50">
       <div class="text-lg font-bold text-[#111c2d] dark:text-slate-100 font-headline">Curator</div>
       <nav class="flex-1 space-y-1">
-        <a class="flex items-center gap-3 px-4 py-3 text-[#464555] dark:text-slate-400 hover:bg-[#dee8ff]/50 dark:hover:bg-slate-800 transition-all duration-300 ease-in-out" href="#">
+        <a class="flex items-center gap-3 px-4 py-3 text-[#464555] dark:text-slate-400 hover:bg-[#dee8ff]/50 dark:hover:bg-slate-800 transition-all duration-300 ease-in-out" href="search.html" data-nav="search">
           <span class="material-symbols-outlined" data-icon="work">work</span>
           <span class="text-[0.6875rem] font-medium tracking-wide">Job Search</span>
         </a>
-        <a class="flex items-center gap-3 px-4 py-3 text-[#464555] dark:text-slate-400 hover:bg-[#dee8ff]/50 dark:hover:bg-slate-800 transition-all duration-300 ease-in-out" href="#">
+        <a class="flex items-center gap-3 px-4 py-3 text-[#464555] dark:text-slate-400 hover:bg-[#dee8ff]/50 dark:hover:bg-slate-800 transition-all duration-300 ease-in-out" href="tracker.html" data-nav="tracker">
           <span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
           <span class="text-[0.6875rem] font-medium tracking-wide">Tracker</span>
         </a>
-        <a class="flex items-center gap-3 px-4 py-3 bg-[#dee8ff] dark:bg-primary/10 text-primary font-semibold rounded-md transition-all duration-300 ease-in-out" href="#">
+        <a class="flex items-center gap-3 px-4 py-3 bg-[#dee8ff] dark:bg-primary/10 text-primary font-semibold rounded-md transition-all duration-300 ease-in-out" href="generator.html" data-nav="generator">
           <span class="material-symbols-outlined" data-icon="description">description</span>
           <span class="text-[0.6875rem] font-medium tracking-wide">Resume Gen</span>
         </a>
-        <a class="flex items-center gap-3 px-4 py-3 text-[#464555] dark:text-slate-400 hover:bg-[#dee8ff]/50 dark:hover:bg-slate-800 transition-all duration-300 ease-in-out" href="#">
+        <a class="flex items-center gap-3 px-4 py-3 text-[#464555] dark:text-slate-400 hover:bg-[#dee8ff]/50 dark:hover:bg-slate-800 transition-all duration-300 ease-in-out" href="home.html" data-nav="home">
           <span class="material-symbols-outlined" data-icon="Compare_arrows">compare_arrows</span>
           <span class="text-[0.6875rem] font-medium tracking-wide">Comparison</span>
         </a>
-        <a class="flex items-center gap-3 px-4 py-3 text-[#464555] dark:text-slate-400 hover:bg-[#dee8ff]/50 dark:hover:bg-slate-800 transition-all duration-300 ease-in-out mt-auto" href="#">
+        <a class="flex items-center gap-3 px-4 py-3 text-[#464555] dark:text-slate-400 hover:bg-[#dee8ff]/50 dark:hover:bg-slate-800 transition-all duration-300 ease-in-out mt-auto" href="setting.html" data-nav="settings">
           <span class="material-symbols-outlined" data-icon="settings">settings</span>
           <span class="text-[0.6875rem] font-medium tracking-wide">Settings</span>
         </a>
@@ -160,10 +160,10 @@
           </div>
         </div>
         <div class="flex items-center gap-4">
-          <button class="px-4 py-2 text-sm font-bold text-primary hover:bg-[#dee8ff] transition-colors rounded-xl">
+          <button class="px-4 py-2 text-sm font-bold text-primary hover:bg-[#dee8ff] transition-colors rounded-xl" data-action="save-draft">
             Save Draft
           </button>
-          <button class="bg-primary text-on-primary px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-sm hover:brightness-110 transition-all">
+          <button class="bg-primary text-on-primary px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-sm hover:brightness-110 transition-all" data-action="generate-resume">
             <span class="material-symbols-outlined text-sm" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
             Generate Tailored Resume
           </button>
@@ -191,7 +191,7 @@
                   <circle class="text-primary" cx="48" cy="48" fill="transparent" r="40" stroke="currentColor" stroke-dasharray="251.2" stroke-dashoffset="37.68" stroke-width="8"></circle>
                 </svg>
                 <div class="absolute inset-0 flex flex-col items-center justify-center">
-                  <span class="text-2xl font-black font-headline">85</span>
+                  <span class="text-2xl font-black font-headline" data-score-value>85</span>
                   <span class="text-[0.625rem] font-bold text-on-surface-variant">MATCH</span>
                 </div>
               </div>
@@ -255,27 +255,27 @@
             <div class="space-y-4">
               <div class="bg-surface-container-lowest p-5 rounded-xl border-l-4 border-primary">
                 <label class="text-[0.625rem] font-black text-primary uppercase block mb-2">Current Bullet</label>
-                <p class="text-xs italic text-on-surface-variant mb-4">"I worked on the design system for the mobile app and improved components."</p>
+                <p class="text-xs italic text-on-surface-variant mb-4" data-current-bullet>"I worked on the design system for the mobile app and improved components."</p>
                 <div class="bg-primary-fixed p-4 rounded-lg relative">
                   <label class="text-[0.625rem] font-black text-primary uppercase block mb-2">AI Enhancement</label>
-                  <p class="text-xs font-medium text-on-background leading-relaxed">
+                  <p class="text-xs font-medium text-on-background leading-relaxed" data-enhanced-bullet>
                     "Spearheaded the evolution of a multi-platform Design System, increasing design-to-dev handoff efficiency by
                     <span class="text-primary font-bold">40%</span> and ensuring visual consistency across
                     <span class="text-primary font-bold">12+</span> core mobile features."
                   </p>
-                  <button class="absolute bottom-2 right-2 text-primary">
+                  <button class="absolute bottom-2 right-2 text-primary" data-copy-bullet>
                     <span class="material-symbols-outlined text-lg" data-icon="content_copy">content_copy</span>
                   </button>
                 </div>
                 <div class="mt-4 flex gap-3">
-                  <button class="flex-1 bg-surface-container-high text-on-surface py-2 rounded-lg text-xs font-bold hover:bg-surface-variant transition-colors">Replace</button>
-                  <button class="flex-1 border border-outline-variant py-2 rounded-lg text-xs font-bold hover:bg-surface-container transition-colors">Regenerate</button>
+                  <button class="flex-1 bg-surface-container-high text-on-surface py-2 rounded-lg text-xs font-bold hover:bg-surface-variant transition-colors" data-replace-bullet>Replace</button>
+                  <button class="flex-1 border border-outline-variant py-2 rounded-lg text-xs font-bold hover:bg-surface-container transition-colors" data-regenerate-bullet>Regenerate</button>
                 </div>
               </div>
               <div class="bg-surface-container-lowest p-1 rounded-xl shadow-sm">
-                <textarea class="w-full bg-transparent border-none focus:ring-0 text-xs p-4 min-h-[80px]" placeholder="Type or paste a bullet point to improve..."></textarea>
+                <textarea class="w-full bg-transparent border-none focus:ring-0 text-xs p-4 min-h-[80px]" placeholder="Type or paste a bullet point to improve..." data-bullet-input></textarea>
                 <div class="flex justify-end p-2 border-t border-outline-variant/10">
-                  <button class="bg-primary text-on-primary px-4 py-1.5 rounded-lg text-xs font-bold">Improve with AI</button>
+                  <button class="bg-primary text-on-primary px-4 py-1.5 rounded-lg text-xs font-bold" data-improve-bullet>Improve with AI</button>
                 </div>
               </div>
             </div>
@@ -284,17 +284,17 @@
         <section class="flex-1 bg-surface-dim overflow-y-auto flex justify-center p-12">
           <div class="relative group">
             <div class="absolute -top-16 left-1/2 -translate-x-1/2 flex items-center bg-inverse-surface rounded-full px-4 py-2 gap-4 shadow-xl z-10">
-              <button class="text-inverse-on-surface flex items-center gap-1.5 hover:text-primary-fixed transition-colors">
+              <button class="text-inverse-on-surface flex items-center gap-1.5 hover:text-primary-fixed transition-colors" data-action="zoom-resume">
                 <span class="material-symbols-outlined text-sm" data-icon="zoom_in">zoom_in</span>
                 <span class="text-xs font-bold">100%</span>
               </button>
               <div class="w-[1px] h-4 bg-outline/30"></div>
-              <button class="text-inverse-on-surface flex items-center gap-1.5 hover:text-primary-fixed transition-colors">
+              <button class="text-inverse-on-surface flex items-center gap-1.5 hover:text-primary-fixed transition-colors" data-action="download-resume">
                 <span class="material-symbols-outlined text-sm" data-icon="file_download">file_download</span>
                 <span class="text-xs font-bold">Download PDF</span>
               </button>
               <div class="w-[1px] h-4 bg-outline/30"></div>
-              <button class="text-inverse-on-surface flex items-center gap-1.5 hover:text-primary-fixed transition-colors">
+              <button class="text-inverse-on-surface flex items-center gap-1.5 hover:text-primary-fixed transition-colors" data-action="open-styles">
                 <span class="material-symbols-outlined text-sm" data-icon="palette">palette</span>
                 <span class="text-xs font-bold">Styles</span>
               </button>
@@ -362,14 +362,15 @@
             </div>
             <div class="absolute bottom-6 right-6 flex items-center gap-2 px-3 py-1.5 bg-white/80 backdrop-blur rounded-lg border border-outline-variant/30 text-[10px] font-bold">
               <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              Auto-saved 2m ago
+              <span data-autosave-label>Auto-saved 2m ago</span>
             </div>
           </div>
         </section>
       </div>
     </main>
-    <button class="fixed bottom-8 right-8 w-14 h-14 rounded-full bg-primary text-on-primary shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-50">
+    <button class="fixed bottom-8 right-8 w-14 h-14 rounded-full bg-primary text-on-primary shadow-2xl flex items-center justify-center hover:scale-110 transition-transform z-50" data-action="go-search">
       <span class="material-symbols-outlined" data-icon="add">add</span>
     </button>
+    <script src="./app.js"></script>
   </body>
 </html>
