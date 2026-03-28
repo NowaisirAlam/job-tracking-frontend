@@ -98,64 +98,36 @@
   </style>
 </head>
 <body class="text-on-surface bg-surface overflow-x-hidden">
-<!-- TopAppBar -->
-<header class="flex justify-between items-center w-full px-8 py-4 sticky top-0 z-50 bg-[#f9f9ff] dark:bg-slate-950 no-border tonal-layering">
-<div class="flex items-center gap-4">
-<span class="text-2xl font-black text-[#111c2d] dark:text-slate-100 tracking-tight">Rezzap</span>
+<header class="sticky top-0 z-50 w-full bg-white flex items-center justify-between px-8 py-4 border-b border-outline-variant/20">
+<div class="flex items-center gap-12">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="bubble_chart">bubble_chart</span>
+<span class="font-headline font-black text-lg tracking-tight text-on-surface">Rezzap</span>
 </div>
-<div class="flex items-center gap-6">
-<div class="hidden md:flex gap-8 items-center mr-4">
-<a class="text-[#464555] dark:text-slate-400 hover:bg-[#eff6ff] dark:hover:bg-slate-800 transition-colors px-3 py-1 rounded-md text-sm font-medium" href="#">Job Search</a>
-<a class="text-[#464555] dark:text-slate-400 hover:bg-[#eff6ff] dark:hover:bg-slate-800 transition-colors px-3 py-1 rounded-md text-sm font-medium" href="#">Tracker</a>
-<a class="text-[#464555] dark:text-slate-400 hover:bg-[#eff6ff] dark:hover:bg-slate-800 transition-colors px-3 py-1 rounded-md text-sm font-medium" href="#">Resume Gen</a>
-<a class="text-[#2563EB] dark:text-[#3b82f6] font-bold" href="#">Settings</a>
-</div>
-<button class="p-2 rounded-full hover:bg-[#eff6ff] transition-colors">
-<span class="material-symbols-outlined text-[#2563EB]">search</span>
-</button>
-<div class="w-10 h-10 rounded-full bg-primary-container overflow-hidden">
-<img class="w-full h-full object-cover" data-alt="professional portrait of a young male creative director with glasses smiling in a modern studio setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxsxnzMFtH6im0zth89scDCk9SCGEuwQyoJqKwWcqI4l9lOYJiM70KdBkaRBLFoRSYbcWauaOUnumY1IDoR94hW7Gaz-BCi5DzEOspdFEDKnipuMbrGtFwRfbdO31bfPrQGV4pyVfZK8pm6ycwSxDyVcqlXk4TMc2HYXOyit5-O9rfiUC3frBrA-jrnGjYmjgPBEk3DZinfxVdh0NMDFlq9zZ1qzm45pILAzD4Cqy_X1Pei8ohDKMhFlFpHtUUM0RpAO4B5ZXibCci"/>
-</div>
-</div>
-</header>
-<div class="flex min-h-screen">
-<!-- NavigationDrawer (Sidebar) -->
-<aside class="fixed left-0 top-18 h-[calc(100vh-72px)] w-64 flex flex-col p-6 space-y-6 bg-[#f0f3ff] dark:bg-slate-900 rounded-r-lg hidden md:flex">
-<div class="space-y-2">
-<p class="text-[0.6875rem] font-bold uppercase tracking-wider text-on-surface-variant px-3 mb-4">Main Menu</p>
-<nav class="space-y-1">
-<a class="flex items-center gap-3 px-3 py-2 text-[#464555] dark:text-slate-400 hover:bg-[#eff6ff]/50 transition-all duration-300 rounded-md" href="#">
-<span class="material-symbols-outlined text-lg">work</span>
-<span class="text-sm">Job Search</span>
+<nav class="flex items-center gap-8">
+<a href="search.html" data-nav="search" class="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors">
+<span class="material-symbols-outlined text-base">work</span>
+<span>Job Search</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2 text-[#464555] dark:text-slate-400 hover:bg-[#eff6ff]/50 transition-all duration-300 rounded-md" href="#">
-<span class="material-symbols-outlined text-lg">grid_view</span>
-<span class="text-sm">Tracker</span>
+<a href="tracker.html" data-nav="tracker" class="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors">
+<span class="material-symbols-outlined text-base">analytics</span>
+<span>Tracker</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2 text-[#464555] dark:text-slate-400 hover:bg-[#eff6ff]/50 transition-all duration-300 rounded-md" href="#">
-<span class="material-symbols-outlined text-lg">description</span>
-<span class="text-sm">Resume Gen</span>
+<a href="generator.html" data-nav="generator" class="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors">
+<span class="material-symbols-outlined text-base">description</span>
+<span>Builder</span>
 </a>
-<a class="flex items-center gap-3 px-3 py-2 text-[#464555] dark:text-slate-400 hover:bg-[#eff6ff]/50 transition-all duration-300 rounded-md" href="#">
-<span class="material-symbols-outlined text-lg">compare_arrows</span>
-<span class="text-sm">Comparison</span>
-</a>
-<a class="flex items-center gap-3 px-3 py-2 bg-[#eff6ff] dark:bg-[#3b82f6]/20 text-[#2563EB] dark:text-[#3b82f6] font-semibold rounded-md transition-all duration-300" href="#">
-<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">settings</span>
-<span class="text-sm">Settings</span>
+<a href="setting.html" data-nav="settings" class="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-primary hover:bg-surface-container-low rounded-lg transition-colors">
+<span class="material-symbols-outlined text-base">settings</span>
+<span>Settings</span>
 </a>
 </nav>
 </div>
-<div class="mt-auto p-4 bg-surface-container-lowest rounded-xl">
-<div class="flex items-center justify-between mb-2">
-<span class="text-[0.6875rem] font-bold text-tertiary">PRO PLAN</span>
-<span class="material-symbols-outlined text-tertiary text-sm">auto_awesome</span>
+<div class="w-10 h-10 rounded-full overflow-hidden bg-primary-container">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCxsxnzMFtH6im0zth89scDCk9SCGEuwQyoJqKwWcqI4l9lOYJiM70KdBkaRBLFoRSYbcWauaOUnumY1IDoR94hW7Gaz-BCi5DzEOspdFEDKnipuMbrGtFwRfbdO31bfPrQGV4pyVfZK8pm6ycwSxDyVcqlXk4TMc2HYXOyit5-O9rfiUC3frBrA-jrnGjYmjgPBEk3DZinfxVdh0NMDFlq9zZ1qzm45pILAzD4Cqy_X1Pei8ohDKMhFlFpHtUUM0RpAO4B5ZXibCci"/>
 </div>
-<p class="text-xs text-on-surface-variant leading-relaxed">Unlock advanced AI analysis and unlimited resumes.</p>
-</div>
-</aside>
-<!-- Main Content Canvas -->
-<main class="flex-1 md:ml-64 p-8 max-w-6xl mx-auto w-full">
+</header>
+<main class="flex-1 p-8 max-w-6xl mx-auto w-full">
 <header class="mb-12">
 <h1 class="text-4xl font-extrabold text-on-surface tracking-tight mb-2">Settings</h1>
 <p class="text-on-surface-variant font-body">Manage your account, integrations, and job search preferences.</p>
@@ -365,7 +337,6 @@
 </aside>
 </div>
 </main>
-</div>
 <!-- Mobile Navigation Bar -->
 <nav class="md:hidden fixed bottom-0 left-0 right-0 bg-surface border-t border-outline-variant/10 flex justify-around items-center py-3 z-50">
 <a class="flex flex-col items-center gap-1 text-on-surface-variant" href="#">

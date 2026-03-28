@@ -124,56 +124,36 @@
     </style>
   </head>
   <body class="bg-surface font-body text-on-surface">
-    <aside class="fixed left-0 top-0 h-full w-64 flex flex-col p-6 space-y-6 bg-[#f0f3ff] dark:bg-slate-900 rounded-r-lg z-50">
-      <div class="text-lg font-bold text-[#111c2d] dark:text-slate-100 font-headline">Curator</div>
-      <nav class="flex-1 space-y-1">
-        <a class="flex items-center gap-3 px-4 py-3 text-[#464555] dark:text-slate-400 hover:bg-[#dee8ff]/50 dark:hover:bg-slate-800 transition-all duration-300 ease-in-out" href="search.html" data-nav="search">
-          <span class="material-symbols-outlined" data-icon="work">work</span>
-          <span class="text-[0.6875rem] font-medium tracking-wide">Job Search</span>
-        </a>
-        <a class="flex items-center gap-3 px-4 py-3 text-[#464555] dark:text-slate-400 hover:bg-[#dee8ff]/50 dark:hover:bg-slate-800 transition-all duration-300 ease-in-out" href="tracker.html" data-nav="tracker">
-          <span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
-          <span class="text-[0.6875rem] font-medium tracking-wide">Tracker</span>
-        </a>
-        <a class="flex items-center gap-3 px-4 py-3 bg-[#dee8ff] dark:bg-primary/10 text-primary font-semibold rounded-md transition-all duration-300 ease-in-out" href="generator.html" data-nav="generator">
-          <span class="material-symbols-outlined" data-icon="description">description</span>
-          <span class="text-[0.6875rem] font-medium tracking-wide">Document Builder</span>
-        </a>
-        </a>
-        <a class="flex items-center gap-3 px-4 py-3 text-[#464555] dark:text-slate-400 hover:bg-[#dee8ff]/50 dark:hover:bg-slate-800 transition-all duration-300 ease-in-out mt-auto" href="setting.html" data-nav="settings">
-          <span class="material-symbols-outlined" data-icon="settings">settings</span>
-          <span class="text-[0.6875rem] font-medium tracking-wide">Settings</span>
-        </a>
-      </nav>
-    </aside>
-    <main class="ml-64 flex flex-col min-h-screen">
-      <header class="flex justify-between items-center w-full px-8 py-4 sticky top-0 z-40 bg-[#f9f9ff] dark:bg-slate-950 no-border tonal-layering bg-[#f0f3ff] dark:bg-slate-900">
-        <div class="flex items-center gap-6">
-          <h1 class="text-2xl font-black text-[#111c2d] dark:text-slate-100 tracking-tight font-headline">Rezzap</h1>
-          <div class="h-6 w-[1px] bg-outline-variant/30"></div>
-          <div class="flex items-center gap-2">
-            <span class="text-sm font-medium text-on-surface">Product Designer - Senior Role</span>
-            <span class="material-symbols-outlined text-primary text-sm" data-icon="edit">edit</span>
-          </div>
+    <header class="sticky top-0 z-50 w-full bg-white flex items-center justify-between px-6 py-4 border-b border-outline-variant/20">
+      <div class="flex items-center gap-12">
+        <div class="flex items-center gap-3">
+          <span class="material-symbols-outlined text-primary text-2xl" data-icon="bubble_chart">bubble_chart</span>
+          <span class="font-headline font-black text-lg tracking-tight text-on-surface">Rezzap</span>
         </div>
-        <div class="flex items-center gap-4">
-          <button class="px-4 py-2 text-sm font-bold text-primary hover:bg-[#dee8ff] transition-colors rounded-xl" data-action="save-draft">
-            Save Draft
-          </button>
-          <button class="bg-primary text-on-primary px-6 py-2.5 rounded-xl font-bold text-sm flex items-center gap-2 shadow-sm hover:brightness-110 transition-all" data-action="generate-resume">
-            <span class="material-symbols-outlined text-sm" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
-            Generate Tailored Resume
-          </button>
-          <div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden border border-outline-variant/20">
-            <img
-              alt="User Profile"
-              class="w-full h-full object-cover"
-              data-alt="professional portrait of a creative individual with soft natural lighting and minimalist background"
-              src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgm8uwIO179W2VtrXRc3OPmHlsW3cD97XWMn3m9F3V-VqVg1q_o0157MovNWyTJV6A6zial7n_FDVvJm-o86keEAN9cc-eRzsCmVafALQ7t31wl75YjumC6S9xjPLUS9pQVXIt_Uh_Yhhv9MRWc9Wt7qyuiCx-kk7SLQzkwM-TZJ3T9p1AWffyteKrxH2BiBxpjuwLJe0qJPMdlpH8Cxd0SftBKsuFpz8amCvtypbK-O3AypWtLBnr1EI0wAfY8L1GR9ibFptZGwPH"
-            />
-          </div>
-        </div>
-      </header>
+        <nav class="flex items-center gap-8">
+          <a href="search.html" data-nav="search" class="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors">
+            <span class="material-symbols-outlined text-base">work</span>
+            <span>Job Search</span>
+          </a>
+          <a href="tracker.html" data-nav="tracker" class="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors">
+            <span class="material-symbols-outlined text-base">analytics</span>
+            <span>Tracker</span>
+          </a>
+          <a href="generator.html" data-nav="generator" class="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-primary hover:bg-surface-container-low rounded-lg transition-colors">
+            <span class="material-symbols-outlined text-base">description</span>
+            <span>Builder</span>
+          </a>
+          <a href="setting.html" data-nav="settings" class="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors">
+            <span class="material-symbols-outlined text-base">settings</span>
+            <span>Settings</span>
+          </a>
+        </nav>
+      </div>
+      <div class="w-10 h-10 rounded-full overflow-hidden bg-surface-container-highest border border-outline-variant/20">
+        <img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAgm8uwIO179W2VtrXRc3OPmHlsW3cD97XWMn3m9F3V-VqVg1q_o0157MovNWyTJV6A6zial7n_FDVvJm-o86keEAN9cc-eRzsCmVafALQ7t31wl75YjumC6S9xjPLUS9pQVXIt_Uh_Yhhv9MRWc9Wt7qyuiCx-kk7SLQzkwM-TZJ3T9p1AWffyteKrxH2BiBxpjuwLJe0qJPMdlpH8Hbi_CaJo-zUsU5wetkC4mXb3uPsmQtAKfbfsMdZNxU5gRQZrUKaF_8qU-wAzB6plCkcJwVGk6Pj2VRBwT2b1doVNr6PhInMHVlt" />
+      </div>
+    </header>
+    <main class="flex flex-col min-h-screen">
       <div class="flex flex-1 overflow-hidden">
         <section class="w-2/5 flex flex-col bg-surface-container-low overflow-y-auto px-8 py-6 space-y-8">
           <div class="bg-surface-container-lowest p-6 rounded-xl space-y-4">
