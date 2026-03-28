@@ -53,10 +53,10 @@
 <body class="bg-background text-on-surface flex flex-col min-h-screen pb-24 lg:pb-0">
 <header class="sticky top-0 z-50 w-full bg-white flex items-center justify-between px-6 py-4 border-b border-outline-variant/20">
 <div class="flex items-center gap-12">
-<div class="flex items-center gap-3">
+<a href="home.html" data-nav="home" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
 <span class="material-symbols-outlined text-primary text-2xl" data-icon="bubble_chart">bubble_chart</span>
 <span class="font-headline font-black text-lg tracking-tight text-on-surface">Rezzap</span>
-</div>
+</a>
 <nav class="flex items-center gap-8">
 <a href="search.html" data-nav="search" class="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors">
 <span class="material-symbols-outlined text-base">work</span>
@@ -70,15 +70,11 @@
 <span class="material-symbols-outlined text-base">description</span>
 <span>Builder</span>
 </a>
-<a href="setting.html" data-nav="settings" class="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors">
-<span class="material-symbols-outlined text-base">settings</span>
-<span>Settings</span>
-</a>
 </nav>
 </div>
-<div class="w-9 h-9 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant/30">
-<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8LBiqsX35JSgoWiqW3N50tL2AijVSYYpggCr_W3MvvLtamqrjuWKOuc6Pxp5EHnHHFx_r88f855wILdOiKTXFlmIsOgssdjTzf4cTx9pwpprX4-Pit-ws_PmS-0ONav6F9xr6i9ZpeVDmcSN60n6tkKvzHK1rPfvcMRjv4nVCYmpQUPZgIXcEzG4Wgxvt2alvAQJ2PQrtxCN8bkK-QYxjWU-xJO22GIQM8Z3U-g8gCOFJzFcnCMPNLoxs7IuVHIe_AGX62SOry16t"/>
-</div>
+<a class="hidden sm:block px-5 py-2.5 bg-primary text-on-primary font-bold rounded-xl text-sm hover:shadow-lg transition-all active:scale-95" href="setting.html" data-nav="settings">
+  My Account
+</a>
 </header>
 <main class="flex-1 w-full max-w-7xl mx-auto px-6 py-8 md:py-12">
 <!-- Header Section -->
@@ -115,6 +111,7 @@
 <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline">Title</th>
 <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline">Company</th>
 <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline">Status</th>
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline">Salary</th>
 <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline text-right">Date Added</th>
 </tr>
 </thead>
@@ -132,6 +129,7 @@
 <td class="px-6 py-5">
 <span class="px-3 py-1 rounded-lg text-xs font-bold notion-tag-blue">Interviewing</span>
 </td>
+<td class="px-6 py-5 text-sm font-medium text-on-surface-variant">$180K - $220K</td>
 <td class="px-6 py-5 text-sm text-on-surface-variant text-right font-medium">Mar 12, 2024</td>
 </tr>
 <tr class="hover:bg-surface-container-low/20 transition-colors cursor-pointer group">
@@ -147,6 +145,7 @@
 <td class="px-6 py-5">
 <span class="px-3 py-1 rounded-lg text-xs font-bold notion-tag-green">Offer</span>
 </td>
+<td class="px-6 py-5 text-sm font-medium text-on-surface-variant">$200K - $240K</td>
 <td class="px-6 py-5 text-sm text-on-surface-variant text-right font-medium">Mar 14, 2024</td>
 </tr>
 <tr class="hover:bg-surface-container-low/20 transition-colors cursor-pointer group">
@@ -162,6 +161,7 @@
 <td class="px-6 py-5">
 <span class="px-3 py-1 rounded-lg text-xs font-bold notion-tag-orange">Submitted</span>
 </td>
+<td class="px-6 py-5 text-sm font-medium text-on-surface-variant">$160K - $200K</td>
 <td class="px-6 py-5 text-sm text-on-surface-variant text-right font-medium">Mar 10, 2024</td>
 </tr>
 </tbody>
