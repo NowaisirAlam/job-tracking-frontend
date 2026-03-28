@@ -3,72 +3,33 @@
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Rezzap | Your AI Job Search Copilot</title>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@700;800&amp;display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<title>Rezzap | Application Tracker</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
         theme: {
           extend: {
             colors: {
-              "on-tertiary": "#ffffff",
-              "on-surface-variant": "#464555",
-              "on-secondary-fixed-variant": "#1e3a8a",
-              "surface-variant": "#dbeafe",
-              "on-background": "#0f172a",
-              "inverse-surface": "#1e293b",
-              "on-tertiary-fixed-variant": "#7b2f00",
-              "on-primary-fixed": "#001e4d",
-              "surface": "#f8faff",
-              "on-surface": "#0f172a",
               "primary": "#2563EB",
-              "on-tertiary-fixed": "#351000",
-              "error": "#ba1a1a",
-              "error-container": "#ffdad6",
-              "surface-bright": "#f8faff",
-              "inverse-on-surface": "#eff6ff",
               "on-primary": "#ffffff",
-              "tertiary-fixed-dim": "#ffb695",
-              "on-error": "#ffffff",
-              "on-error-container": "#93000a",
-              "surface-container-low": "#f0f6ff",
-              "on-secondary-container": "#1e40af",
-              "surface-tint": "#2563EB",
-              "on-primary-fixed-variant": "#1d4ed8",
-              "secondary-fixed": "#dbeafe",
-              "secondary-container": "#bfdbfe",
-              "inverse-primary": "#93c5fd",
-              "tertiary-fixed": "#ffdbcc",
-              "background": "#f8faff",
-              "tertiary": "#7e3000",
-              "tertiary-container": "#a44100",
-              "primary-fixed-dim": "#93c5fd",
-              "surface-container-lowest": "#ffffff",
-              "outline": "#64748b",
-              "primary-container": "#1d4ed8",
-              "surface-container": "#e0e7ff",
-              "on-tertiary-container": "#ffd2be",
-              "primary-fixed": "#dbeafe",
-              "surface-container-highest": "#dbeafe",
-              "surface-dim": "#cbd5e1",
-              "surface-container-high": "#eaf2ff",
-              "secondary-fixed-dim": "#93c5fd",
-              "outline-variant": "#cbd5e1",
-              "on-primary-container": "#dbeafe",
-              "on-secondary": "#ffffff",
-              "secondary": "#3b82f6",
-              "on-secondary-fixed": "#001e4d"
+              "surface": "#ffffff",
+              "background": "#f9f9ff",
+              "on-surface": "#111c2d",
+              "on-surface-variant": "#464555",
+              "outline-variant": "#c7c4d8",
+              "surface-container-low": "#f0f3ff",
+              "surface-container-highest": "#dee8ff",
+              "surface-container-lowest": "#ffffff"
             },
             fontFamily: {
               "headline": ["Manrope", "sans-serif"],
               "body": ["Inter", "sans-serif"],
               "label": ["Inter", "sans-serif"]
             },
-            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            borderRadius: {"DEFAULT": "8px", "lg": "12px", "xl": "16px", "full": "9999px"},
           },
         },
       }
@@ -76,175 +37,229 @@
 <style>
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
         }
-        .hero-gradient {
-            background: radial-gradient(circle at 50% -20%, #dbeafe 0%, #f8faff 70%);
-        }
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f8faff;
-            color: #0f172a;
-        }
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .notion-border { border-color: rgba(0, 0, 0, 0.06); }
+        .notion-text-gray { color: rgba(17, 28, 45, 0.6); }
+        .notion-tag-blue { background-color: #eff6ff; color: #2563eb; }
+        .notion-tag-gray { background-color: #f3f4f6; color: #4b5563; }
+        .notion-tag-orange { background-color: #fff7ed; color: #c2410c; }
+        .notion-tag-green { background-color: #f0fdf4; color: #16a34a; }
     </style>
 </head>
-<body class="bg-surface selection:bg-primary-fixed">
-<!-- TopAppBar -->
-<header class="flex justify-between items-center w-full px-8 py-4 sticky top-0 z-50 bg-[#f8faff]/90 backdrop-blur-md border-b border-outline-variant/10">
-<div class="flex items-center gap-8">
-<span class="text-2xl font-black text-[#0f172a] tracking-tight font-headline">Rezzap</span>
-<nav class="hidden md:flex gap-6">
-<a class="text-[#2563EB] font-bold font-body transition-colors px-3 py-1" href="#">Home</a>
-<a class="text-[#64748b] font-body transition-colors hover:text-primary px-3 py-1" href="#">Product</a>
-<a class="text-[#64748b] font-body transition-colors hover:text-primary px-3 py-1" href="tracker.html">Pricing</a>
-</nav>
+<body class="bg-background text-on-surface flex flex-col min-h-screen pb-24 lg:pb-0">
+<!-- TopAppBar Component (from COMPONENTS_22) -->
+<header class="w-full sticky top-0 z-50 bg-[#f9f9ff] dark:bg-slate-950 border-b notion-border">
+<div class="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#3525cd] text-2xl" data-icon="bubble_chart">bubble_chart</span>
+<h1 class="font-manrope font-bold tracking-tight text-[#111c2d] text-xl">The Curator</h1>
 </div>
 <div class="flex items-center gap-4">
-<button class="hidden sm:block px-5 py-2.5 bg-primary text-on-primary font-bold rounded-xl text-sm hover:shadow-lg transition-all active:scale-95">
-            Start Applying Now
-        </button>
-<div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center overflow-hidden border border-outline-variant/20">
-<img alt="User avatar" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTwCCUi6EEuULGwCwjF18Z7zEyBT42D0JuuDuu4bB3zwE1KWvbCw-d0bp-vPVwXlqguqf6rOPIwTWc71ice1U21cyYp3vlMHU5tfG3jd34qqpmQC10kd4AM7Ml12ziX8YvGgu50kufYgrwgY4j6YvQ_w61vJf8cyfM0rdp-ngpSsGYf1HE_O1uenGW9Afv4lzhfYJvtfPnU9i0aAGChL2Gbo5_Ttpd0_GKqsliiiO5Qxqr77mfgZFfOZQuGJ4aSOakfZ4-V0m0dYQz"/>
+<button class="p-2 rounded-full hover:bg-[#dee8ff] transition-colors duration-200">
+<span class="material-symbols-outlined text-[#464555]">search</span>
+</button>
+<div class="w-9 h-9 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant/30">
+<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD8LBiqsX35JSgoWiqW3N50tL2AijVSYYpggCr_W3MvvLtamqrjuWKOuc6Pxp5EHnHHFx_r88f855wILdOiKTXFlmIsOgssdjTzf4cTx9pwpprX4-Pit-ws_PmS-0ONav6F9xr6i9ZpeVDmcSN60n6tkKvzHK1rPfvcMRjv4nVCYmpQUPZgIXcEzG4Wgxvt2alvAQJ2PQrtxCN8bkK-QYxjWU-xJO22GIQM8Z3U-g8gCOFJzFcnCMPNLoxs7IuVHIe_AGX62SOry16t"/>
+</div>
 </div>
 </div>
 </header>
-<main class="relative">
-<!-- Hero Section -->
-<section class="hero-gradient pt-24 pb-20 px-6">
-<div class="max-w-4xl mx-auto text-center">
-<div class="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 text-primary font-semibold text-sm mb-8">
-<span class="material-symbols-outlined text-sm" data-icon="auto_awesome">auto_awesome</span>
-<span>Intelligent Career Management</span>
+<main class="flex-1 w-full max-w-7xl mx-auto px-6 py-8 md:py-12">
+<!-- Header Section -->
+<div class="mb-10">
+<div class="flex items-center space-x-4 mb-4">
+<div class="w-14 h-14 bg-surface-container-highest rounded-2xl flex items-center justify-center text-3xl">💼</div>
 </div>
-<h1 class="text-6xl md:text-8xl font-extrabold font-headline text-on-surface tracking-tight mb-8 leading-[1.05]">
-                Get hired <span class="bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-400">faster</span> with AI
-            </h1>
-<p class="text-xl md:text-2xl text-on-surface-variant max-w-2xl mx-auto mb-12 font-body leading-relaxed">
-                The only copilot that finds, customizes, and applies to jobs for you in seconds.
-            </p>
-<div class="flex flex-col items-center gap-4">
-<button class="w-full max-w-md px-10 py-6 bg-gradient-to-r from-primary to-blue-700 text-on-primary font-bold rounded-2xl text-xl hover:shadow-2xl hover:shadow-primary/30 transition-all active:scale-95 flex items-center justify-center gap-3">
-<span class="material-symbols-outlined" data-icon="upload_file">upload_file</span>
-                    Upload Resume to Begin
-                </button>
-<p class="text-sm text-on-surface-variant font-medium flex items-center gap-2">
-<span class="material-symbols-outlined text-green-600 text-sm" data-icon="check_circle">check_circle</span>
-                    Free for first 5 applications
-                </p>
+<h2 class="text-4xl font-headline font-extrabold tracking-tight text-on-surface mb-2">Application Tracker</h2>
+<p class="text-on-surface-variant text-lg">Manage your career pipeline with precision. Engineering Roles 2024.</p>
+</div>
+<!-- Controls -->
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 border-b notion-border pb-4">
+<div class="flex items-center space-x-6">
+<div class="flex items-center space-x-2 border-b-2 border-primary pb-4 -mb-4 px-1">
+<span class="material-symbols-outlined text-primary text-[20px]">table_rows</span>
+<span class="text-sm font-bold text-on-surface">Table View</span>
+</div>
+<div class="flex items-center space-x-2 text-on-surface-variant hover:text-primary transition-colors cursor-pointer pb-4 -mb-4 px-1">
+<span class="material-symbols-outlined text-[20px]">view_kanban</span>
+<span class="text-sm font-medium">Board</span>
 </div>
 </div>
-</section>
-<!-- 3-Step Guide -->
-<section class="py-20 px-6 bg-white">
-<div class="max-w-5xl mx-auto">
-<div class="grid grid-cols-1 md:grid-cols-3 gap-12 text-center">
-<div class="flex flex-col items-center">
-<div class="w-16 h-16 rounded-2xl bg-primary-fixed flex items-center justify-center mb-6 text-primary">
-<span class="material-symbols-outlined text-3xl" data-icon="description">description</span>
-</div>
-<h3 class="text-xl font-bold font-headline mb-2">1. Upload Resume</h3>
-<p class="text-on-surface-variant text-sm">Drop your resume to let our AI understand your unique profile and expertise.</p>
-</div>
-<div class="flex flex-col items-center">
-<div class="w-16 h-16 rounded-2xl bg-secondary-fixed flex items-center justify-center mb-6 text-secondary">
-<span class="material-symbols-outlined text-3xl" data-icon="robot_2">robot_2</span>
-</div>
-<h3 class="text-xl font-bold font-headline mb-2">2. AI Finds Matches</h3>
-<p class="text-on-surface-variant text-sm">Our neural engine scans millions of jobs to find the perfect fits for your career goals.</p>
-</div>
-<div class="flex flex-col items-center">
-<div class="w-16 h-16 rounded-2xl bg-surface-container-high flex items-center justify-center mb-6 text-primary">
-<span class="material-symbols-outlined text-3xl" data-icon="bolt">bolt</span>
-</div>
-<h3 class="text-xl font-bold font-headline mb-2">3. One-Click Apply</h3>
-<p class="text-on-surface-variant text-sm">Submit tailored applications instantly. No more manual form-filling.</p>
+<div class="flex items-center space-x-3">
+<button class="flex items-center space-x-2 px-4 py-2 bg-white border border-outline-variant/30 rounded-xl text-sm font-semibold hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined text-[18px]">filter_list</span>
+<span>Filter</span>
+</button>
+<button class="bg-primary text-white px-6 py-2 rounded-xl text-sm font-bold shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95 transition-all">
+                New Application
+            </button>
 </div>
 </div>
+<!-- Tracker View -->
+<div class="hidden md:block overflow-hidden bg-white border border-outline-variant/30 rounded-2xl">
+<table class="w-full border-collapse text-left">
+<thead>
+<tr class="bg-surface-container-low/30 border-b notion-border">
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline">Title</th>
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline">Company</th>
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline">Status</th>
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline text-right">Date Added</th>
+</tr>
+</thead>
+<tbody class="divide-y notion-border">
+<tr class="hover:bg-surface-container-low/20 transition-colors cursor-pointer group">
+<td class="px-6 py-5">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[18px]">description</span>
 </div>
-</section>
-<!-- Value Proposition Section -->
-<section class="py-24 px-6 bg-surface-container-low border-y border-outline-variant/10">
-<div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center gap-16">
-<div class="flex-1 space-y-8">
-<h2 class="text-4xl md:text-5xl font-extrabold font-headline text-on-surface leading-tight tracking-tight">
-                    Built for speed and unmatched accuracy
-                </h2>
-<p class="text-lg text-on-surface-variant leading-relaxed">
-                    Rezzap eliminates the friction of job hunting. By combining deep learning with automated workflows, we ensure your applications are always first in line and perfectly matched to what recruiters are looking for.
-                </p>
-<div class="space-y-4">
-<div class="flex items-start gap-4">
-<div class="mt-1 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined text-lg" data-icon="speed">speed</span>
+<span class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">Senior Product Designer</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm font-medium text-on-surface-variant">Stripe</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 rounded-lg text-xs font-bold notion-tag-blue">Interviewing</span>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant text-right font-medium">Mar 12, 2024</td>
+</tr>
+<tr class="hover:bg-surface-container-low/20 transition-colors cursor-pointer group">
+<td class="px-6 py-5">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[18px]">description</span>
+</div>
+<span class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">Frontend Architect</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm font-medium text-on-surface-variant">Linear</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 rounded-lg text-xs font-bold notion-tag-green">Offer</span>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant text-right font-medium">Mar 14, 2024</td>
+</tr>
+<tr class="hover:bg-surface-container-low/20 transition-colors cursor-pointer group">
+<td class="px-6 py-5">
+<div class="flex items-center space-x-3">
+<div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-[18px]">description</span>
+</div>
+<span class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">Data Infrastructure</span>
+</div>
+</td>
+<td class="px-6 py-5 text-sm font-medium text-on-surface-variant">Snowflake</td>
+<td class="px-6 py-5">
+<span class="px-3 py-1 rounded-lg text-xs font-bold notion-tag-orange">Submitted</span>
+</td>
+<td class="px-6 py-5 text-sm text-on-surface-variant text-right font-medium">Mar 10, 2024</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Mobile Card-based View -->
+<div class="md:hidden space-y-4">
+<!-- Mobile Card 1 -->
+<div class="bg-white p-5 rounded-2xl border border-outline-variant/30 shadow-sm active:scale-[0.98] transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">description</span>
 </div>
 <div>
-<h4 class="font-bold">10x Application Speed</h4>
-<p class="text-sm text-on-surface-variant">Apply to dozens of jobs in minutes, not hours.</p>
+<h3 class="font-headline font-bold text-on-surface">Senior Product Designer</h3>
+<p class="text-xs font-medium text-on-surface-variant">Stripe</p>
 </div>
 </div>
-<div class="flex items-start gap-4">
-<div class="mt-1 w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center text-primary">
-<span class="material-symbols-outlined text-lg" data-icon="target">target</span>
+<span class="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider notion-tag-blue">Interviewing</span>
+</div>
+<div class="flex justify-between items-center text-xs pt-4 border-t notion-border">
+<span class="text-on-surface-variant font-medium">Added Mar 12, 2024</span>
+<span class="text-primary font-bold flex items-center gap-1">View details <span class="material-symbols-outlined text-sm">arrow_forward</span></span>
+</div>
+</div>
+<!-- Mobile Card 2 -->
+<div class="bg-white p-5 rounded-2xl border border-outline-variant/30 shadow-sm">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center space-x-3">
+<div class="w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary">description</span>
 </div>
 <div>
-<h4 class="font-bold">98% ATS Match Rate</h4>
-<p class="text-sm text-on-surface-variant">AI-optimized keywords ensure you pass every screen.</p>
+<h3 class="font-headline font-bold text-on-surface">Frontend Architect</h3>
+<p class="text-xs font-medium text-on-surface-variant">Linear</p>
+</div>
+</div>
+<span class="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider notion-tag-green">Offer</span>
+</div>
+<div class="flex justify-between items-center text-xs pt-4 border-t notion-border">
+<span class="text-on-surface-variant font-medium">Added Mar 14, 2024</span>
+<span class="text-primary font-bold flex items-center gap-1">View details <span class="material-symbols-outlined text-sm">arrow_forward</span></span>
 </div>
 </div>
 </div>
-</div>
-<div class="flex-1 w-full">
-<div class="rounded-2xl overflow-hidden shadow-2xl border border-outline-variant/20 bg-white p-4">
-<img alt="Platform AI View" class="w-full rounded-xl" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEvQuBbnfSDvMTmBirLZtxZhXId4cCls7v7_jnhqvbCuX9iTxnsZKMyQMyOC9afY8iJIE0Nx5-l8nWD5HnZbI3sG45QYQ0W15f0iOk84u_1cA6WEskKgjTyF-7n6z_lf2wLgYNxmp0dJqiGqoe8sAeCQnSbXPG2UaGunnjTiMh8Hbi_CaJo-zUsU5wetkC4mXb3uPsmQtAKfbfsMdZNxU5gRQZrUKaF_8qU-wAzB6plCkcJwVGk6Pj2VRBwT2b1doVNr6PhInMHVlt"/>
-</div>
-</div>
-</div>
-</section>
-<!-- Final CTA -->
-<section class="py-24 px-6 bg-white">
-<div class="max-w-4xl mx-auto bg-inverse-surface rounded-[2.5rem] p-12 md:p-20 text-center relative overflow-hidden">
-<div class="absolute top-0 right-0 w-80 h-80 bg-primary/20 blur-[100px] -z-0"></div>
+<!-- AI Insights Restyled -->
+<div class="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-6">
+<div class="lg:col-span-2 bg-primary rounded-3xl p-8 text-white relative overflow-hidden group">
 <div class="relative z-10">
-<h2 class="text-3xl md:text-5xl font-extrabold font-headline text-inverse-on-surface mb-8 leading-tight">Your dream job is waiting.</h2>
-<button class="px-12 py-5 bg-primary text-on-primary font-bold rounded-2xl text-xl hover:shadow-xl shadow-primary/40 transition-all hover:-translate-y-1">
-                    Start Applying Now
-                </button>
-<p class="mt-8 text-outline-variant font-medium">Join 50,000+ professionals getting hired with Rezzap.</p>
+<div class="flex items-center space-x-2 mb-6">
+<div class="p-2 bg-white/20 rounded-lg">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bolt</span>
+</div>
+<span class="text-xs font-black uppercase tracking-widest opacity-80">AI Insight Strategy</span>
+</div>
+<h3 class="text-2xl font-headline font-extrabold mb-3">Optimize for Creative Technologist roles</h3>
+<p class="text-white/80 font-body mb-8 leading-relaxed max-w-lg">Your conversion rate for 'Design' roles is 42% higher than management. Focusing on your technical design background yields 2x more offers.</p>
+<button class="bg-white text-primary px-6 py-3 rounded-xl text-sm font-bold hover:bg-opacity-90 transition-all active:scale-95">Apply Strategy</button>
+</div>
+<div class="absolute -right-20 -bottom-20 w-80 h-80 bg-white/5 rounded-full group-hover:scale-110 transition-transform duration-700"></div>
+</div>
+<div class="bg-white border border-outline-variant/30 rounded-3xl p-8 flex flex-col justify-between">
+<div>
+<span class="text-xs font-black uppercase tracking-widest text-on-surface-variant mb-4 block">Estimated Value</span>
+<span class="text-4xl font-headline font-extrabold text-on-surface tracking-tight">$1.2M+</span>
+</div>
+<div class="pt-8 mt-8 border-t notion-border">
+<div class="flex justify-between items-center text-sm mb-3">
+<span class="font-bold text-on-surface">Market Status</span>
+<span class="font-black text-green-600">Top 5%</span>
+</div>
+<div class="w-full bg-surface-container-low h-2 rounded-full overflow-hidden">
+<div class="bg-green-500 h-full w-[95%]"></div>
 </div>
 </div>
-</section>
+</div>
+</div>
 </main>
-<!-- NavigationDrawer (Mobile Only) -->
-<div class="md:hidden fixed bottom-0 left-0 w-full bg-[#f0f6ff] border-t border-outline-variant/10 px-4 py-2 flex justify-around items-center z-50">
-<div class="flex flex-col items-center bg-[#e0e7ff] text-[#2563EB] font-semibold p-2 rounded-md">
-<span class="material-symbols-outlined" data-icon="work">work</span>
-<span class="text-[0.6875rem] font-label">Search</span>
+<!-- BottomNavBar Component (from COMPONENTS_22) -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-2xl border-t border-[#c7c4d8]/20 bg-white shadow-[0_-12px_40px_rgba(17,28,45,0.06)] lg:hidden">
+<div class="flex justify-around items-center px-4 pb-8 pt-2">
+<a class="flex flex-col items-center justify-center text-[#464555] px-4 py-1" href="#">
+<span class="material-symbols-outlined">search</span>
+<span class="font-inter text-[10px] font-semibold uppercase tracking-wider mt-1">Search</span>
+</a>
+<a class="flex flex-col items-center justify-center bg-[#dee8ff] text-[#3525cd] rounded-xl px-4 py-1" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-inter text-[10px] font-semibold uppercase tracking-wider mt-1">Tracker</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#464555] px-4 py-1" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-inter text-[10px] font-semibold uppercase tracking-wider mt-1">Resumes</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#464555] px-4 py-1" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-inter text-[10px] font-semibold uppercase tracking-wider mt-1">Settings</span>
+</a>
 </div>
-<div class="flex flex-col items-center text-[#64748b] p-2">
-<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
-<span class="text-[0.6875rem] font-label">Tracker</span>
-</div>
-<div class="flex flex-col items-center text-[#64748b] p-2">
-<span class="material-symbols-outlined" data-icon="description">description</span>
-<span class="text-[0.6875rem] font-label">Resume</span>
-</div>
-<div class="flex flex-col items-center text-[#64748b] p-2">
-<span class="material-symbols-outlined" data-icon="settings">settings</span>
-<span class="text-[0.6875rem] font-label">Settings</span>
-</div>
-</div>
-<!-- Footer -->
-<footer class="bg-surface py-12 px-8 border-t border-outline-variant/10">
-<div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-<div class="flex flex-col items-center md:items-start gap-4">
-<span class="text-xl font-black text-on-surface tracking-tight font-headline">Rezzap</span>
-<p class="text-on-surface-variant text-sm font-body">© 2024 Intelligent Curator Inc.</p>
-</div>
-<div class="flex gap-8 text-on-surface-variant text-sm font-medium">
-<a class="hover:text-primary transition-colors" href="#">Privacy</a>
-<a class="hover:text-primary transition-colors" href="#">Terms</a>
-<a class="hover:text-primary transition-colors" href="#">Support</a>
-<a class="hover:text-primary transition-colors" href="#">Twitter</a>
-</div>
-</div>
-</footer>
+</nav>
+<script>
+    // Purely visual: row click simulation
+    document.querySelectorAll('tr, .md\\:hidden > div').forEach(el => {
+        el.addEventListener('click', () => {
+            console.log('Item clicked - navigation or panel toggle');
+        });
+    });
+</script>
 </body></html>
