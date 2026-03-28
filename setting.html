@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Rezzap | Your AI Job Search Copilot</title>
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Manrope:wght@700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-tertiary": "#ffffff",
+              "on-surface-variant": "#464555",
+              "on-secondary-fixed-variant": "#1e3a8a",
+              "surface-variant": "#dbeafe",
+              "on-background": "#0f172a",
+              "inverse-surface": "#1e293b",
+              "on-tertiary-fixed-variant": "#7b2f00",
+              "on-primary-fixed": "#001e4d",
+              "surface": "#f8faff",
+              "on-surface": "#0f172a",
+              "primary": "#2563EB",
+              "on-tertiary-fixed": "#351000",
+              "error": "#ba1a1a",
+              "error-container": "#ffdad6",
+              "surface-bright": "#f8faff",
+              "inverse-on-surface": "#eff6ff",
+              "on-primary": "#ffffff",
+              "tertiary-fixed-dim": "#ffb695",
+              "on-error": "#ffffff",
+              "on-error-container": "#93000a",
+              "surface-container-low": "#f0f6ff",
+              "on-secondary-container": "#1e40af",
+              "surface-tint": "#2563EB",
+              "on-primary-fixed-variant": "#1d4ed8",
+              "secondary-fixed": "#dbeafe",
+              "secondary-container": "#bfdbfe",
+              "inverse-primary": "#93c5fd",
+              "tertiary-fixed": "#ffdbcc",
+              "background": "#f8faff",
+              "tertiary": "#7e3000",
+              "tertiary-container": "#a44100",
+              "primary-fixed-dim": "#93c5fd",
+              "surface-container-lowest": "#ffffff",
+              "outline": "#64748b",
+              "primary-container": "#1d4ed8",
+              "surface-container": "#e0e7ff",
+              "on-tertiary-container": "#ffd2be",
+              "primary-fixed": "#dbeafe",
+              "surface-container-highest": "#dbeafe",
+              "surface-dim": "#cbd5e1",
+              "surface-container-high": "#eaf2ff",
+              "secondary-fixed-dim": "#93c5fd",
+              "outline-variant": "#cbd5e1",
+              "on-primary-container": "#dbeafe",
+              "on-secondary": "#ffffff",
+              "secondary": "#3b82f6",
+              "on-secondary-fixed": "#001e4d"
+            },
+            fontFamily: {
+              "headline": ["Manrope", "sans-serif"],
+              "body": ["Inter", "sans-serif"],
+              "label": ["Inter", "sans-serif"]
+            },
+            borderRadius: {
+              "DEFAULT": "0.25rem",
+              "lg": "0.5rem",
+              "xl": "0.75rem",
+              "full": "9999px"
+            }
+          }
+        }
+      };
+    </script>
+    <style>
+      .material-symbols-outlined {
+        font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+      }
+
+      .hero-gradient {
+        background: radial-gradient(circle at 50% -20%, #dbeafe 0%, #f8faff 70%);
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #f8faff;
+        color: #0f172a;
+      }
+    </style>
+  </head>
+  <body class="bg-surface selection:bg-primary-fixed">
+    <header class="sticky top-0 z-50 flex w-full items-center justify-between border-b border-outline-variant/10 bg-[#f8faff]/90 px-8 py-4 backdrop-blur-md">
+      <div class="flex items-center gap-8">
+        <span class="font-headline text-2xl font-black tracking-tight text-[#0f172a]">Rezzap</span>
+        <nav class="hidden gap-6 md:flex">
+          <a class="px-3 py-1 font-body font-bold text-[#2563EB] transition-colors" href="#">Home</a>
+          <a class="px-3 py-1 font-body text-[#64748b] transition-colors hover:text-primary" href="#">Product</a>
+          <a class="px-3 py-1 font-body text-[#64748b] transition-colors hover:text-primary" href="#">Pricing</a>
+        </nav>
+      </div>
+      <div class="flex items-center gap-4">
+        <button class="hidden rounded-xl bg-primary px-5 py-2.5 text-sm font-bold text-on-primary transition-all hover:shadow-lg active:scale-95 sm:block">
+          Start Applying Now
+        </button>
+        <div class="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full border border-outline-variant/20 bg-surface-container-high">
+          <img
+            alt="User avatar"
+            class="h-full w-full object-cover"
+            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTwCCUi6EEuULGwCwjF18Z7zEyBT42D0JuuDuu4bB3zwE1KWvbCw-d0bp-vPVwXlqguqf6rOPIwTWc71ice1U21cyYp3vlMHU5tfG3jd34qqpmQC10kd4AM7Ml12ziX8YvGgu50kufYgrwgY4j6YvQ_w61vJf8cyfM0rdp-ngpSsGYf1HE_O1uenGW9Afv4lzhfYJvtfPnU9i0aAGChL2Gbo5_Ttpd0_GKqsliiiO5Qxqr77mfgZFfOZQuGJ4aSOakfZ4-V0m0dYQz"
+          />
+        </div>
+      </div>
+    </header>
+    <main class="relative">
+      <section class="hero-gradient px-6 pb-20 pt-24">
+        <div class="mx-auto max-w-4xl text-center">
+          <div class="mb-8 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-sm font-semibold text-primary">
+            <span class="material-symbols-outlined text-sm" data-icon="auto_awesome">auto_awesome</span>
+            <span>Intelligent Career Management</span>
+          </div>
+          <h1 class="mb-8 font-headline text-6xl font-extrabold leading-[1.05] tracking-tight text-on-surface md:text-8xl">
+            Get hired <span class="bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent">faster</span> with AI
+          </h1>
+          <p class="mx-auto mb-12 max-w-2xl font-body text-xl leading-relaxed text-on-surface-variant md:text-2xl">
+            The only copilot that finds, customizes, and applies to jobs for you in seconds.
+          </p>
+          <div class="flex flex-col items-center gap-4">
+            <button class="flex w-full max-w-md items-center justify-center gap-3 rounded-2xl bg-gradient-to-r from-primary to-blue-700 px-10 py-6 text-xl font-bold text-on-primary transition-all hover:shadow-2xl hover:shadow-primary/30 active:scale-95">
+              <span class="material-symbols-outlined" data-icon="upload_file">upload_file</span>
+              Upload Resume to Begin
+            </button>
+            <p class="flex items-center gap-2 text-sm font-medium text-on-surface-variant">
+              <span class="material-symbols-outlined text-sm text-green-600" data-icon="check_circle">check_circle</span>
+              Free for first 5 applications
+            </p>
+          </div>
+        </div>
+      </section>
+      <section class="bg-white px-6 py-20">
+        <div class="mx-auto max-w-5xl">
+          <div class="grid grid-cols-1 gap-12 text-center md:grid-cols-3">
+            <div class="flex flex-col items-center">
+              <div class="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-primary-fixed text-primary">
+                <span class="material-symbols-outlined text-3xl" data-icon="description">description</span>
+              </div>
+              <h3 class="mb-2 font-headline text-xl font-bold">1. Upload Resume</h3>
+              <p class="text-sm text-on-surface-variant">Drop your resume to let our AI understand your unique profile and expertise.</p>
+            </div>
+            <div class="flex flex-col items-center">
+              <div class="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-secondary-fixed text-secondary">
+                <span class="material-symbols-outlined text-3xl" data-icon="robot_2">robot_2</span>
+              </div>
+              <h3 class="mb-2 font-headline text-xl font-bold">2. AI Finds Matches</h3>
+              <p class="text-sm text-on-surface-variant">Our neural engine scans millions of jobs to find the perfect fits for your career goals.</p>
+            </div>
+            <div class="flex flex-col items-center">
+              <div class="mb-6 flex h-16 w-16 items-center justify-center rounded-2xl bg-surface-container-high text-primary">
+                <span class="material-symbols-outlined text-3xl" data-icon="bolt">bolt</span>
+              </div>
+              <h3 class="mb-2 font-headline text-xl font-bold">3. One-Click Apply</h3>
+              <p class="text-sm text-on-surface-variant">Submit tailored applications instantly. No more manual form-filling.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="border-y border-outline-variant/10 bg-surface-container-low px-6 py-24">
+        <div class="mx-auto flex max-w-6xl flex-col items-center gap-16 md:flex-row">
+          <div class="flex-1 space-y-8">
+            <h2 class="font-headline text-4xl font-extrabold leading-tight tracking-tight text-on-surface md:text-5xl">
+              Built for speed and unmatched accuracy
+            </h2>
+            <p class="text-lg leading-relaxed text-on-surface-variant">
+              Rezzap eliminates the friction of job hunting. By combining deep learning with automated workflows, we ensure your applications are always first in line and perfectly matched to what recruiters are looking for.
+            </p>
+            <div class="space-y-4">
+              <div class="flex items-start gap-4">
+                <div class="mt-1 flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <span class="material-symbols-outlined text-lg" data-icon="speed">speed</span>
+                </div>
+                <div>
+                  <h4 class="font-bold">10x Application Speed</h4>
+                  <p class="text-sm text-on-surface-variant">Apply to dozens of jobs in minutes, not hours.</p>
+                </div>
+              </div>
+              <div class="flex items-start gap-4">
+                <div class="mt-1 flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-primary">
+                  <span class="material-symbols-outlined text-lg" data-icon="target">target</span>
+                </div>
+                <div>
+                  <h4 class="font-bold">98% ATS Match Rate</h4>
+                  <p class="text-sm text-on-surface-variant">AI-optimized keywords ensure you pass every screen.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="w-full flex-1">
+            <div class="overflow-hidden rounded-2xl border border-outline-variant/20 bg-white p-4 shadow-2xl">
+              <img
+                alt="Platform AI View"
+                class="w-full rounded-xl"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEvQuBbnfSDvMTmBirLZtxZhXId4cCls7v7_jnhqvbCuX9iTxnsZKMyQMyOC9afY8iJIE0Nx5-l8nWD5HnZbI3sG45QYQ0W15f0iOk84u_1cA6WEskKgjTyF-7n6z_lf2wLgYNxmp0dJqiGqoe8sAeCQnSbXPG2UaGunnjTiMh8Hbi_CaJo-zUsU5wetkC4mXb3uPsmQtAKfbfsMdZNxU5gRQZrUKaF_8qU-wAzB6plCkcJwVGk6Pj2VRBwT2b1doVNr6PhInMHVlt"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="bg-white px-6 py-24">
+        <div class="relative mx-auto max-w-4xl overflow-hidden rounded-[2.5rem] bg-inverse-surface p-12 text-center md:p-20">
+          <div class="absolute right-0 top-0 -z-0 h-80 w-80 bg-primary/20 blur-[100px]"></div>
+          <div class="relative z-10">
+            <h2 class="mb-8 font-headline text-3xl font-extrabold leading-tight text-inverse-on-surface md:text-5xl">
+              Your dream job is waiting.
+            </h2>
+            <button class="rounded-2xl bg-primary px-12 py-5 text-xl font-bold text-on-primary shadow-primary/40 transition-all hover:-translate-y-1 hover:shadow-xl">
+              Start Applying Now
+            </button>
+            <p class="mt-8 font-medium text-outline-variant">Join 50,000+ professionals getting hired with Rezzap.</p>
+          </div>
+        </div>
+      </section>
+    </main>
+    <div class="fixed bottom-0 left-0 z-50 flex w-full items-center justify-around border-t border-outline-variant/10 bg-[#f0f6ff] px-4 py-2 md:hidden">
+      <div class="flex flex-col items-center rounded-md bg-[#e0e7ff] p-2 font-semibold text-[#2563EB]">
+        <span class="material-symbols-outlined" data-icon="work">work</span>
+        <span class="font-label text-[0.6875rem]">Search</span>
+      </div>
+      <div class="flex flex-col items-center p-2 text-[#64748b]">
+        <span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+        <span class="font-label text-[0.6875rem]">Tracker</span>
+      </div>
+      <div class="flex flex-col items-center p-2 text-[#64748b]">
+        <span class="material-symbols-outlined" data-icon="description">description</span>
+        <span class="font-label text-[0.6875rem]">Resume</span>
+      </div>
+      <div class="flex flex-col items-center p-2 text-[#64748b]">
+        <span class="material-symbols-outlined" data-icon="settings">settings</span>
+        <span class="font-label text-[0.6875rem]">Settings</span>
+      </div>
+    </div>
+    <footer class="border-t border-outline-variant/10 bg-surface px-8 py-12">
+      <div class="mx-auto flex max-w-6xl flex-col items-center justify-between gap-8 md:flex-row">
+        <div class="flex flex-col items-center gap-4 md:items-start">
+          <span class="font-headline text-xl font-black tracking-tight text-on-surface">Rezzap</span>
+          <p class="font-body text-sm text-on-surface-variant">© 2024 Intelligent Curator Inc.</p>
+        </div>
+        <div class="flex gap-8 text-sm font-medium text-on-surface-variant">
+          <a class="transition-colors hover:text-primary" href="#">Privacy</a>
+          <a class="transition-colors hover:text-primary" href="#">Terms</a>
+          <a class="transition-colors hover:text-primary" href="#">Support</a>
+          <a class="transition-colors hover:text-primary" href="#">Twitter</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
