@@ -4,6 +4,7 @@ const PAGE_ROUTES = {
   tracker: "tracker.html",
   settings: "setting.html",
   generator: "generator.html",
+  pricing: "pricing.html",
 };
 
 function ensureToast() {
@@ -161,6 +162,9 @@ function wireGeneratorTools() {
   const enhancedBullet = document.querySelector("[data-enhanced-bullet]");
   const scoreValue = document.querySelector("[data-score-value]");
   const autoSave = document.querySelector("[data-autosave-label]");
+  const uploadTrigger = document.querySelector("[data-upload-trigger]");
+  const uploadInput = document.querySelector("[data-resume-upload]");
+  const uploadStatus = document.querySelector("[data-upload-status]");
 
   const samples = [
     "Led a cross-functional redesign that reduced drop-off by 18% and improved prototype-to-build speed across the product team.",
@@ -170,6 +174,10 @@ function wireGeneratorTools() {
 
   const refreshAutosave = () => {
     if (autoSave) autoSave.textContent = "Auto-saved just now";
+  };
+
+  const setUploadStatus = (message) => {
+    if (uploadStatus) uploadStatus.textContent = message;
   };
 
   const saveDraftState = () => {
@@ -196,6 +204,44 @@ function wireGeneratorTools() {
   };
 
   restoreDraftState();
+
+  uploadTrigger?.addEventListener("click", () => {
+    uploadInput?.click();
+  });
+
+  uploadInput?.addEventListener("change", () => {
+    const file = uploadInput.files?.[0];
+    if (!file) {
+      setUploadStatus("No file selected.");
+      return;
+    }
+
+    const allowedTypes = new Set([
+      "application/pdf",
+      "application/msword",
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    ]);
+
+    const validExtension = /\.(pdf|doc|docx)$/i.test(file.name);
+    if (!allowedTypes.has(file.type) && !validExtension) {
+      uploadInput.value = "";
+      setUploadStatus("Invalid file type. Use PDF, DOC, or DOCX.");
+      showToast("Only PDF, DOC, or DOCX files are allowed.");
+      return;
+    }
+
+    const sizeLabel =
+      file.size >= 1024 * 1024
+        ? `${(file.size / (1024 * 1024)).toFixed(1)} MB`
+        : `${Math.max(1, Math.round(file.size / 1024))} KB`;
+
+    setUploadStatus(`${file.name} (${sizeLabel})`);
+    localStorage.setItem(
+      "rezzap-uploaded-resume",
+      JSON.stringify({ name: file.name, size: file.size, type: file.type })
+    );
+    showToast(`Resume ready: ${file.name}`);
+  });
 
   document.querySelector("[data-improve-bullet]")?.addEventListener("click", () => {
     if (!textarea || !enhancedBullet) return;
