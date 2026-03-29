@@ -181,13 +181,37 @@
 <div class="fixed top-0 left-0 p-12 hidden lg:block -z-10">
 <div class="w-64 h-64 rounded-full bg-blue-50 blur-[120px]"></div>
 </div>
+<script src="api.js"></script>
 <script>
-  document.getElementById('signup-form').addEventListener('submit', function (e) {
+  document.getElementById('signup-form').addEventListener('submit', async function (e) {
     e.preventDefault();
-    // Mark that user just signed up so the profile modal shows on search.html
-    sessionStorage.setItem('justSignedUp', '1');
-    localStorage.removeItem('profileSetupDone');
-    window.location.href = 'search.html';
+    const email    = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const btn      = e.target.querySelector("button[type=submit]");
+
+    btn.textContent = "Creating account...";
+    btn.disabled = true;
+
+    try {
+      await api.signup(email, password);
+      // Keep existing behaviour — show profile modal on search page
+      sessionStorage.setItem('justSignedUp', '1');
+      localStorage.removeItem('profileSetupDone');
+      window.location.href = 'search.html';
+    } catch (err) {
+      btn.textContent = "Create Account";
+      btn.disabled = false;
+      let toast = document.getElementById("app-toast");
+      if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "app-toast";
+        toast.className = "fixed right-4 top-4 z-[100] max-w-sm rounded-xl bg-slate-900 px-4 py-3 text-sm font-medium text-white shadow-2xl";
+        document.body.appendChild(toast);
+      }
+      toast.textContent = err.message;
+      toast.classList.remove("hidden");
+      setTimeout(() => toast.classList.add("hidden"), 2200);
+    }
   });
 </script>
 </body></html>
