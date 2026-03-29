@@ -4,6 +4,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Rezzap | Application Tracker</title>
+<script>if (!localStorage.getItem("token")) window.location.replace("login.html");</script>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -142,21 +143,20 @@
 </div>
 </nav>
 <script>
-    const STATUS_OPTIONS = ['Pending', 'Applied', 'Interview', 'Offer', 'Rejected'];
+    const STATUS_OPTIONS = ['To Apply', 'Submitted', 'Interviewing', 'Offer', 'Rejected'];
     const STATUS_CLASS = {
-      'Pending':   'notion-tag-gray',
-      'Applied':   'notion-tag-blue',
-      'Interview': 'notion-tag-orange',
-      'Offer':     'notion-tag-green',
-      'Rejected':  'notion-tag-red',
+      'To Apply':    'notion-tag-gray',
+      'Submitted':   'notion-tag-blue',
+      'Interviewing':'notion-tag-orange',
+      'Offer':       'notion-tag-green',
+      'Rejected':    'notion-tag-red',
     };
 
-    function updateJobStatus(jobId, newStatus) {
-      const jobs = JSON.parse(localStorage.getItem('bookmarkedJobs')) || [];
-      const job = jobs.find(j => j.id === jobId);
-      if (job) {
-        job.status = newStatus;
-        localStorage.setItem('bookmarkedJobs', JSON.stringify(jobs));
+    async function updateJobStatus(jobId, newStatus) {
+      try {
+        await api.updateStatus(jobId, newStatus);
+      } catch (err) {
+        console.warn('Status update failed:', err.message);
       }
       loadBookmarkedJobs();
     }
@@ -198,10 +198,29 @@
       document.getElementById('status-dropdown')?.remove();
     }
 
-    function loadBookmarkedJobs() {
+    async function loadBookmarkedJobs() {
       const tbody = document.getElementById('bookmarked-jobs-tbody');
       const mobileContainer = document.getElementById('bookmarked-jobs-mobile');
-      const bookmarkedJobs = JSON.parse(localStorage.getItem('bookmarkedJobs')) || [];
+
+      let bookmarkedJobs = [];
+      try {
+        bookmarkedJobs = await api.getTrackedJobs();
+      } catch (err) {
+        console.warn('Failed to load jobs from API:', err.message);
+      }
+
+      // Normalise API fields to match existing render expectations
+      bookmarkedJobs = bookmarkedJobs.map(j => ({
+        id:          j.id,
+        title:       j.title,
+        company:     j.company || '',
+        logo:        '',
+        salary:      j.salary || '—',
+        deadline:    '',
+        appliedDate: j.date_added,
+        status:      j.status || 'To Apply',
+        resume_url:  j.resume_url || null,
+      }));
 
       const emptyMsg = '<tr><td colspan="8" class="px-6 py-8 text-center text-on-surface-variant">No tracked jobs yet. Go to Job Search and select positions to track.</td></tr>';
       const emptyMobileMsg = '<p class="text-center text-on-surface-variant py-8">No tracked jobs yet. Go to Job Search and select positions to track.</p>';
@@ -247,12 +266,13 @@
           <td class="px-6 py-5 text-sm font-medium text-on-surface-variant">${job.salary || '—'}</td>
           <td class="px-6 py-5 text-sm font-medium text-on-surface-variant">${dateAdded}</td>
           <td class="px-6 py-5 text-sm font-medium text-on-surface-variant">${job.deadline || '—'}</td>
-          <td class="px-6 py-5">
-            <button onclick="window.location.href='generator.html'" class="text-primary font-semibold text-sm underline hover:opacity-75 transition-opacity">Generate</button>
+          <td class="px-6 py-5" id="resume-cell-${jobId}">
+            ${job.resume_url
+              ? `<a href="${job.resume_url}" target="_blank" class="text-green-600 font-semibold text-sm underline hover:opacity-75 transition-opacity">Download</a>`
+              : `<button class="generate-resume-btn text-primary font-semibold text-sm underline hover:opacity-75 transition-opacity" data-job-id="${jobId}">Generate</button>`
+            }
           </td>
-          <td class="px-6 py-5">
-            <button onclick="window.location.href='generator.html'" class="text-primary font-semibold text-sm underline hover:opacity-75 transition-opacity">Generate</button>
-          </td>
+          <td class="px-6 py-5"></td>
         `;
         tbody.appendChild(row);
 
@@ -293,8 +313,59 @@
       });
     }
 
+    async function generateResume(jobId, btn) {
+      btn.textContent = 'Generating...';
+      btn.disabled = true;
+      try {
+        const result = await api.generateResume(jobId);
+        if (result.status === 'ready' && result.resume_url) {
+          showDownloadLink(jobId, result.resume_url);
+          return;
+        }
+        // Poll every 3s until ready (max 20 attempts = 60s)
+        let attempts = 0;
+        const poll = setInterval(async () => {
+          attempts++;
+          try {
+            const status = await api.getResumeStatus(jobId);
+            if (status.status === 'ready' && status.resume_url) {
+              clearInterval(poll);
+              showDownloadLink(jobId, status.resume_url);
+            } else if (attempts >= 20) {
+              clearInterval(poll);
+              btn.textContent = 'Try again';
+              btn.disabled = false;
+            }
+          } catch (e) {
+            clearInterval(poll);
+            btn.textContent = 'Try again';
+            btn.disabled = false;
+          }
+        }, 3000);
+      } catch (err) {
+        btn.textContent = 'Try again';
+        btn.disabled = false;
+        alert('Resume generation failed: ' + err.message);
+      }
+    }
+
+    function showDownloadLink(jobId, resumeUrl) {
+      const cell = document.getElementById('resume-cell-' + jobId);
+      if (cell) {
+        cell.innerHTML = `<a href="${resumeUrl}" target="_blank" class="text-green-600 font-semibold text-sm underline hover:opacity-75 transition-opacity">Download</a>`;
+      }
+    }
+
+    document.addEventListener('click', (e) => {
+      const btn = e.target.closest('.generate-resume-btn');
+      if (!btn) return;
+      const jobId = btn.dataset.jobId;
+      if (jobId) window.location.href = 'generator.html?jobId=' + encodeURIComponent(jobId);
+    });
+
     document.addEventListener('DOMContentLoaded', loadBookmarkedJobs);
     window.addEventListener('storage', loadBookmarkedJobs);
 </script>
+<script src="./api.js"></script>
 <script src="./app.js"></script>
 </body></html>
