@@ -78,8 +78,22 @@ function wireActionButtons() {
       }
 
       if (action === "download-resume") {
-        showToast("Preparing print view...");
-        setTimeout(() => window.print(), 150);
+        const resume = document.querySelector(".resume-preview");
+        if (!resume) return;
+        const html = `<!DOCTYPE html><html><head><meta charset="utf-8"/>
+          <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Manrope:wght@700;800&display=swap" rel="stylesheet"/>
+          <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+          <style>
+            *{box-sizing:border-box;margin:0;padding:0;}
+            body{font-family:'Inter',sans-serif;background:#fff;}
+            .material-symbols-outlined{font-family:'Material Symbols Outlined';font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24;display:inline-block;line-height:1;text-transform:none;white-space:nowrap;}
+            @page{size:A4;margin:0;}
+          </style>
+        </head><body>${resume.outerHTML}</body></html>`;
+        const blob = new Blob([html], { type: "text/html" });
+        const url = URL.createObjectURL(blob);
+        const win = window.open(url, "_blank");
+        win.onload = () => { win.focus(); win.print(); URL.revokeObjectURL(url); };
         return;
       }
 
