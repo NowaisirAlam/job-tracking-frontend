@@ -218,8 +218,22 @@
         </div>
         <!-- Upload Document -->
         <div class="space-y-2">
-          <h3 class="text-sm font-bold font-headline uppercase tracking-wider text-on-surface-variant px-1">Upload Document</h3>
-          <label class="flex flex-col items-center justify-center gap-2 w-full py-6 bg-surface-container-lowest border-2 border-dashed border-outline-variant rounded-xl cursor-pointer hover:border-primary hover:bg-primary-fixed/30 transition-colors" id="upload-label">
+          <h3 class="text-sm font-bold font-headline uppercase tracking-wider text-on-surface-variant px-1">Resume</h3>
+
+          <!-- Main resume loaded state (shown when mainResume exists in localStorage) -->
+          <div id="main-resume-loaded" class="hidden flex items-center gap-3 p-4 bg-surface-container-lowest rounded-xl border border-outline-variant/20">
+            <div id="gen-resume-icon-wrap" class="w-10 h-10 rounded-lg flex items-center justify-center shrink-0 bg-red-50">
+              <span class="material-symbols-outlined text-red-600 text-xl" id="gen-resume-type-icon">picture_as_pdf</span>
+            </div>
+            <div class="flex-1 min-w-0">
+              <p class="text-sm font-bold text-on-surface truncate" id="gen-resume-name">—</p>
+              <p class="text-xs text-on-surface-variant mt-0.5" id="gen-resume-meta">—</p>
+            </div>
+            <span class="text-[10px] font-black uppercase tracking-wider px-2 py-1 bg-primary/10 text-primary rounded-full shrink-0">Main</span>
+          </div>
+
+          <!-- Upload zone — always visible; label changes when main resume is active -->
+          <label class="flex flex-col items-center justify-center gap-2 w-full py-5 bg-surface-container-lowest border-2 border-dashed border-outline-variant rounded-xl cursor-pointer hover:border-primary hover:bg-primary-fixed/30 transition-colors" id="upload-label">
             <span class="material-symbols-outlined text-on-surface-variant text-2xl">upload_file</span>
             <span class="text-xs font-semibold text-on-surface-variant" id="upload-text">Click to upload resume or cover letter</span>
             <span class="text-[10px] text-outline">PDF or DOCX</span>
@@ -248,17 +262,64 @@
     </main>
     <script src="./app.js"></script>
     <script>
-      document.getElementById('upload-input').addEventListener('change', function () {
-        const file = this.files[0];
-        if (!file) return;
+      (function () {
+        const uploadInput    = document.getElementById('upload-input');
+        const uploadLabel    = document.getElementById('upload-label');
+        const uploadText     = document.getElementById('upload-text');
+        const mainLoaded     = document.getElementById('main-resume-loaded');
+        const genName        = document.getElementById('gen-resume-name');
+        const genMeta        = document.getElementById('gen-resume-meta');
+        const genTypeIcon    = document.getElementById('gen-resume-type-icon');
+        const genIconWrap    = document.getElementById('gen-resume-icon-wrap');
+        const docScroll      = document.getElementById('doc-scroll');
 
-        document.getElementById('upload-text').textContent = file.name;
-        document.getElementById('upload-label').classList.add('border-primary', 'bg-primary-fixed/30');
+        function formatBytes(b) {
+          if (b < 1024) return b + ' B';
+          if (b < 1048576) return (b / 1024).toFixed(1) + ' KB';
+          return (b / 1048576).toFixed(1) + ' MB';
+        }
 
-        const url = URL.createObjectURL(file);
-        const docScroll = document.getElementById('doc-scroll');
-        docScroll.innerHTML = `<iframe src="${url}" class="w-full h-full border-0" title="Uploaded document"></iframe>`;
-      });
+        function applyFileIcon(name) {
+          const isPdf = name.toLowerCase().endsWith('.pdf');
+          if (isPdf) {
+            genTypeIcon.textContent = 'picture_as_pdf';
+            genTypeIcon.className = 'material-symbols-outlined text-red-600 text-xl';
+            genIconWrap.classList.replace('bg-blue-50', 'bg-red-50');
+            genIconWrap.classList.add('bg-red-50');
+          } else {
+            genTypeIcon.textContent = 'description';
+            genTypeIcon.className = 'material-symbols-outlined text-blue-600 text-xl';
+            genIconWrap.classList.replace('bg-red-50', 'bg-blue-50');
+            genIconWrap.classList.add('bg-blue-50');
+          }
+        }
+
+        // Load main resume metadata from settings
+        const stored = localStorage.getItem('mainResume');
+        if (stored) {
+          try {
+            const meta = JSON.parse(stored);
+            genName.textContent = meta.name;
+            genMeta.textContent = formatBytes(meta.size) + ' · Saved resume';
+            applyFileIcon(meta.name);
+            mainLoaded.classList.remove('hidden');
+            mainLoaded.classList.add('flex');
+            uploadText.textContent = 'Upload a different resume';
+          } catch (e) { /* ignore */ }
+        }
+
+        uploadInput.addEventListener('change', function () {
+          const file = this.files[0];
+          if (!file) return;
+          uploadText.textContent = file.name;
+          uploadLabel.classList.add('border-primary', 'bg-primary-fixed/30');
+          // Hide main resume card when a new file is manually chosen
+          mainLoaded.classList.add('hidden');
+          mainLoaded.classList.remove('flex');
+          const url = URL.createObjectURL(file);
+          docScroll.innerHTML = `<iframe src="${url}" class="w-full h-full border-0" title="Uploaded document"></iframe>`;
+        });
+      })();
     </script>
   </body>
 </html>
