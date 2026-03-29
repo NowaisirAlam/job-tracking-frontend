@@ -48,6 +48,8 @@
         .notion-tag-gray { background-color: #f3f4f6; color: #4b5563; }
         .notion-tag-orange { background-color: #fff7ed; color: #c2410c; }
         .notion-tag-green { background-color: #f0fdf4; color: #16a34a; }
+        .notion-tag-red { background-color: #fef2f2; color: #b91c1c; }
+        #status-dropdown { position: fixed; z-index: 200; }
     </style>
 </head>
 <body class="bg-background text-on-surface flex flex-col min-h-screen pb-24 lg:pb-0">
@@ -86,14 +88,11 @@
 <p class="text-on-surface-variant text-lg">Manage your career pipeline with precision.</p>
 </div>
 <!-- Controls -->
-<div class="flex items-center justify-between mb-8 border-b notion-border pb-4">
+<div class="mb-8 border-b notion-border pb-4">
 <h3 class="text-xl font-headline font-extrabold text-on-surface tracking-tight flex items-center gap-2">
   <span class="material-symbols-outlined text-primary text-xl">table_rows</span>
   Dashboard
 </h3>
-<button class="bg-primary text-white px-6 py-2 rounded-xl text-sm font-bold shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95 transition-all">
-  New Application
-</button>
 </div>
 <!-- Tracker View -->
 <div class="hidden md:block overflow-hidden bg-white border border-outline-variant/30 rounded-2xl">
@@ -104,7 +103,8 @@
 <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline">Company</th>
 <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline">Status</th>
 <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline">Salary</th>
-<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline">Date Added</th>
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline">Date Applied</th>
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline">Apply By</th>
 <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline">Resume</th>
 <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline">Cover Letter</th>
 </tr>
@@ -138,12 +138,68 @@
 </div>
 </nav>
 <script>
+    const STATUS_OPTIONS = ['Pending', 'Applied', 'Interview', 'Offer', 'Rejected'];
+    const STATUS_CLASS = {
+      'Pending':   'notion-tag-gray',
+      'Applied':   'notion-tag-blue',
+      'Interview': 'notion-tag-orange',
+      'Offer':     'notion-tag-green',
+      'Rejected':  'notion-tag-red',
+    };
+
+    function updateJobStatus(jobId, newStatus) {
+      const jobs = JSON.parse(localStorage.getItem('bookmarkedJobs')) || [];
+      const job = jobs.find(j => j.id === jobId);
+      if (job) {
+        job.status = newStatus;
+        localStorage.setItem('bookmarkedJobs', JSON.stringify(jobs));
+      }
+      loadBookmarkedJobs();
+    }
+
+    function showStatusDropdown(badge, jobId, currentStatus) {
+      closeStatusDropdown();
+      const dropdown = document.createElement('div');
+      dropdown.id = 'status-dropdown';
+      dropdown.className = 'bg-white border border-outline-variant/40 rounded-xl shadow-xl py-1 min-w-[130px]';
+
+      STATUS_OPTIONS.forEach(option => {
+        const item = document.createElement('button');
+        item.className = `w-full text-left px-4 py-2 text-xs font-bold hover:bg-surface-container-low transition-colors flex items-center gap-2`;
+        item.innerHTML = `<span class="px-2 py-0.5 rounded ${STATUS_CLASS[option]}">${option}</span>`;
+        if (option === currentStatus) {
+          item.innerHTML += `<span class="material-symbols-outlined text-sm text-primary ml-auto">check</span>`;
+        }
+        item.addEventListener('click', (e) => {
+          e.stopPropagation();
+          updateJobStatus(jobId, option);
+          closeStatusDropdown();
+        });
+        dropdown.appendChild(item);
+      });
+
+      document.body.appendChild(dropdown);
+
+      const rect = badge.getBoundingClientRect();
+      dropdown.style.top = `${rect.bottom + 6}px`;
+      dropdown.style.left = `${rect.left}px`;
+
+      // Close on outside click
+      setTimeout(() => {
+        document.addEventListener('click', closeStatusDropdown, { once: true });
+      }, 0);
+    }
+
+    function closeStatusDropdown() {
+      document.getElementById('status-dropdown')?.remove();
+    }
+
     function loadBookmarkedJobs() {
       const tbody = document.getElementById('bookmarked-jobs-tbody');
       const mobileContainer = document.getElementById('bookmarked-jobs-mobile');
       const bookmarkedJobs = JSON.parse(localStorage.getItem('bookmarkedJobs')) || [];
 
-      const emptyMsg = '<tr><td colspan="7" class="px-6 py-8 text-center text-on-surface-variant">No tracked jobs yet. Go to Job Search and select positions to track.</td></tr>';
+      const emptyMsg = '<tr><td colspan="8" class="px-6 py-8 text-center text-on-surface-variant">No tracked jobs yet. Go to Job Search and select positions to track.</td></tr>';
       const emptyMobileMsg = '<p class="text-center text-on-surface-variant py-8">No tracked jobs yet. Go to Job Search and select positions to track.</p>';
 
       tbody.innerHTML = '';
@@ -159,30 +215,34 @@
         const jobId = typeof job === 'string' ? job : job.id;
         const jobTitle = typeof job === 'string' ? jobId : job.title;
         const jobCompany = typeof job === 'string' ? '' : job.company;
-        const dateAdded = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-
-        const logoHtml = job.logo
-          ? `<img src="${job.logo}" alt="${jobCompany} logo" class="w-full h-full object-contain p-1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
-          : '';
+        const status = job.status || 'Pending';
+        const statusClass = STATUS_CLASS[status] || 'notion-tag-gray';
+        const dateAdded = job.appliedDate
+          ? new Date(job.appliedDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+          : new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 
         // Desktop row
         const row = document.createElement('tr');
         row.className = 'hover:bg-surface-container-low/20 transition-colors cursor-pointer group';
         row.innerHTML = `
           <td class="px-6 py-5">
-            <div class="flex items-center space-x-3">
-              <div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center overflow-hidden">
-                ${logoHtml}<span class="material-symbols-outlined text-primary text-[18px]" style="${job.logo ? 'display:none' : ''}">description</span>
+            <span class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">${jobTitle}</span>
+          </td>
+          <td class="px-6 py-5">
+            <div class="flex items-center space-x-2">
+              <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center overflow-hidden shrink-0">
+                ${job.logo ? `<img src="${job.logo}" alt="${jobCompany} logo" class="w-7 h-7 object-contain" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>` : ''}
+                <span class="font-bold text-on-surface-variant text-sm" style="${job.logo ? 'display:none' : ''}">${jobCompany.charAt(0)}</span>
               </div>
-              <span class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">${jobTitle}</span>
+              <span class="text-sm font-medium text-on-surface-variant">${jobCompany}</span>
             </div>
           </td>
-          <td class="px-6 py-5 text-sm font-medium text-on-surface-variant">${jobCompany}</td>
           <td class="px-6 py-5">
-            <span class="px-3 py-1 rounded-lg text-xs font-bold notion-tag-gray">Pending</span>
+            <button class="status-badge px-3 py-1 rounded-lg text-xs font-bold ${statusClass} cursor-pointer hover:opacity-80 transition-opacity" data-job-id="${jobId}" data-status="${status}">${status}</button>
           </td>
           <td class="px-6 py-5 text-sm font-medium text-on-surface-variant">${job.salary || '—'}</td>
           <td class="px-6 py-5 text-sm font-medium text-on-surface-variant">${dateAdded}</td>
+          <td class="px-6 py-5 text-sm font-medium text-on-surface-variant">${job.deadline || '—'}</td>
           <td class="px-6 py-5">
             <button onclick="window.location.href='generator.html'" class="text-primary font-semibold text-sm underline hover:opacity-75 transition-opacity">Generate</button>
           </td>
@@ -198,22 +258,34 @@
         card.innerHTML = `
           <div class="flex justify-between items-start mb-4">
             <div class="flex items-center space-x-3">
-              <div class="w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center overflow-hidden">
-                ${job.logo ? `<img src="${job.logo}" alt="${jobCompany} logo" class="w-full h-full object-contain p-1" onerror="this.style.display='none'">` : '<span class="material-symbols-outlined text-primary">description</span>'}
+              <div class="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center overflow-hidden">
+                ${job.logo ? `<img src="${job.logo}" alt="${jobCompany} logo" class="w-7 h-7 object-contain" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>` : ''}
+                <span class="font-bold text-on-surface-variant text-sm" style="${job.logo ? 'display:none' : ''}">${jobCompany.charAt(0)}</span>
               </div>
               <div>
                 <h3 class="font-headline font-bold text-on-surface">${jobTitle}</h3>
                 <p class="text-xs font-medium text-on-surface-variant">${jobCompany}</p>
               </div>
             </div>
-            <span class="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider notion-tag-gray">Pending</span>
+            <button class="status-badge px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider ${statusClass} cursor-pointer hover:opacity-80 transition-opacity" data-job-id="${jobId}" data-status="${status}">${status}</button>
           </div>
           <div class="flex justify-between items-center text-xs pt-4 border-t notion-border">
-            <span class="text-on-surface-variant font-medium">Added ${dateAdded}</span>
+            <div>
+              <span class="text-on-surface-variant font-medium block">Applied ${dateAdded}</span>
+              ${job.deadline ? `<span class="text-on-surface-variant font-medium block">Apply by ${job.deadline}</span>` : ''}
+            </div>
             <span class="text-primary font-bold flex items-center gap-1">View details <span class="material-symbols-outlined text-sm">arrow_forward</span></span>
           </div>
         `;
         mobileContainer.appendChild(card);
+      });
+
+      // Wire status badge clicks after render
+      document.querySelectorAll('.status-badge').forEach(badge => {
+        badge.addEventListener('click', (e) => {
+          e.stopPropagation();
+          showStatusDropdown(badge, badge.dataset.jobId, badge.dataset.status);
+        });
       });
     }
 

@@ -118,21 +118,133 @@ function wireActionButtons() {
   });
 }
 
+// --- Search filter/sort state ---
+// BACKEND: pass activeFilters and activeSort as query params when fetching jobs
+// e.g. GET /api/jobs?workType=remote&jobType=full-time&sort=salary_desc
+let activeFilters = new Set();
+let activeSort = "match";
+
+function parseSalaryMax(salaryStr) {
+  // Parses "$140k–$180k" → 180000. BACKEND: replace with numeric salary_max field from API.
+  if (!salaryStr || salaryStr === "—") return 0;
+  const range = salaryStr.match(/(\d+)k[^0-9]*(\d+)k/);
+  if (range) return parseInt(range[2]) * 1000;
+  const single = salaryStr.match(/(\d+)k/);
+  return single ? parseInt(single[1]) * 1000 : 0;
+}
+
+function parsePostedHours(postedStr) {
+  // Parses "Posted 4h ago" → 4, "Posted 2d ago" → 48. BACKEND: replace with numeric posted_at timestamp.
+  if (!postedStr) return 9999;
+  const h = postedStr.match(/(\d+)h/);
+  if (h) return parseInt(h[1]);
+  const d = postedStr.match(/(\d+)d/);
+  if (d) return parseInt(d[1]) * 24;
+  return 9999;
+}
+
+function applyFiltersAndSort() {
+  const container = document.querySelector("[data-jobs-container]");
+  if (!container) return;
+
+  const cards = [...container.querySelectorAll("[data-job-id]")];
+
+  // Filter: multi-select AND logic
+  // BACKEND: when using server-side filtering, map these keys to API params:
+  //   "Remote"       → workType=remote
+  //   "Full-time"    → jobType=full-time
+  //   "Part-time"    → jobType=part-time
+  //   "Salary Range" → hasSalary=true
+  const appliedIds = new Set(
+    (JSON.parse(localStorage.getItem("bookmarkedJobs")) || []).map((j) => j.id)
+  );
+
+  cards.forEach((card) => {
+    let show = true;
+    if (activeFilters.has("Remote") && card.dataset.workType !== "remote") show = false;
+    if (activeFilters.has("Full-time") && card.dataset.jobType !== "full-time") show = false;
+    if (activeFilters.has("Part-time") && card.dataset.jobType !== "part-time") show = false;
+    if (activeFilters.has("Salary Range") && (!card.dataset.salary || card.dataset.salary === "—")) show = false;
+    // "Most Recent" hides jobs already applied to
+    if (activeSort === "recent" && appliedIds.has(card.dataset.jobId)) show = false;
+    card.style.display = show ? "" : "none";
+  });
+
+  // Sort visible cards
+  // BACKEND: when using server-side sorting, map activeSort to API param:
+  //   "match"        → sort=match_score_desc
+  //   "recent"       → sort=posted_at_asc
+  //   "salary-high"  → sort=salary_desc
+  //   "salary-low"   → sort=salary_asc
+  const visible = cards.filter((c) => c.style.display !== "none");
+  visible.sort((a, b) => {
+    if (activeSort === "salary-high") return parseSalaryMax(b.dataset.salary) - parseSalaryMax(a.dataset.salary);
+    if (activeSort === "salary-low") return parseSalaryMax(a.dataset.salary) - parseSalaryMax(b.dataset.salary);
+    if (activeSort === "recent") return parsePostedHours(a.dataset.posted) - parsePostedHours(b.dataset.posted);
+    return parseInt(b.dataset.match || 0) - parseInt(a.dataset.match || 0); // "match" default
+  });
+  visible.forEach((card) => container.appendChild(card));
+}
+
 function wireSearchFilters() {
-  const groups = document.querySelectorAll("[data-filter-group]");
-  groups.forEach((group) => {
-    group.querySelectorAll("[data-filter]").forEach((button) => {
-      button.addEventListener("click", () => {
-        group.querySelectorAll("[data-filter]").forEach((item) => {
-          item.classList.remove("bg-primary", "text-on-primary");
-          item.classList.add("bg-surface-container-low", "text-secondary");
-        });
+  const group = document.querySelector("[data-filter-group]");
+  if (!group) return;
+
+  // Initialise state from pre-styled active buttons
+  group.querySelectorAll("[data-filter]").forEach((button) => {
+    if (button.classList.contains("bg-primary")) activeFilters.add(button.dataset.filter);
+  });
+
+  group.querySelectorAll("[data-filter]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const filter = button.dataset.filter;
+      if (activeFilters.has(filter)) {
+        activeFilters.delete(filter);
+        button.classList.remove("bg-primary", "text-on-primary");
+        button.classList.add("bg-surface-container-low", "text-secondary");
+      } else {
+        activeFilters.add(filter);
         button.classList.remove("bg-surface-container-low", "text-secondary");
         button.classList.add("bg-primary", "text-on-primary");
-        showToast(`Filter set to ${button.dataset.filter}.`);
-      });
+      }
+      applyFiltersAndSort();
     });
   });
+
+  applyFiltersAndSort();
+}
+
+function wireSortDropdown() {
+  const btn = document.getElementById("sort-btn");
+  const dropdown = document.getElementById("sort-dropdown");
+  if (!btn || !dropdown) return;
+
+  btn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    dropdown.classList.toggle("hidden");
+  });
+
+  dropdown.querySelectorAll("[data-sort]").forEach((item) => {
+    item.addEventListener("click", () => {
+      activeSort = item.dataset.sort;
+      dropdown.classList.add("hidden");
+
+      // Update checkmark
+      dropdown.querySelectorAll("[data-sort]").forEach((i) => i.querySelector(".sort-check")?.remove());
+      const check = document.createElement("span");
+      check.className = "material-symbols-outlined text-sm text-primary sort-check";
+      check.textContent = "check";
+      item.appendChild(check);
+
+      // Update button label
+      const label = btn.querySelector(".sort-label");
+      if (label) label.textContent = item.textContent.replace("check", "").trim();
+
+      applyFiltersAndSort();
+    });
+  });
+
+  document.addEventListener("click", () => dropdown.classList.add("hidden"));
 }
 
 function wireBookmarks() {
@@ -143,6 +255,12 @@ function wireBookmarks() {
     const card = button.closest("[data-job-id]");
     if (card && savedIds.includes(card.dataset.jobId)) {
       setBookmarkState(button, true);
+      const job = saved.find((j) => j.id === card.dataset.jobId);
+      const label = card.querySelector(".posted-label");
+      if (label && job?.appliedDate) {
+        const d = new Date(job.appliedDate);
+        label.textContent = `Applied ${d.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
+      }
     }
 
     button.addEventListener("click", (e) => {
@@ -151,12 +269,16 @@ function wireBookmarks() {
       const isSaved = button.dataset.bookmark === "saved";
       setBookmarkState(button, !isSaved);
 
+      const label = card?.querySelector(".posted-label");
       if (isSaved) {
         removeTrackedJob(card?.dataset.jobId);
         showToast("Removed from tracker.");
+        if (label) label.textContent = card.dataset.posted || "Posted recently";
       } else {
         addTrackedJob(card);
         showToast("Added to tracker.");
+        const today = new Date();
+        if (label) label.textContent = `Applied ${today.toLocaleDateString("en-US", { month: "short", day: "numeric" })}`;
       }
     });
   });
@@ -182,6 +304,8 @@ function addTrackedJob(card) {
       location: card.dataset.location,
       logo: card.dataset.logo,
       salary: card.dataset.salary || "—",
+      deadline: card.dataset.deadline || "",
+      appliedDate: new Date().toISOString(),
     });
     localStorage.setItem("bookmarkedJobs", JSON.stringify(jobs));
   }
@@ -466,6 +590,7 @@ document.addEventListener("DOMContentLoaded", () => {
   wirePlaceholderLinks();
   wireActionButtons();
   wireSearchFilters();
+  wireSortDropdown();
   wireBookmarks();
   wireSearchInput();
   wireApplicationRows();

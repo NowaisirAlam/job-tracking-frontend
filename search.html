@@ -158,24 +158,37 @@
           />
         </div>
         <div class="flex gap-2 overflow-x-auto pb-2 no-scrollbar" data-filter-group>
-          <button class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary rounded-full text-sm font-semibold whitespace-nowrap" data-filter="Remote">
+          <button class="flex items-center gap-2 px-4 py-2 bg-surface-container-low text-secondary rounded-full text-sm font-semibold whitespace-nowrap" data-filter="Remote">
             <span class="material-symbols-outlined text-sm" data-icon="public">public</span> Remote
           </button>
           <button class="flex items-center gap-2 px-4 py-2 bg-surface-container-low text-secondary rounded-full text-sm font-semibold whitespace-nowrap" data-filter="Full-time">
             <span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span> Full-time
-          </button>
-          <button class="flex items-center gap-2 px-4 py-2 bg-surface-container-low text-secondary rounded-full text-sm font-semibold whitespace-nowrap" data-filter="Salary Range">
-            <span class="material-symbols-outlined text-sm" data-icon="payments">payments</span> Salary Range
           </button>
         </div>
       </section>
       <section class="space-y-6">
         <div class="flex items-baseline justify-between">
           <h2 class="text-2xl font-extrabold tracking-tight text-on-surface">Recent Matches</h2>
-          <span class="text-primary text-sm font-bold">See all</span>
+          <!-- Sort dropdown -->
+          <div class="relative">
+            <button class="flex items-center gap-1 text-primary text-sm font-bold hover:opacity-75 transition-opacity" id="sort-btn">
+              <span class="material-symbols-outlined text-sm">sort</span>
+              Sort: <span class="sort-label">Best Match</span>
+              <span class="material-symbols-outlined text-sm">expand_more</span>
+            </button>
+            <!-- BACKEND: map data-sort values to API query params, e.g. sort=salary_desc -->
+            <div class="hidden absolute right-0 top-9 bg-white border border-outline-variant/30 rounded-xl shadow-xl py-1.5 min-w-[175px] z-50" id="sort-dropdown">
+              <button class="w-full text-left px-4 py-2.5 text-sm font-medium text-on-surface hover:bg-surface-container-low transition-colors flex items-center justify-between" data-sort="match">Best Match <span class="material-symbols-outlined text-sm text-primary sort-check">check</span></button>
+              <button class="w-full text-left px-4 py-2.5 text-sm font-medium text-on-surface hover:bg-surface-container-low transition-colors" data-sort="recent">Most Recent</button>
+              <button class="w-full text-left px-4 py-2.5 text-sm font-medium text-on-surface hover:bg-surface-container-low transition-colors" data-sort="salary-high">Salary: High to Low</button>
+              <button class="w-full text-left px-4 py-2.5 text-sm font-medium text-on-surface hover:bg-surface-container-low transition-colors" data-sort="salary-low">Salary: Low to High</button>
+            </div>
+          </div>
         </div>
-        <div class="space-y-4">
-          <div class="bg-surface-container-lowest p-5 rounded-2xl transition-transform active:scale-95 duration-200" data-job-id="stripe-designer" data-title="Senior Product Designer" data-company="Stripe" data-location="Remote" data-logo="https://logo.clearbit.com/stripe.com" data-salary="$140k–$180k">
+        <!-- BACKEND: render job cards here from API response; each card uses data-* attributes for client-side filter/sort -->
+        <div class="space-y-4" data-jobs-container>
+          <!-- BACKEND: data-work-type: remote|hybrid|onsite | data-job-type: full-time|part-time|contract | data-match: 0-100 -->
+          <div class="bg-surface-container-lowest p-5 rounded-2xl transition-transform active:scale-95 duration-200" data-job-id="stripe-designer" data-title="Senior Product Designer" data-company="Stripe" data-location="Remote" data-logo="https://logo.clearbit.com/stripe.com" data-salary="$140k–$180k" data-posted="Posted 2d ago" data-deadline="Apr 10" data-work-type="remote" data-job-type="full-time" data-match="98">
             <div class="flex justify-between items-start mb-4">
               <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
                 <img alt="Stripe logo" class="w-8 h-8 object-contain" src="https://logo.clearbit.com/stripe.com" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
@@ -190,11 +203,17 @@
               <p class="text-secondary font-medium text-sm">Stripe • Remote • $140k–$180k</p>
             </div>
             <div class="mt-6 flex items-center justify-between">
-              <span class="text-xs font-bold px-3 py-1 bg-blue-50 text-blue-700 rounded-lg">98% Match</span>
-              <span class="text-xs text-outline font-medium">Applied 2d ago</span>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold px-3 py-1 bg-blue-50 text-blue-700 rounded-lg">98% Match</span>
+                <span class="text-xs font-semibold px-2.5 py-1 bg-surface-container-low text-on-surface-variant rounded-lg">Full-time</span>
+              </div>
+              <div class="flex flex-col items-end gap-0.5">
+                <span class="text-xs text-outline font-medium posted-label">Posted 2d ago</span>
+                <span class="text-xs text-outline font-medium">Apply by Apr 10</span>
+              </div>
             </div>
           </div>
-          <div class="bg-surface-container-lowest p-5 rounded-2xl transition-transform active:scale-95 duration-200" data-job-id="figma-ux" data-title="UX Engineer" data-company="Figma" data-location="San Francisco" data-logo="https://logo.clearbit.com/figma.com" data-salary="$130k–$165k">
+          <div class="bg-surface-container-lowest p-5 rounded-2xl transition-transform active:scale-95 duration-200" data-job-id="figma-ux" data-title="UX Engineer" data-company="Figma" data-location="San Francisco" data-logo="https://logo.clearbit.com/figma.com" data-salary="$130k–$165k" data-posted="Posted 4h ago" data-deadline="Apr 18" data-work-type="hybrid" data-job-type="full-time" data-match="94">
             <div class="flex justify-between items-start mb-4">
               <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
                 <img alt="Figma logo" class="w-8 h-8 object-contain" src="https://logo.clearbit.com/figma.com" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
@@ -209,11 +228,17 @@
               <p class="text-secondary font-medium text-sm">Figma • San Francisco • $130k–$165k</p>
             </div>
             <div class="mt-6 flex items-center justify-between">
-              <span class="text-xs font-bold px-3 py-1 bg-blue-50 text-blue-700 rounded-lg">94% Match</span>
-              <span class="text-xs text-outline font-medium">Posted 4h ago</span>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold px-3 py-1 bg-blue-50 text-blue-700 rounded-lg">94% Match</span>
+                <span class="text-xs font-semibold px-2.5 py-1 bg-surface-container-low text-on-surface-variant rounded-lg">Full-time</span>
+              </div>
+              <div class="flex flex-col items-end gap-0.5">
+                <span class="text-xs text-outline font-medium posted-label">Posted 4h ago</span>
+                <span class="text-xs text-outline font-medium">Apply by Apr 18</span>
+              </div>
             </div>
           </div>
-          <div class="bg-surface-container-lowest p-5 rounded-2xl transition-transform active:scale-95 duration-200" data-job-id="google-fullstack" data-title="Full Stack Engineer" data-company="Google" data-location="Mountain View" data-logo="https://logo.clearbit.com/google.com" data-salary="$150k–$200k">
+          <div class="bg-surface-container-lowest p-5 rounded-2xl transition-transform active:scale-95 duration-200" data-job-id="google-fullstack" data-title="Full Stack Engineer" data-company="Google" data-location="Mountain View" data-logo="https://logo.clearbit.com/google.com" data-salary="$150k–$200k" data-posted="Posted 1d ago" data-deadline="Apr 25" data-work-type="onsite" data-job-type="full-time" data-match="91">
             <div class="flex justify-between items-start mb-4">
               <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
                 <img alt="Google logo" class="w-8 h-8 object-contain" src="https://logo.clearbit.com/google.com" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
@@ -228,11 +253,17 @@
               <p class="text-secondary font-medium text-sm">Google • Mountain View • $150k–$200k</p>
             </div>
             <div class="mt-6 flex items-center justify-between">
-              <span class="text-xs font-bold px-3 py-1 bg-blue-50 text-blue-700 rounded-lg">91% Match</span>
-              <span class="text-xs text-outline font-medium">Posted 1d ago</span>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold px-3 py-1 bg-blue-50 text-blue-700 rounded-lg">91% Match</span>
+                <span class="text-xs font-semibold px-2.5 py-1 bg-surface-container-low text-on-surface-variant rounded-lg">Full-time</span>
+              </div>
+              <div class="flex flex-col items-end gap-0.5">
+                <span class="text-xs text-outline font-medium posted-label">Posted 1d ago</span>
+                <span class="text-xs text-outline font-medium">Apply by Apr 25</span>
+              </div>
             </div>
           </div>
-          <div class="bg-surface-container-lowest p-5 rounded-2xl transition-transform active:scale-95 duration-200" data-job-id="microsoft-software" data-title="Senior Software Engineer" data-company="Microsoft" data-location="Seattle" data-logo="https://logo.clearbit.com/microsoft.com" data-salary="$135k–$175k">
+          <div class="bg-surface-container-lowest p-5 rounded-2xl transition-transform active:scale-95 duration-200" data-job-id="microsoft-software" data-title="Senior Software Engineer" data-company="Microsoft" data-location="Seattle" data-logo="https://logo.clearbit.com/microsoft.com" data-salary="$135k–$175k" data-posted="Posted 6h ago" data-deadline="May 2" data-work-type="hybrid" data-job-type="full-time" data-match="89">
             <div class="flex justify-between items-start mb-4">
               <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
                 <img alt="Microsoft logo" class="w-8 h-8 object-contain" src="https://logo.clearbit.com/microsoft.com" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
@@ -247,11 +278,17 @@
               <p class="text-secondary font-medium text-sm">Microsoft • Seattle • $135k–$175k</p>
             </div>
             <div class="mt-6 flex items-center justify-between">
-              <span class="text-xs font-bold px-3 py-1 bg-blue-50 text-blue-700 rounded-lg">89% Match</span>
-              <span class="text-xs text-outline font-medium">Posted 6h ago</span>
+              <div class="flex items-center gap-2">
+                <span class="text-xs font-bold px-3 py-1 bg-blue-50 text-blue-700 rounded-lg">89% Match</span>
+                <span class="text-xs font-semibold px-2.5 py-1 bg-surface-container-low text-on-surface-variant rounded-lg">Full-time</span>
+              </div>
+              <div class="flex flex-col items-end gap-0.5">
+                <span class="text-xs text-outline font-medium posted-label">Posted 6h ago</span>
+                <span class="text-xs text-outline font-medium">Apply by May 2</span>
+              </div>
             </div>
           </div>
-          <div class="bg-surface-container-lowest p-5 rounded-2xl transition-transform active:scale-95 duration-200" data-job-id="apple-frontend" data-title="Frontend Developer" data-company="Apple" data-location="Cupertino" data-logo="https://logo.clearbit.com/apple.com" data-salary="$145k–$190k">
+          <div class="bg-surface-container-lowest p-5 rounded-2xl transition-transform active:scale-95 duration-200" data-job-id="apple-frontend" data-title="Frontend Developer" data-company="Apple" data-location="Cupertino" data-logo="https://logo.clearbit.com/apple.com" data-salary="$145k–$190k" data-posted="Posted 2d ago" data-deadline="Apr 30" data-work-type="onsite" data-job-type="full-time" data-match="87">
             <div class="flex justify-between items-start mb-4">
               <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
                 <img alt="Apple logo" class="w-8 h-8 object-contain" src="https://logo.clearbit.com/apple.com" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'" />
@@ -267,15 +304,212 @@
             </div>
             <div class="mt-6 flex items-center justify-between">
               <span class="text-xs font-bold px-3 py-1 bg-blue-50 text-blue-700 rounded-lg">87% Match</span>
-              <span class="text-xs text-outline font-medium">Posted 2d ago</span>
+              <div class="flex flex-col items-end gap-0.5">
+                <span class="text-xs text-outline font-medium posted-label">Posted 2d ago</span>
+                <span class="text-xs text-outline font-medium">Apply by Apr 30</span>
+              </div>
             </div>
           </div>
         </div>
       </section>
     </main>
-    <button class="fixed right-6 bottom-28 px-6 py-3 bg-primary text-on-primary rounded-xl shadow-lg font-bold text-sm hover:shadow-xl transition-all active:scale-95 z-40" data-action="go-generator">
-      Add Job
+    <button class="fixed right-6 bottom-28 px-6 py-3 bg-primary text-on-primary rounded-xl shadow-lg font-bold text-sm hover:shadow-xl transition-all active:scale-95 z-40" id="add-job-btn">
+      + Add Job
     </button>
+
+    <!-- Add Job Modal -->
+    <div id="add-job-modal" class="hidden fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-4">
+      <div class="absolute inset-0 bg-black/40" id="modal-backdrop"></div>
+      <div class="relative bg-white w-full sm:max-w-md rounded-t-2xl sm:rounded-2xl shadow-2xl z-10 flex flex-col max-h-[90dvh]">
+        <div class="flex items-center justify-between px-6 pt-6 pb-4 shrink-0">
+          <h2 class="text-xl font-headline font-extrabold text-on-surface">Add Job</h2>
+          <button class="w-8 h-8 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors" id="modal-close">
+            <span class="material-symbols-outlined text-on-surface-variant text-xl">close</span>
+          </button>
+        </div>
+        <form id="add-job-form" class="overflow-y-auto px-6 pb-6 space-y-4">
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1.5">Job Title <span class="text-primary">*</span></label>
+            <input name="title" type="text" required placeholder="e.g. Senior Product Designer"
+              class="w-full px-4 py-3 bg-surface-container-low rounded-xl text-sm border-none focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1.5">Company <span class="text-primary">*</span></label>
+            <input name="company" type="text" required placeholder="e.g. Stripe"
+              class="w-full px-4 py-3 bg-surface-container-low rounded-xl text-sm border-none focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1.5">Location</label>
+              <input name="location" type="text" placeholder="e.g. Remote"
+                class="w-full px-4 py-3 bg-surface-container-low rounded-xl text-sm border-none focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1.5">Work Type</label>
+              <select name="workType" class="w-full px-4 py-3 bg-surface-container-low rounded-xl text-sm border-none focus:ring-2 focus:ring-primary/20 outline-none transition-all appearance-none">
+                <option value="remote">Remote</option>
+                <option value="hybrid">Hybrid</option>
+                <option value="onsite">Onsite</option>
+              </select>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1.5">Job Type</label>
+              <select name="jobType" class="w-full px-4 py-3 bg-surface-container-low rounded-xl text-sm border-none focus:ring-2 focus:ring-primary/20 outline-none transition-all appearance-none">
+                <option value="full-time">Full-time</option>
+                <option value="part-time">Part-time</option>
+                <option value="contract">Contract</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1.5">Salary</label>
+              <input name="salary" type="text" placeholder="e.g. $120k–$150k"
+                class="w-full px-4 py-3 bg-surface-container-low rounded-xl text-sm border-none focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
+            </div>
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1.5">Apply By</label>
+            <input name="deadline" type="text" placeholder="e.g. Apr 30"
+              class="w-full px-4 py-3 bg-surface-container-low rounded-xl text-sm border-none focus:ring-2 focus:ring-primary/20 outline-none transition-all" />
+          </div>
+          <button type="submit" class="w-full bg-primary text-on-primary py-3 rounded-xl font-bold text-sm hover:opacity-90 active:scale-95 transition-all">
+            Add Job
+          </button>
+        </form>
+      </div>
+    </div>
+
     <script src="./app.js"></script>
+    <script>
+      const JOB_TYPE_LABELS = { 'full-time': 'Full-time', 'part-time': 'Part-time', 'contract': 'Contract' };
+
+      function buildJobCard(job) {
+        const initial = (job.company || '?').charAt(0).toUpperCase();
+        const jobTypeLabel = JOB_TYPE_LABELS[job.jobType] || job.jobType;
+        const metaLine = [job.company, job.location, job.salary !== '—' ? job.salary : null].filter(Boolean).join(' • ');
+        const card = document.createElement('div');
+        card.className = 'bg-surface-container-lowest p-5 rounded-2xl transition-transform active:scale-95 duration-200';
+        card.dataset.jobId = job.id;
+        card.dataset.title = job.title;
+        card.dataset.company = job.company || '';
+        card.dataset.location = job.location || '';
+        card.dataset.logo = job.logo || '';
+        card.dataset.salary = job.salary || '—';
+        card.dataset.posted = job.posted || 'Posted just now';
+        card.dataset.deadline = job.deadline || '';
+        card.dataset.workType = job.workType || 'onsite';
+        card.dataset.jobType = job.jobType || 'full-time';
+        card.dataset.match = '0';
+        card.innerHTML = `
+          <div class="flex justify-between items-start mb-4">
+            <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
+              <span class="font-bold text-on-surface-variant text-sm">${initial}</span>
+            </div>
+            <button class="w-10 h-10 rounded-full flex items-center justify-center hover:bg-surface-container-low transition-all duration-200 text-outline bookmark-btn" data-bookmark="unsaved">
+              <span class="material-symbols-outlined pointer-events-none">analytics</span>
+            </button>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold leading-tight">${job.title}</h3>
+            <p class="text-secondary font-medium text-sm">${metaLine}</p>
+          </div>
+          <div class="mt-6 flex items-center justify-between">
+            <span class="text-xs font-semibold px-2.5 py-1 bg-surface-container-low text-on-surface-variant rounded-lg">${jobTypeLabel}</span>
+            <div class="flex flex-col items-end gap-0.5">
+              <span class="text-xs text-outline font-medium posted-label">${job.posted || 'Posted just now'}</span>
+              ${job.deadline ? `<span class="text-xs text-outline font-medium">Apply by ${job.deadline}</span>` : ''}
+            </div>
+          </div>
+        `;
+        return card;
+      }
+
+      function wireCardBookmark(card, job) {
+        const btn = card.querySelector('[data-bookmark]');
+        if (!btn) return;
+        // Restore saved state
+        const saved = JSON.parse(localStorage.getItem('bookmarkedJobs')) || [];
+        if (saved.find(j => j.id === job.id)) {
+          setBookmarkState(btn, true);
+          const sjob = saved.find(j => j.id === job.id);
+          const label = card.querySelector('.posted-label');
+          if (label && sjob?.appliedDate) {
+            const d = new Date(sjob.appliedDate);
+            label.textContent = `Applied ${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+          }
+        }
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          e.stopImmediatePropagation();
+          const isSaved = btn.dataset.bookmark === 'saved';
+          setBookmarkState(btn, !isSaved);
+          const label = card.querySelector('.posted-label');
+          if (isSaved) {
+            removeTrackedJob(job.id);
+            showToast('Removed from tracker.');
+            if (label) label.textContent = job.posted || 'Posted just now';
+          } else {
+            addTrackedJob(card);
+            showToast('Added to tracker.');
+            const today = new Date();
+            if (label) label.textContent = `Applied ${today.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+          }
+        });
+      }
+
+      function loadManualJobs() {
+        const jobs = JSON.parse(localStorage.getItem('manualJobs')) || [];
+        const container = document.querySelector('[data-jobs-container]');
+        if (!container) return;
+        jobs.forEach(job => {
+          if (!container.querySelector(`[data-job-id="${job.id}"]`)) {
+            const card = buildJobCard(job);
+            container.appendChild(card);
+            wireCardBookmark(card, job);
+          }
+        });
+        if (typeof applyFiltersAndSort === 'function') applyFiltersAndSort();
+      }
+
+      document.getElementById('add-job-btn').addEventListener('click', () => {
+        document.getElementById('add-job-modal').classList.remove('hidden');
+        document.getElementById('add-job-form').reset();
+      });
+
+      function closeModal() { document.getElementById('add-job-modal').classList.add('hidden'); }
+      document.getElementById('modal-close').addEventListener('click', closeModal);
+      document.getElementById('modal-backdrop').addEventListener('click', closeModal);
+
+      document.getElementById('add-job-form').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.target));
+        const job = {
+          id: 'manual-' + Date.now(),
+          title: data.title.trim(),
+          company: data.company.trim(),
+          location: data.location.trim(),
+          salary: data.salary.trim() || '—',
+          workType: data.workType,
+          jobType: data.jobType,
+          deadline: data.deadline.trim(),
+          posted: 'Posted just now',
+          logo: '',
+        };
+        const saved = JSON.parse(localStorage.getItem('manualJobs')) || [];
+        saved.unshift(job);
+        localStorage.setItem('manualJobs', JSON.stringify(saved));
+
+        const container = document.querySelector('[data-jobs-container]');
+        const card = buildJobCard(job);
+        container.prepend(card);
+        wireCardBookmark(card, job);
+        if (typeof applyFiltersAndSort === 'function') applyFiltersAndSort();
+        closeModal();
+        showToast(`"${job.title}" added.`);
+      });
+
+      document.addEventListener('DOMContentLoaded', loadManualJobs);
+    </script>
   </body>
 </html>
