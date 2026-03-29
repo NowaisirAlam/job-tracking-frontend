@@ -3,7 +3,7 @@
 <html class="light" lang="en"><head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Rezzap | Application Tracker</title>
+<title>rezapp | Application Tracker</title>
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
@@ -56,8 +56,8 @@
 <header class="sticky top-0 z-50 w-full bg-white flex items-center justify-between px-6 py-4 border-b border-outline-variant/20">
 <div class="flex items-center gap-12">
 <a href="home.html" data-nav="home" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
-<span class="material-symbols-outlined text-primary text-2xl" data-icon="bubble_chart">bubble_chart</span>
-<span class="font-headline font-black text-lg tracking-tight text-on-surface">Rezzap</span>
+<svg class="w-6 h-6 text-primary shrink-0" viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" xmlns="http://www.w3.org/2000/svg"><path d="M10 2h8a2 2 0 0 1 2 2v16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8z"/><path d="M4 8h6V2"/><line x1="6" y1="12" x2="16" y2="12"/><line x1="6" y1="15" x2="16" y2="15"/><line x1="6" y1="18" x2="11" y2="18"/><circle cx="22" cy="18" r="4"/><circle cx="19" cy="23" r="3.5"/></svg>
+<span class="font-headline font-black text-lg tracking-tight text-on-surface">rezapp</span>
 </a>
 <nav class="flex items-center gap-8">
 <a href="search.html" data-nav="search" class="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors">
@@ -85,9 +85,6 @@
 <main class="flex-1 w-full max-w-7xl mx-auto px-6 py-8 md:py-12">
 <!-- Header Section -->
 <div class="mb-10">
-<div class="flex items-center space-x-4 mb-4">
-<div class="w-14 h-14 bg-surface-container-highest rounded-2xl flex items-center justify-center text-3xl">💼</div>
-</div>
 <h2 class="text-4xl font-headline font-extrabold tracking-tight text-on-surface mb-2">Application Tracker</h2>
 <p class="text-on-surface-variant text-lg">Manage your career pipeline with precision.</p>
 </div>
@@ -248,10 +245,10 @@
           <td class="px-6 py-5 text-sm font-medium text-on-surface-variant">${dateAdded}</td>
           <td class="px-6 py-5 text-sm font-medium text-on-surface-variant">${job.deadline || '—'}</td>
           <td class="px-6 py-5">
-            <button onclick="window.location.href='generator.html'" class="text-primary font-semibold text-sm underline hover:opacity-75 transition-opacity">Generate</button>
+            <button onclick="window.location.href='generator.html'" class="text-primary font-semibold text-sm hover:opacity-75 transition-opacity">Generate</button>
           </td>
           <td class="px-6 py-5">
-            <button onclick="window.location.href='generator.html'" class="text-primary font-semibold text-sm underline hover:opacity-75 transition-opacity">Generate</button>
+            <button onclick="window.location.href='generator.html'" class="text-primary font-semibold text-sm hover:opacity-75 transition-opacity">Generate</button>
           </td>
         `;
         tbody.appendChild(row);
