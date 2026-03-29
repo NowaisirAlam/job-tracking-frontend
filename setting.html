@@ -4,6 +4,7 @@
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>Settings - Rezzap</title>
+<script>if (!localStorage.getItem("token")) window.location.replace("login.html");</script>
 <!-- Fonts -->
 <link href="https://fonts.googleapis.com" rel="preconnect"/>
 <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
@@ -353,7 +354,58 @@
 </form>
 </div>
 </div>
+<script src="./api.js"></script>
 <script src="./app.js"></script>
+<script>
+  // Load real user from backend and populate profile fields
+  (function() {
+    api.me().then(user => {
+      const name  = user.full_name || user.name || user.email.split('@')[0];
+      const email = user.email;
+
+      // Display fields
+      document.querySelectorAll('[data-profile-name]').forEach(el => el.textContent = name);
+      document.querySelectorAll('[data-profile-email]').forEach(el => el.textContent = email);
+
+      // Clear placeholder role/location if no real data
+      const role     = user.role     || '';
+      const location = user.location || '';
+      document.querySelectorAll('[data-profile-role]').forEach(el => el.textContent = role);
+      document.querySelectorAll('[data-profile-location]').forEach(el => el.textContent = location);
+      document.querySelectorAll('[data-profile-location-label]').forEach(el => el.textContent = location);
+
+      // Pre-fill edit modal inputs
+      const nameInput     = document.getElementById('profile-name-input');
+      const emailInput    = document.getElementById('profile-email-input');
+      const roleInput     = document.getElementById('profile-role-input');
+      const locationInput = document.getElementById('profile-location-input');
+      if (nameInput)     nameInput.value     = name;
+      if (emailInput)    emailInput.value    = email;
+      if (roleInput)     roleInput.value     = role;
+      if (locationInput) locationInput.value = location;
+
+      // Hide placeholder avatar; show initials instead
+      const avatarImg = document.querySelector('[data-profile-avatar]');
+      if (avatarImg) {
+        avatarImg.onerror = null;
+        avatarImg.src = '';
+        avatarImg.style.display = 'none';
+        const wrap = avatarImg.parentElement;
+        if (wrap && !wrap.querySelector('.initials-avatar')) {
+          const initials = name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+          const div = document.createElement('div');
+          div.className = 'initials-avatar w-full h-full flex items-center justify-center bg-primary text-white font-black text-2xl';
+          div.textContent = initials;
+          wrap.appendChild(div);
+        }
+      }
+    }).catch(() => {
+      // If /me fails (expired token), log out
+      localStorage.removeItem('token');
+      window.location.replace('login.html');
+    });
+  })();
+</script>
 <script>
   (function () {
     const STORAGE_KEY = 'mainResume';
