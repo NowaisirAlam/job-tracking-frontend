@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Login | Rezzap AI Coach</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&amp;family=Manrope:wght@700;800&amp;display=swap" rel="stylesheet"/>
+<!-- Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "on-error-container": "#93000a",
+              "on-secondary-container": "#54647a",
+              "primary-fixed-dim": "#b4c5ff",
+              "on-error": "#ffffff",
+              "inverse-surface": "#2d3133",
+              "on-tertiary-container": "#ffede6",
+              "tertiary": "#943700",
+              "surface-variant": "#e0e3e5",
+              "primary-fixed": "#dbe1ff",
+              "background": "#f7f9fb",
+              "secondary": "#505f76",
+              "on-surface": "#191c1e",
+              "tertiary-fixed-dim": "#ffb596",
+              "surface-tint": "#0053db",
+              "on-tertiary": "#ffffff",
+              "on-primary-container": "#eeefff",
+              "surface-container-low": "#f2f4f6",
+              "secondary-fixed-dim": "#b7c8e1",
+              "secondary-fixed": "#d3e4fe",
+              "on-secondary": "#ffffff",
+              "on-surface-variant": "#434655",
+              "surface-container-high": "#e6e8ea",
+              "on-tertiary-fixed-variant": "#7d2d00",
+              "surface-container-highest": "#e0e3e5",
+              "on-primary-fixed-variant": "#003ea8",
+              "surface": "#f7f9fb",
+              "error-container": "#ffdad6",
+              "error": "#ba1a1a",
+              "primary-container": "#2563eb",
+              "outline-variant": "#c3c6d7",
+              "on-primary-fixed": "#00174b",
+              "on-primary": "#ffffff",
+              "on-secondary-fixed-variant": "#38485d",
+              "primary": "#004ac6",
+              "tertiary-fixed": "#ffdbcd",
+              "inverse-on-surface": "#eff1f3",
+              "on-background": "#191c1e",
+              "tertiary-container": "#bc4800",
+              "surface-container-lowest": "#ffffff",
+              "surface-bright": "#f7f9fb",
+              "secondary-container": "#d0e1fb",
+              "surface-dim": "#d8dadc",
+              "on-secondary-fixed": "#0b1c30",
+              "surface-container": "#eceef0",
+              "on-tertiary-fixed": "#360f00",
+              "outline": "#737686",
+              "inverse-primary": "#b4c5ff"
+            },
+            fontFamily: {
+              "headline": ["Manrope"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-border-input {
+            border: none !important;
+            box-shadow: none !important;
+        }
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface min-h-screen flex flex-col">
+<!-- Main Content -->
+<main class="flex-grow flex items-center justify-center px-6 py-12 md:py-24">
+<div class="w-full max-w-md space-y-10">
+<!-- Branding & Header Section -->
+<div class="text-center space-y-4">
+<div class="flex flex-col items-center justify-center gap-3 mb-6">
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-[#2563EB] text-4xl" data-icon="psychology">psychology</span>
+<span class="font-headline text-3xl font-extrabold tracking-tight text-[#2563EB]">Rezzap</span>
+</div>
+</div>
+<h1 class="font-headline text-4xl font-extrabold tracking-tight text-on-surface">Welcome back</h1>
+<p class="text-on-surface-variant font-medium">Log in to your AI job copilot.</p>
+</div>
+<!-- Social Login Cluster -->
+<div class="space-y-3">
+<button class="w-full flex items-center justify-center gap-3 px-6 py-4 bg-surface-container-lowest rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:bg-surface-container-low transition-colors duration-200">
+<img alt="" class="w-5 h-5" data-alt="Official Google G logo with clean white padding and high contrast colors" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAs8pS9MOomLW-gjvkArWwmvKbT49EZUOHaW7uT-k1KMxrhZzg4rJd7AG45expfahn65wmsrqxCcpGcGnNELZOiuu3Lw_xS2OfAJb984dPmCIuKr_TBGaEg_2aLwH4Az5QQmQeePXKbVfubW0BMJwkhuw5nKpuPFocvInORKS_zOeQpt-WfxNJ4wYO-heFZc-NOVGqoNSlEGFs7F5SwL-9q-FEd88BUjqZsJGAll7Oq5Toqj4hPSRvQ7CqGwUEyzPq6OgoOcSPqK3Mz"/>
+<span class="font-label font-semibold text-on-surface">Continue with Google</span>
+</button>
+<button class="w-full flex items-center justify-center gap-3 px-6 py-4 bg-surface-container-lowest rounded-lg shadow-[0_4px_20px_rgba(0,0,0,0.03)] hover:bg-surface-container-low transition-colors duration-200">
+<svg class="w-5 h-5 text-[#0077b5]" fill="currentColor" viewbox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"></path></svg>
+<span class="font-label font-semibold text-on-surface">Continue with LinkedIn</span>
+</button>
+</div>
+<!-- Divider -->
+<div class="relative flex items-center">
+<div class="flex-grow h-[1px] bg-outline-variant/20"></div>
+<span class="flex-shrink mx-4 text-xs font-bold uppercase tracking-widest text-outline">or log in with email</span>
+<div class="flex-grow h-[1px] bg-outline-variant/20"></div>
+</div>
+<!-- Email Form -->
+<form class="space-y-6">
+<div class="space-y-4">
+<div class="space-y-2">
+<label class="text-sm font-semibold text-on-surface-variant ml-1" for="email">Email Address</label>
+<input class="w-full px-5 py-4 bg-surface-container-low rounded-lg no-border-input focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 transition-all text-on-surface placeholder:text-outline/60 font-body" id="email" placeholder="name@company.com" type="email"/>
+</div>
+<div class="space-y-2">
+<div class="flex justify-between items-center px-1">
+<label class="text-sm font-semibold text-on-surface-variant" for="password">Password</label>
+<a class="text-xs font-bold text-primary hover:underline" href="#">Forgot?</a>
+</div>
+<input class="w-full px-5 py-4 bg-surface-container-low rounded-lg no-border-input focus:bg-surface-container-lowest focus:ring-2 focus:ring-primary/20 transition-all text-on-surface placeholder:text-outline/60 font-body" id="password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<!-- Primary CTA -->
+<button class="w-full py-4 bg-gradient-to-br from-primary to-primary-container text-white font-headline font-bold rounded-lg shadow-lg shadow-primary/20 active:scale-[0.98] transition-all duration-200" type="submit">
+                    Log In
+                </button>
+</form>
+<!-- Footer Link -->
+<div class="text-center pt-4">
+<p class="text-on-surface-variant font-medium">
+                    Don't have an account? 
+                    <a class="text-primary font-bold hover:underline ml-1" href="signup.html">Sign up</a>
+</p>
+</div>
+</div>
+</main>
+<!-- Asymmetric Aesthetic Detail (Floating Elements) -->
+<div class="hidden lg:block fixed -bottom-24 -left-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
+<div class="hidden lg:block fixed -top-24 -right-24 w-64 h-64 bg-secondary-container/10 rounded-full blur-3xl pointer-events-none"></div>
+</body></html>
