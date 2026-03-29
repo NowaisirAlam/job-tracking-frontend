@@ -123,6 +123,8 @@ function wireActionButtons() {
 // e.g. GET /api/jobs?workType=remote&jobType=full-time&sort=salary_desc
 let activeFilters = new Set();
 let activeSort = "match";
+let activeSearchTerm = "";
+let activeLocationTerm = "";
 
 function parseSalaryMax(salaryStr) {
   // Parses "$140k–$180k" → 180000. BACKEND: replace with numeric salary_max field from API.
@@ -161,12 +163,16 @@ function applyFiltersAndSort() {
 
   cards.forEach((card) => {
     let show = true;
+    const title = `${card.dataset.title || ""} ${card.dataset.company || ""}`.toLowerCase();
+    const location = `${card.dataset.location || ""}`.toLowerCase();
     if (activeFilters.has("Remote") && card.dataset.workType !== "remote") show = false;
     if (activeFilters.has("Full-time") && card.dataset.jobType !== "full-time") show = false;
     if (activeFilters.has("Part-time") && card.dataset.jobType !== "part-time") show = false;
     if (activeFilters.has("Salary Range") && (!card.dataset.salary || card.dataset.salary === "—")) show = false;
     // "Most Recent" hides jobs already applied to
     if (activeSort === "recent" && appliedIds.has(card.dataset.jobId)) show = false;
+    if (activeSearchTerm && !title.includes(activeSearchTerm)) show = false;
+    if (activeLocationTerm && !location.includes(activeLocationTerm)) show = false;
     card.style.display = show ? "" : "none";
   });
 
@@ -319,13 +325,35 @@ function removeTrackedJob(jobId) {
 
 function wireSearchInput() {
   const input = document.querySelector("[data-search-input]");
-  if (!input) return;
+  const locationInput = document.querySelector("[data-location-search-input]");
+  if (!input && !locationInput) return;
 
-  input.addEventListener("keydown", (event) => {
+  const updateSearch = () => {
+    activeSearchTerm = input?.value.trim().toLowerCase() || "";
+    activeLocationTerm = locationInput?.value.trim().toLowerCase() || "";
+    applyFiltersAndSort();
+  };
+
+  input?.addEventListener("input", updateSearch);
+  locationInput?.addEventListener("input", updateSearch);
+
+  input?.addEventListener("keydown", (event) => {
     if (event.key !== "Enter") return;
     localStorage.setItem("rezzap-last-search", input.value.trim());
     showToast(input.value.trim() ? `Searching for "${input.value.trim()}"` : "Enter a role or company.");
   });
+
+  locationInput?.addEventListener("keydown", (event) => {
+    if (event.key !== "Enter") return;
+    localStorage.setItem("rezzap-last-location-search", locationInput.value.trim());
+    showToast(locationInput.value.trim() ? `Filtering by "${locationInput.value.trim()}"` : "Enter a location.");
+  });
+
+  const savedRoleSearch = localStorage.getItem("rezzap-last-search");
+  const savedLocationSearch = localStorage.getItem("rezzap-last-location-search");
+  if (input && savedRoleSearch) input.value = savedRoleSearch;
+  if (locationInput && savedLocationSearch) locationInput.value = savedLocationSearch;
+  updateSearch();
 }
 
 function wireApplicationRows() {
