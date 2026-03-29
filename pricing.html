@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Rezzap - Pricing</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .curator-bar {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+        }
+        .price-toggle-shadow {
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "surface-bright": "#f7f9fb",
+                "tertiary-container": "#bc4800",
+                "surface-container-highest": "#e0e3e5",
+                "secondary": "#505f76",
+                "secondary-fixed-dim": "#b7c8e1",
+                "on-surface-variant": "#434655",
+                "inverse-primary": "#b4c5ff",
+                "on-secondary-fixed-variant": "#38485d",
+                "surface": "#f7f9fb",
+                "on-primary-container": "#eeefff",
+                "secondary-container": "#d0e1fb",
+                "tertiary-fixed-dim": "#ffb596",
+                "surface-tint": "#0053db",
+                "surface-container-lowest": "#ffffff",
+                "inverse-on-surface": "#eff1f3",
+                "secondary-fixed": "#d3e4fe",
+                "error-container": "#ffdad6",
+                "on-error": "#ffffff",
+                "on-primary": "#ffffff",
+                "on-background": "#191c1e",
+                "tertiary": "#943700",
+                "surface-container-high": "#e6e8ea",
+                "inverse-surface": "#2d3133",
+                "primary": "#004ac6",
+                "on-secondary": "#ffffff",
+                "surface-dim": "#d8dadc",
+                "on-tertiary": "#ffffff",
+                "on-tertiary-container": "#ffede6",
+                "on-secondary-fixed": "#0b1c30",
+                "surface-variant": "#e0e3e5",
+                "on-tertiary-fixed-variant": "#7d2d00",
+                "surface-container": "#eceef0",
+                "on-surface": "#191c1e",
+                "on-primary-fixed-variant": "#003ea8",
+                "surface-container-low": "#f2f4f6",
+                "on-error-container": "#93000a",
+                "on-primary-fixed": "#00174b",
+                "tertiary-fixed": "#ffdbcd",
+                "background": "#f7f9fb",
+                "on-secondary-container": "#54647a",
+                "error": "#ba1a1a",
+                "primary-fixed-dim": "#b4c5ff",
+                "outline": "#737686",
+                "outline-variant": "#c3c6d7",
+                "on-tertiary-fixed": "#360f00",
+                "primary-fixed": "#dbe1ff",
+                "primary-container": "#2563eb"
+              },
+              fontFamily: {
+                "headline": ["Manrope"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "2xl": "1.5rem", "full": "9999px"},
+            },
+          },
+        }
+      </script>
+<style>
+        body {
+            min-height: max(884px, 100dvh);
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface antialiased">
+<!-- TopAppBar Navigation -->
+<header class="flex justify-between items-center w-full px-8 py-4 sticky top-0 z-50 bg-background/80 backdrop-blur-md border-b border-outline-variant/10">
+<div class="flex items-center gap-8">
+<a href="home.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+<span class="material-symbols-outlined text-primary text-2xl" data-icon="bubble_chart">bubble_chart</span>
+<span class="font-headline font-black text-lg tracking-tight text-on-surface">Rezzap</span>
+</a>
+<nav class="hidden md:flex gap-6">
+<a class="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors" href="home.html">Home</a>
+<a class="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-on-surface-variant hover:text-on-surface hover:bg-surface-container-low rounded-lg transition-colors" href="search.html">Product</a>
+<a class="flex items-center gap-2 px-3 py-2 text-sm font-semibold text-primary hover:bg-surface-container-low rounded-lg transition-colors" href="pricing.html">Pricing</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<a class="hidden sm:block px-5 py-2.5 bg-primary text-on-primary font-bold rounded-xl text-sm hover:shadow-lg transition-all active:scale-95" href="login.html">
+          Log In
+        </a>
+<a class="hidden sm:block px-5 py-2.5 bg-white text-primary font-bold rounded-xl text-sm border border-primary hover:bg-primary/5 transition-all active:scale-95" href="signup.html">
+          Sign Up
+        </a>
+</div>
+</header>
+<main class="max-w-2xl mx-auto px-6 pt-10 pb-32">
+<!-- Hero Section -->
+<section class="text-center mb-12">
+<h2 class="font-headline text-3xl font-extrabold tracking-tight text-on-surface mb-6 leading-tight">
+                Choose the plan that's right for your career.
+            </h2>
+<p class="text-on-surface-variant text-base mb-10 max-w-md mx-auto leading-relaxed">
+                Accelerate your job search with AI-powered resume optimization and tracking.
+            </p>
+<!-- Billing Toggle -->
+<div class="flex items-center justify-center gap-4 mb-12">
+<span class="text-sm font-medium text-secondary">Monthly</span>
+<button class="w-12 h-6 bg-secondary-container/50 rounded-full p-1 flex items-center transition-all duration-300 relative">
+<div class="w-4 h-4 bg-primary rounded-full shadow-sm translate-x-6"></div>
+</button>
+<div class="flex items-center gap-2">
+<span class="text-sm font-bold text-on-surface">Annual</span>
+<span class="bg-tertiary-fixed text-on-tertiary-fixed text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wider">Save 20%</span>
+</div>
+</div>
+</section>
+<!-- Pricing Tiers -->
+<div class="space-y-6">
+<!-- Tier 1: Starter -->
+<div class="bg-surface-container-lowest rounded-2xl p-8 shadow-sm border border-outline-variant/30">
+<div class="mb-6">
+<h3 class="font-headline text-lg font-bold text-secondary mb-1">Starter</h3>
+<div class="flex items-baseline gap-1">
+<span class="text-3xl font-extrabold text-on-surface">Free</span>
+</div>
+</div>
+<ul class="space-y-4 mb-8">
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-sm">5 AI job extractions/mo</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-sm">Basic Resume generation</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-sm">Manual tracker</span>
+</li>
+</ul>
+<button class="w-full py-3.5 px-6 rounded-xl bg-surface-container-high text-primary font-bold text-sm transition-all active:scale-[0.98]">
+                    Get Started
+                </button>
+</div>
+<!-- Tier 2: Pro (Featured) -->
+<div class="relative bg-primary rounded-2xl p-8 text-on-primary shadow-xl shadow-primary/20 z-10 border border-primary-container">
+<div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-tertiary px-5 py-1.5 rounded-full shadow-lg">
+<span class="text-[10px] font-black uppercase tracking-widest text-on-tertiary">Most Popular</span>
+</div>
+<div class="mb-6">
+<h3 class="font-headline text-lg font-bold mb-1 opacity-90">Pro</h3>
+<div class="flex items-baseline gap-1">
+<span class="text-3xl font-extrabold">$19</span>
+<span class="text-sm opacity-70">/mo</span>
+</div>
+</div>
+<ul class="space-y-4 mb-8">
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed text-xl" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-sm font-medium">Unlimited extractions</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed text-xl" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-sm font-medium">AI bullet point improver</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed text-xl" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-sm font-medium">Automatic Notion sync</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary-fixed text-xl" data-icon="verified" style="font-variation-settings: 'FILL' 1;">verified</span>
+<span class="text-sm font-medium">Priority support</span>
+</li>
+</ul>
+<button class="w-full py-4 px-6 rounded-xl bg-surface-container-lowest text-primary font-bold text-sm shadow-md transition-all active:scale-[0.98]">
+                    Go Pro Now
+                </button>
+</div>
+<!-- Tier 3: Enterprise -->
+<div class="bg-surface-container-lowest rounded-2xl p-8 shadow-sm border border-outline-variant/30">
+<div class="mb-6">
+<h3 class="font-headline text-lg font-bold text-secondary mb-1">Enterprise</h3>
+<div class="flex items-baseline gap-1">
+<span class="text-3xl font-extrabold text-on-surface">Custom</span>
+</div>
+</div>
+<ul class="space-y-4 mb-8">
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="corporate_fare">corporate_fare</span>
+<span class="text-sm">For teams &amp; organizations</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-sm">Bulk resume generation</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-sm">API access</span>
+</li>
+<li class="flex items-center gap-3 text-on-surface-variant">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-sm">Dedicated account manager</span>
+</li>
+</ul>
+<button class="w-full py-3.5 px-6 rounded-xl bg-surface-container-high text-on-surface font-bold text-sm transition-all active:scale-[0.98]">
+                    Contact Sales
+                </button>
+</div>
+</div>
+<!-- FAQ Section -->
+<section class="mt-24">
+<h2 class="font-headline text-2xl font-bold text-on-surface mb-10 text-center">Frequently Asked Questions</h2>
+<div class="space-y-4">
+<div class="bg-surface-container-low/50 rounded-2xl p-6 border border-outline-variant/10">
+<h4 class="font-bold text-on-surface text-base mb-2">Can I cancel my Pro subscription at any time?</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Yes, you can cancel your subscription at any time through your account settings. You'll retain access until the end of your billing cycle.</p>
+</div>
+<div class="bg-surface-container-low/50 rounded-2xl p-6 border border-outline-variant/10">
+<h4 class="font-bold text-on-surface text-base mb-2">How do AI job extractions work?</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Our AI scans job descriptions and automatically extracts key skills, keywords, and requirements to tailor your resume perfectly.</p>
+</div>
+<div class="bg-surface-container-low/50 rounded-2xl p-6 border border-outline-variant/10">
+<h4 class="font-bold text-on-surface text-base mb-2">Do you offer discounts for students?</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">We certainly do. Reach out to our support team with your student email address to receive a 50% discount on the Pro plan.</p>
+</div>
+<div class="bg-surface-container-low/50 rounded-2xl p-6 border border-outline-variant/10">
+<h4 class="font-bold text-on-surface text-base mb-2">What is Notion sync?</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">Every job you track in Rezzap is automatically synced to your chosen Notion database, keeping your job hunt perfectly organized.</p>
+</div>
+</div>
+</section>
+<!-- Decorative Image Section -->
+<section class="mt-24 bg-surface-container-lowest rounded-2xl overflow-hidden shadow-xl shadow-black/5 border border-outline-variant/10">
+<img alt="Modern professional workspace" class="w-full h-56 object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCs2e1-Fuik4zEXmueflUZN7nPFELWarvTtaNoH7SYFEUQzk0YvRCiBzfNGTbYiLLFMqxZEFUpA0OpjwJox74ZsLtEHzSiMJfJnLI5bspDz6iPC7BSRq3lNvXDMLzPyxwkCRj7tbLr9q2o7aQXKWqPO457_eyhHq4cKG_DN30TOeW2PB7NbI2wRPdoVvtKES8vMHGQcuvNQoCHuFRdg9oXq3FqOnU6psYb73qiaOQddMOdIh0QBmgr3FId0ErLj6VcQqU8wNbWVeI8j"/>
+<div class="p-10 text-center">
+<h3 class="font-headline font-extrabold text-2xl text-on-surface mb-3">Ready to land your dream job?</h3>
+<p class="text-on-surface-variant text-base mb-8">Join over 10,000 professionals using Rezzap to curate their career path.</p>
+<a class="inline-block bg-primary text-on-primary px-10 py-4 rounded-full font-bold text-base shadow-lg shadow-primary/20 transition-all hover:scale-105 active:scale-95" href="search.html">Get Started Free</a>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full border-t border-outline-variant/20 bg-background px-8 py-16 max-w-7xl mx-auto flex flex-col items-center gap-8 mb-24">
+<div class="flex flex-col gap-2 items-center">
+<span class="font-headline font-extrabold text-primary text-lg">Rezzap AI</span>
+<p class="font-body text-xs text-secondary">© 2024 Rezzap AI. All rights reserved.</p>
+</div>
+<div class="flex flex-wrap justify-center gap-x-8 gap-y-4">
+<a class="font-body text-xs text-secondary hover:text-primary transition-colors" href="#">Privacy Policy</a>
+<a class="font-body text-xs text-secondary hover:text-primary transition-colors" href="#">Terms of Service</a>
+<a class="font-body text-xs text-secondary hover:text-primary transition-colors" href="#">Cookie Policy</a>
+<a class="font-body text-xs text-secondary hover:text-primary transition-colors" href="#">Contact Support</a>
+</div>
+</footer>
+</body></html>
