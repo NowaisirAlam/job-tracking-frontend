@@ -586,6 +586,24 @@ function wireProfileEditor() {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
+  // ── Route guard ───────────────────────────────────────────────────────────
+  const PROTECTED_PAGES = ["search.html", "tracker.html", "generator.html", "setting.html"];
+  const currentPage = window.location.pathname.split("/").pop();
+  if (PROTECTED_PAGES.includes(currentPage) && !localStorage.getItem("token")) {
+    window.location.href = "login.html";
+    return;
+  }
+
+  // ── Logout ────────────────────────────────────────────────────────────────
+  document.querySelectorAll("[data-action='logout']").forEach((btn) => {
+    btn.addEventListener("click", async (e) => {
+      e.preventDefault();
+      if (typeof api !== "undefined") await api.logout();
+      else { localStorage.removeItem("token"); localStorage.removeItem("user_id"); localStorage.removeItem("user_email"); }
+      window.location.href = "login.html";
+    });
+  });
+
   wireNavigation();
   wirePlaceholderLinks();
   wireActionButtons();
