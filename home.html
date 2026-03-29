@@ -90,7 +90,10 @@
       }
 
       .hero-gradient {
-        background: radial-gradient(circle at 50% -20%, #dbeafe 0%, #f8faff 70%);
+        background:
+          radial-gradient(circle 650px at var(--mx, 50%) var(--my, 40%), rgba(29, 78, 216, 0.18) 0%, transparent 80%),
+          radial-gradient(circle at 60% -10%, #bfdbfe 0%, #dbeafe 35%, #f8faff 70%);
+        transition: background 0.08s ease;
       }
 
       body {
@@ -237,5 +240,26 @@
       </div>
     </footer>
     <script src="./app.js"></script>
+    <script>
+      (function () {
+        const hero = document.querySelector('.hero-gradient');
+        let raf;
+        hero.addEventListener('mousemove', (e) => {
+          cancelAnimationFrame(raf);
+          raf = requestAnimationFrame(() => {
+            const rect = hero.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width  * 100).toFixed(2) + '%';
+            const y = ((e.clientY - rect.top)  / rect.height * 100).toFixed(2) + '%';
+            hero.style.setProperty('--mx', x);
+            hero.style.setProperty('--my', y);
+          });
+        });
+        hero.addEventListener('mouseleave', () => {
+          cancelAnimationFrame(raf);
+          hero.style.setProperty('--mx', '50%');
+          hero.style.setProperty('--my', '40%');
+        });
+      })();
+    </script>
   </body>
 </html>
