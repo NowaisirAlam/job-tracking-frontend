@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Rezzap Dashboard</title>
+    <script>if (!localStorage.getItem("token")) window.location.replace("login.html");</script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link
       href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap"
@@ -172,6 +173,10 @@
               id="location-search-input"
             />
           </div>
+          <button id="search-btn" onclick="runSearch()" class="px-6 py-4 bg-primary text-white font-bold rounded-xl hover:opacity-90 active:scale-95 transition-all whitespace-nowrap flex items-center gap-2">
+            <span class="material-symbols-outlined text-sm">search</span>
+            Search
+          </button>
         </div>
         <div class="flex gap-2 overflow-x-auto pb-2 no-scrollbar" data-filter-group>
           <button class="flex items-center gap-2 px-4 py-2 bg-surface-container-low text-secondary rounded-full text-sm font-semibold whitespace-nowrap" data-filter="Remote">
@@ -445,6 +450,7 @@
       </div>
     </div>
 
+    <script src="./api.js"></script>
     <script src="./app.js"></script>
     <script>
       const JOB_TYPE_LABELS = { 'full-time': 'Full-time', 'part-time': 'Part-time', 'contract': 'Contract' };
@@ -465,7 +471,7 @@
         card.dataset.deadline = job.deadline || '';
         card.dataset.workType = job.workType || 'onsite';
         card.dataset.jobType = job.jobType || 'full-time';
-        card.dataset.match = '0';
+        card.dataset.match = job.match || '0';
         card.innerHTML = `
           <div class="flex justify-between items-start mb-4">
             <div class="w-12 h-12 rounded-xl bg-slate-100 flex items-center justify-center">
@@ -493,30 +499,36 @@
       function wireCardBookmark(card, job) {
         const btn = card.querySelector('[data-bookmark]');
         if (!btn) return;
-        // Restore saved state
-        const saved = JSON.parse(localStorage.getItem('bookmarkedJobs')) || [];
-        if (saved.find(j => j.id === job.id)) {
-          setBookmarkState(btn, true);
-          const sjob = saved.find(j => j.id === job.id);
-          const label = card.querySelector('.posted-label');
-          if (label && sjob?.appliedDate) {
-            const d = new Date(sjob.appliedDate);
-            label.textContent = `Applied ${d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
-          }
-        }
-        btn.addEventListener('click', (e) => {
+        btn.addEventListener('click', async (e) => {
           e.preventDefault();
           e.stopImmediatePropagation();
           const isSaved = btn.dataset.bookmark === 'saved';
           setBookmarkState(btn, !isSaved);
           const label = card.querySelector('.posted-label');
           if (isSaved) {
-            removeTrackedJob(job.id);
             showToast('Removed from tracker.');
             if (label) label.textContent = job.posted || 'Posted just now';
           } else {
-            addTrackedJob(card);
-            showToast('Added to tracker.');
+            showToast('Saving to tracker...');
+            try {
+              const result = await api.saveJob({
+                title:           job.title,
+                company:         job.company || '',
+                location:        job.location || '',
+                description:     job.description || job.title + ' at ' + (job.company || ''),
+                url:             job.url || '',
+                salary:          job.salary !== '—' ? job.salary : 'Not listed',
+                employment_type: job.jobType || '',
+              });
+              // Update card's job id to the Supabase id
+              card.dataset.jobId = result.id;
+              job.id = result.id;
+              showToast('Added to tracker.');
+            } catch (err) {
+              setBookmarkState(btn, false);
+              showToast('Failed to save: ' + err.message);
+              return;
+            }
             const today = new Date();
             if (label) label.textContent = `Applied ${today.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
           }
@@ -575,6 +587,58 @@
       });
 
       document.addEventListener('DOMContentLoaded', loadManualJobs);
+
+      // ── Real job search ────────────────────────────────────────────────────
+      async function runSearch() {
+        const query    = document.getElementById('role-search-input').value.trim();
+        const location = document.getElementById('location-search-input').value.trim() || 'Kitchener Ontario';
+        if (!query) { showToast('Enter a role to search.'); return; }
+
+        const container = document.querySelector('[data-jobs-container]');
+        if (!container) return;
+
+        showToast('Searching...');
+        try {
+          const jobs = await api.searchJobs(query, location);
+          // Clear ALL existing cards (demo + previous api results)
+          container.innerHTML = '';
+
+          jobs.forEach((j, index) => {
+            const job = {
+              id:          'api-' + Date.now() + Math.random(),
+              title:       j.title,
+              company:     j.company,
+              location:    j.location,
+              salary:      j.salary || '—',
+              posted:      j.posted_at ? 'Posted ' + new Date(j.posted_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) : 'Posted recently',
+              workType:    j.is_remote ? 'remote' : 'onsite',
+              jobType:     (j.employment_type || 'FULLTIME').replace('FULLTIME','full-time').replace('PARTTIME','part-time').replace('CONTRACTOR','contract').toLowerCase(),
+              deadline:    '',
+              logo:        '',
+              url:         j.url || '',
+              description: j.description || '',
+              match:       j.match_score || Math.max(10, 90 - index * 5),
+            };
+            const card = buildJobCard(job);
+            card.dataset.source = 'api';
+            card.dataset.match = job.match;
+            container.appendChild(card);
+            wireCardBookmark(card, job);
+          });
+
+          if (typeof applyFiltersAndSort === 'function') applyFiltersAndSort();
+          showToast('Found ' + jobs.length + ' jobs.');
+        } catch (err) {
+          showToast('Search failed: ' + err.message);
+        }
+      }
+
+      document.getElementById('role-search-input')?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); runSearch(); }
+      });
+      document.getElementById('location-search-input')?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') { e.preventDefault(); runSearch(); }
+      });
 
       // --- Profile Setup Modal ---
       (function () {
