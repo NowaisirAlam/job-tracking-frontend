@@ -122,44 +122,7 @@
 </table>
 </div>
 <!-- Mobile Card-based View -->
-<div class="md:hidden space-y-4">
-<!-- Mobile Card 1 -->
-<div class="bg-white p-5 rounded-2xl border border-outline-variant/30 shadow-sm active:scale-[0.98] transition-all">
-<div class="flex justify-between items-start mb-4">
-<div class="flex items-center space-x-3">
-<div class="w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center">
-<span class="material-symbols-outlined text-primary">description</span>
-</div>
-<div>
-<h3 class="font-headline font-bold text-on-surface">Senior Product Designer</h3>
-<p class="text-xs font-medium text-on-surface-variant">Stripe</p>
-</div>
-</div>
-<span class="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider notion-tag-blue">Interviewing</span>
-</div>
-<div class="flex justify-between items-center text-xs pt-4 border-t notion-border">
-<span class="text-on-surface-variant font-medium">Added Mar 12, 2024</span>
-<span class="text-primary font-bold flex items-center gap-1">View details <span class="material-symbols-outlined text-sm">arrow_forward</span></span>
-</div>
-</div>
-<!-- Mobile Card 2 -->
-<div class="bg-white p-5 rounded-2xl border border-outline-variant/30 shadow-sm">
-<div class="flex justify-between items-start mb-4">
-<div class="flex items-center space-x-3">
-<div class="w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center">
-<span class="material-symbols-outlined text-primary">description</span>
-</div>
-<div>
-<h3 class="font-headline font-bold text-on-surface">Frontend Architect</h3>
-<p class="text-xs font-medium text-on-surface-variant">Linear</p>
-</div>
-</div>
-<span class="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider notion-tag-green">Offer</span>
-</div>
-<div class="flex justify-between items-center text-xs pt-4 border-t notion-border">
-<span class="text-on-surface-variant font-medium">Added Mar 14, 2024</span>
-<span class="text-primary font-bold flex items-center gap-1">View details <span class="material-symbols-outlined text-sm">arrow_forward</span></span>
-</div>
+<div class="md:hidden space-y-4" id="bookmarked-jobs-mobile">
 </div>
 <!-- BottomNavBar Component (from COMPONENTS_22) -->
 <nav class="fixed bottom-0 w-full z-50 rounded-t-2xl border-t border-[#c7c4d8]/20 bg-white shadow-[0_-12px_40px_rgba(17,28,45,0.06)] lg:hidden">
@@ -183,89 +146,90 @@
 </div>
 </nav>
 <script>
-    // Load bookmarked jobs from localStorage and populate table
     function loadBookmarkedJobs() {
       const tbody = document.getElementById('bookmarked-jobs-tbody');
+      const mobileContainer = document.getElementById('bookmarked-jobs-mobile');
       const bookmarkedJobs = JSON.parse(localStorage.getItem('bookmarkedJobs')) || [];
-      
-      // Clear existing rows
+
+      const emptyMsg = '<tr><td colspan="7" class="px-6 py-8 text-center text-on-surface-variant">No tracked jobs yet. Go to Job Search and select positions to track.</td></tr>';
+      const emptyMobileMsg = '<p class="text-center text-on-surface-variant py-8">No tracked jobs yet. Go to Job Search and select positions to track.</p>';
+
       tbody.innerHTML = '';
-      
+      mobileContainer.innerHTML = '';
+
       if (bookmarkedJobs.length === 0) {
-        tbody.innerHTML = '<tr><td colspan="7" class="px-6 py-8 text-center text-on-surface-variant">No bookmarked jobs yet. Go to Job Search to bookmark positions.</td></tr>';
+        tbody.innerHTML = emptyMsg;
+        mobileContainer.innerHTML = emptyMobileMsg;
         return;
       }
-      
-      // Define job details
-      const jobDetails = {
-        'figma-ux': {
-          status: 'Offer',
-          statusClass: 'notion-tag-green',
-          salary: '$200K - $240K',
-          dateAdded: 'Mar 14, 2024',
-          resume: 'View',
-          coverLetter: 'View'
-        },
-        'microsoft-software': {
-          status: 'Offer',
-          statusClass: 'notion-tag-green',
-          salary: '$200K - $240K',
-          dateAdded: 'Mar 14, 2024',
-          resume: 'View',
-          coverLetter: 'View'
-        }
-      };
-      
+
       bookmarkedJobs.forEach(job => {
         const jobId = typeof job === 'string' ? job : job.id;
-        const jobTitle = typeof job === 'string' ? '' : job.title;
+        const jobTitle = typeof job === 'string' ? jobId : job.title;
         const jobCompany = typeof job === 'string' ? '' : job.company;
-        const details = jobDetails[jobId] || {
-          status: 'Submitted',
-          statusClass: 'notion-tag-orange',
-          salary: '$150K - $180K',
-          dateAdded: 'Mar 15, 2024',
-          resume: 'View',
-          coverLetter: 'View'
-        };
-        
+        const dateAdded = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+        const logoHtml = job.logo
+          ? `<img src="${job.logo}" alt="${jobCompany} logo" class="w-full h-full object-contain p-1" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+          : '';
+
+        // Desktop row
         const row = document.createElement('tr');
         row.className = 'hover:bg-surface-container-low/20 transition-colors cursor-pointer group';
         row.innerHTML = `
           <td class="px-6 py-5">
             <div class="flex items-center space-x-3">
-              <div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center">
-                <span class="material-symbols-outlined text-primary text-[18px]">description</span>
+              <div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center overflow-hidden">
+                ${logoHtml}<span class="material-symbols-outlined text-primary text-[18px]" style="${job.logo ? 'display:none' : ''}">description</span>
               </div>
               <span class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">${jobTitle}</span>
             </div>
           </td>
           <td class="px-6 py-5 text-sm font-medium text-on-surface-variant">${jobCompany}</td>
           <td class="px-6 py-5">
-            <span class="px-3 py-1 rounded-lg text-xs font-bold ${details.statusClass}">${details.status}</span>
+            <span class="px-3 py-1 rounded-lg text-xs font-bold notion-tag-gray">Pending</span>
           </td>
-          <td class="px-6 py-5 text-sm font-medium text-on-surface-variant">${details.salary}</td>
-          <td class="px-6 py-5 text-sm font-medium text-on-surface-variant">${details.dateAdded}</td>
+          <td class="px-6 py-5 text-sm font-medium text-on-surface-variant">—</td>
+          <td class="px-6 py-5 text-sm font-medium text-on-surface-variant">${dateAdded}</td>
           <td class="px-6 py-5">
             <button class="text-primary font-semibold text-sm hover:underline flex items-center gap-1">
-              <span class="material-symbols-outlined text-base">description</span>
-              ${details.resume}
+              <span class="material-symbols-outlined text-base">description</span>View
             </button>
           </td>
           <td class="px-6 py-5">
             <button class="text-primary font-semibold text-sm hover:underline flex items-center gap-1">
-              <span class="material-symbols-outlined text-base">description</span>
-              ${details.coverLetter}
+              <span class="material-symbols-outlined text-base">description</span>View
             </button>
           </td>
         `;
         tbody.appendChild(row);
+
+        // Mobile card
+        const card = document.createElement('div');
+        card.className = 'bg-white p-5 rounded-2xl border border-outline-variant/30 shadow-sm active:scale-[0.98] transition-all';
+        card.innerHTML = `
+          <div class="flex justify-between items-start mb-4">
+            <div class="flex items-center space-x-3">
+              <div class="w-10 h-10 rounded-xl bg-surface-container-highest flex items-center justify-center overflow-hidden">
+                ${job.logo ? `<img src="${job.logo}" alt="${jobCompany} logo" class="w-full h-full object-contain p-1" onerror="this.style.display='none'">` : '<span class="material-symbols-outlined text-primary">description</span>'}
+              </div>
+              <div>
+                <h3 class="font-headline font-bold text-on-surface">${jobTitle}</h3>
+                <p class="text-xs font-medium text-on-surface-variant">${jobCompany}</p>
+              </div>
+            </div>
+            <span class="px-2.5 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider notion-tag-gray">Pending</span>
+          </div>
+          <div class="flex justify-between items-center text-xs pt-4 border-t notion-border">
+            <span class="text-on-surface-variant font-medium">Added ${dateAdded}</span>
+            <span class="text-primary font-bold flex items-center gap-1">View details <span class="material-symbols-outlined text-sm">arrow_forward</span></span>
+          </div>
+        `;
+        mobileContainer.appendChild(card);
       });
     }
-    
+
     document.addEventListener('DOMContentLoaded', loadBookmarkedJobs);
-    
-    // Listen for storage changes (for when bookmarks are updated in another tab)
     window.addEventListener('storage', loadBookmarkedJobs);
 </script>
 </body></html>

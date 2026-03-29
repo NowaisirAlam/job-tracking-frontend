@@ -121,19 +121,59 @@ function wireSearchFilters() {
 }
 
 function wireBookmarks() {
+  const saved = JSON.parse(localStorage.getItem("bookmarkedJobs")) || [];
+  const savedIds = saved.map((j) => j.id);
+
   document.querySelectorAll("[data-bookmark]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const icon = button.querySelector(".material-symbols-outlined");
-      const active = button.dataset.bookmark === "saved";
-      button.dataset.bookmark = active ? "unsaved" : "saved";
-      button.classList.toggle("bg-blue-50", !active);
-      button.classList.toggle("text-blue-600", !active);
-      if (icon) {
-        icon.style.fontVariationSettings = active ? "'FILL' 0" : "'FILL' 1";
+    const card = button.closest("[data-job-id]");
+    if (card && savedIds.includes(card.dataset.jobId)) {
+      setBookmarkState(button, true);
+    }
+
+    button.addEventListener("click", (e) => {
+      e.stopPropagation();
+      const isSaved = button.dataset.bookmark === "saved";
+      setBookmarkState(button, !isSaved);
+
+      if (isSaved) {
+        removeTrackedJob(card?.dataset.jobId);
+        showToast("Removed from tracker.");
+      } else {
+        addTrackedJob(card);
+        showToast("Added to tracker.");
       }
-      showToast(active ? "Removed bookmark." : "Saved job.");
     });
   });
+}
+
+function setBookmarkState(button, active) {
+  const icon = button.querySelector(".material-symbols-outlined");
+  button.dataset.bookmark = active ? "saved" : "unsaved";
+  button.classList.toggle("bg-blue-50", active);
+  button.classList.toggle("text-primary", active);
+  button.classList.toggle("text-outline", !active);
+  if (icon) icon.style.fontVariationSettings = active ? "'FILL' 1" : "'FILL' 0";
+}
+
+function addTrackedJob(card) {
+  if (!card) return;
+  const jobs = JSON.parse(localStorage.getItem("bookmarkedJobs")) || [];
+  if (!jobs.find((j) => j.id === card.dataset.jobId)) {
+    jobs.push({
+      id: card.dataset.jobId,
+      title: card.dataset.title,
+      company: card.dataset.company,
+      location: card.dataset.location,
+      logo: card.dataset.logo,
+    });
+    localStorage.setItem("bookmarkedJobs", JSON.stringify(jobs));
+  }
+}
+
+function removeTrackedJob(jobId) {
+  if (!jobId) return;
+  const jobs = JSON.parse(localStorage.getItem("bookmarkedJobs")) || [];
+  localStorage.setItem("bookmarkedJobs", JSON.stringify(jobs.filter((j) => j.id !== jobId)));
 }
 
 function wireSearchInput() {
