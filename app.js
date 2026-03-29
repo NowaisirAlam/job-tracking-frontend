@@ -326,6 +326,127 @@ function wireGeneratorTools() {
   textarea?.addEventListener("input", saveDraftState);
 }
 
+function wireProfileEditor() {
+  const modal = document.querySelector("[data-profile-modal]");
+  const form = document.querySelector("[data-profile-form]");
+  const openButton = document.querySelector("[data-open-profile-modal]");
+  const closeButtons = document.querySelectorAll("[data-close-profile-modal]");
+
+  if (!modal || !form || !openButton) return;
+
+  const fields = {
+    avatar: form.querySelector("[name='avatar']"),
+    name: form.querySelector("[name='name']"),
+    role: form.querySelector("[name='role']"),
+    email: form.querySelector("[name='email']"),
+    location: form.querySelector("[name='location']"),
+  };
+
+  const outputs = {
+    avatar: document.querySelector("[data-profile-avatar]"),
+    avatarPreview: document.querySelector("[data-profile-avatar-preview]"),
+    name: document.querySelector("[data-profile-name]"),
+    role: document.querySelector("[data-profile-role]"),
+    email: document.querySelector("[data-profile-email]"),
+    location: document.querySelector("[data-profile-location]"),
+    locationLabel: document.querySelector("[data-profile-location-label]"),
+  };
+
+  const storageKey = "rezzap-profile";
+  const defaultAvatar = outputs.avatar?.getAttribute("src") || outputs.avatarPreview?.getAttribute("src") || "";
+
+  const openModal = () => {
+    modal.classList.remove("hidden");
+    modal.classList.add("flex");
+  };
+
+  const closeModal = () => {
+    modal.classList.add("hidden");
+    modal.classList.remove("flex");
+  };
+
+  const applyProfile = (profile) => {
+    if (outputs.avatar && profile.avatar) outputs.avatar.src = profile.avatar;
+    if (outputs.avatarPreview && profile.avatar) outputs.avatarPreview.src = profile.avatar;
+    if (outputs.name) outputs.name.textContent = profile.name;
+    if (outputs.role) outputs.role.textContent = profile.role;
+    if (outputs.email) outputs.email.textContent = profile.email;
+    if (outputs.location) outputs.location.textContent = profile.location;
+    if (outputs.locationLabel) outputs.locationLabel.textContent = profile.location;
+    if (fields.name) fields.name.value = profile.name;
+    if (fields.role) fields.role.value = profile.role;
+    if (fields.email) fields.email.value = profile.email;
+    if (fields.location) fields.location.value = profile.location;
+  };
+
+  const defaultProfile = {
+    avatar: defaultAvatar,
+    name: fields.name?.value || outputs.name?.textContent?.trim() || "Alex Thompson",
+    role: fields.role?.value || outputs.role?.textContent?.trim() || "Senior Product Designer",
+    email: fields.email?.value || outputs.email?.textContent?.trim() || "alex.thompson@design.io",
+    location: fields.location?.value || outputs.location?.textContent?.trim() || "San Francisco, CA",
+  };
+
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey));
+    if (saved) {
+      applyProfile({ ...defaultProfile, ...saved });
+    } else {
+      applyProfile(defaultProfile);
+    }
+  } catch {
+    applyProfile(defaultProfile);
+  }
+
+  openButton.addEventListener("click", openModal);
+
+  closeButtons.forEach((button) => {
+    button.addEventListener("click", closeModal);
+  });
+
+  modal.addEventListener("click", (event) => {
+    if (event.target === modal) closeModal();
+  });
+
+  fields.avatar?.addEventListener("change", () => {
+    const file = fields.avatar.files?.[0];
+    if (!file) return;
+    if (!file.type.startsWith("image/")) {
+      showToast("Please choose an image file.");
+      fields.avatar.value = "";
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = typeof reader.result === "string" ? reader.result : defaultAvatar;
+      if (outputs.avatarPreview) outputs.avatarPreview.src = result;
+      if (outputs.avatar) outputs.avatar.src = result;
+      fields.avatar.dataset.uploadedImage = result;
+    };
+    reader.readAsDataURL(file);
+  });
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const profile = {
+      avatar: fields.avatar?.dataset.uploadedImage || outputs.avatar?.getAttribute("src") || defaultAvatar,
+      name: fields.name?.value.trim() || defaultProfile.name,
+      role: fields.role?.value.trim() || defaultProfile.role,
+      email: fields.email?.value.trim() || defaultProfile.email,
+      location: fields.location?.value.trim() || defaultProfile.location,
+    };
+    localStorage.setItem(storageKey, JSON.stringify(profile));
+    applyProfile(profile);
+    if (fields.avatar) {
+      fields.avatar.value = "";
+      delete fields.avatar.dataset.uploadedImage;
+    }
+    closeModal();
+    showToast("Profile saved locally.");
+  });
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   wireNavigation();
   wirePlaceholderLinks();
@@ -335,4 +456,5 @@ document.addEventListener("DOMContentLoaded", () => {
   wireSearchInput();
   wireApplicationRows();
   wireGeneratorTools();
+  wireProfileEditor();
 });

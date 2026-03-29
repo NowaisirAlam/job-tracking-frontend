@@ -138,29 +138,29 @@
 <div class="flex items-center gap-6">
 <div class="relative group">
 <div class="w-20 h-20 rounded-2xl overflow-hidden shadow-sm">
-<img class="w-full h-full object-cover" data-alt="close-up portrait of a professional male in his 30s with short hair and glasses, looking confident, soft office lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWcrMV9gNoZW-w0_dAi-wmBGc4KU-MLWIzgD1s2C88oqwR9Q5mlLH0B2RMzWC768w1FmIWd8BKUCkYg8kYALbyNIPo3M7l_FIMDo6M_oWjdqxNPoQO9rQY74QUstnpi1K2_LZBSnWNTJpTvdnPsIf8QArpESX3rVVTwRJlCVKAhCo65Q_waU5NInY_A63zXTyAi6TcdlkCUK7o2ZfINyurHkiP1yu_8zkRp-z60CWvt3AAOMeaD_2eN55y7oDVOKjVgjd5rK1Lod-W"/>
+<img class="w-full h-full object-cover" data-alt="close-up portrait of a professional male in his 30s with short hair and glasses, looking confident, soft office lighting" data-profile-avatar src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWcrMV9gNoZW-w0_dAi-wmBGc4KU-MLWIzgD1s2C88oqwR9Q5mlLH0B2RMzWC768w1FmIWd8BKUCkYg8kYALbyNIPo3M7l_FIMDo6M_oWjdqxNPoQO9rQY74QUstnpi1K2_LZBSnWNTJpTvdnPsIf8QArpESX3rVVTwRJlCVKAhCo65Q_waU5NInY_A63zXTyAi6TcdlkCUK7o2ZfINyurHkiP1yu_8zkRp-z60CWvt3AAOMeaD_2eN55y7oDVOKjVgjd5rK1Lod-W"/>
 </div>
 <button class="absolute -bottom-2 -right-2 bg-primary text-white p-1.5 rounded-lg shadow-lg hover:bg-blue-700 transition-colors">
 <span class="material-symbols-outlined text-sm">edit</span>
 </button>
 </div>
 <div>
-<h3 class="text-xl font-bold text-on-surface">Alex Thompson</h3>
-<p class="text-on-surface-variant text-sm">Senior Product Designer • San Francisco, CA</p>
+<h3 class="text-xl font-bold text-on-surface" data-profile-name>Alex Thompson</h3>
+<p class="text-on-surface-variant text-sm"><span data-profile-role>Senior Product Designer</span> • <span data-profile-location>San Francisco, CA</span></p>
 </div>
 </div>
-<button class="px-4 py-2 bg-blue-50 text-primary text-sm font-semibold rounded-lg hover:bg-blue-100 transition-colors">
+<button class="px-4 py-2 bg-blue-50 text-primary text-sm font-semibold rounded-lg hover:bg-blue-100 transition-colors" data-open-profile-modal>
                                 Edit Profile
                             </button>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
 <div class="space-y-1">
 <label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-wider">Email Address</label>
-<p class="text-on-surface font-medium">alex.thompson@design.io</p>
+<p class="text-on-surface font-medium" data-profile-email>alex.thompson@design.io</p>
 </div>
 <div class="space-y-1">
-<label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-wider">Timezone</label>
-<p class="text-on-surface font-medium">Pacific Time (PT) — UTC-8</p>
+<label class="text-[0.6875rem] font-bold text-on-surface-variant uppercase tracking-wider">Location</label>
+<p class="text-on-surface font-medium" data-profile-location-label>San Francisco, CA</p>
 </div>
 </div>
 </div>
@@ -265,4 +265,52 @@
 <span class="text-[10px] font-bold">Settings</span>
 </a>
 </nav>
+<div class="fixed inset-0 z-[70] hidden items-center justify-center bg-slate-950/40 px-4" data-profile-modal>
+<div class="w-full max-w-lg rounded-2xl bg-white p-8 shadow-2xl">
+<div class="flex items-start justify-between gap-4">
+<div>
+<h2 class="text-2xl font-bold text-on-surface">Edit Profile</h2>
+<p class="mt-1 text-sm text-on-surface-variant">Update your account details and save them to this device.</p>
+</div>
+<button class="rounded-lg p-2 text-on-surface-variant hover:bg-surface-container-low" type="button" data-close-profile-modal>
+<span class="material-symbols-outlined">close</span>
+</button>
+</div>
+<form class="mt-6 space-y-5" data-profile-form>
+<div class="space-y-2">
+<label class="text-sm font-semibold text-on-surface-variant" for="profile-avatar-input">Profile Photo</label>
+<div class="flex items-center gap-4">
+<div class="h-16 w-16 overflow-hidden rounded-2xl bg-surface-container-low">
+<img class="h-full w-full object-cover" data-profile-avatar-preview src="https://lh3.googleusercontent.com/aida-public/AB6AXuBWcrMV9gNoZW-w0_dAi-wmBGc4KU-MLWIzgD1s2C88oqwR9Q5mlLH0B2RMzWC768w1FmIWd8BKUCkYg8kYALbyNIPo3M7l_FIMDo6M_oWjdqxNPoQO9rQY74QUstnpi1K2_LZBSnWNTJpTvdnPsIf8QArpESX3rVVTwRJlCVKAhCo65Q_waU5NInY_A63zXTyAi6TcdlkCUK7o2ZfINyurHkiP1yu_8zkRp-z60CWvt3AAOMeaD_2eN55y7oDVOKjVgjd5rK1Lod-W"/>
+</div>
+<div class="space-y-2">
+<input accept="image/*" class="block w-full text-sm text-on-surface file:mr-4 file:rounded-lg file:border-0 file:bg-primary file:px-4 file:py-2 file:font-semibold file:text-white hover:file:bg-blue-700" id="profile-avatar-input" name="avatar" type="file"/>
+<p class="text-xs text-on-surface-variant">Upload a JPG, PNG, or other image for your profile.</p>
+</div>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-semibold text-on-surface-variant" for="profile-name-input">Full Name</label>
+<input class="w-full rounded-xl border border-outline-variant/30 px-4 py-3 focus:border-primary focus:ring-primary/20" id="profile-name-input" name="name" type="text" value="Alex Thompson"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-semibold text-on-surface-variant" for="profile-role-input">Role</label>
+<input class="w-full rounded-xl border border-outline-variant/30 px-4 py-3 focus:border-primary focus:ring-primary/20" id="profile-role-input" name="role" type="text" value="Senior Product Designer"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-semibold text-on-surface-variant" for="profile-email-input">Email Address</label>
+<input class="w-full rounded-xl border border-outline-variant/30 px-4 py-3 focus:border-primary focus:ring-primary/20" id="profile-email-input" name="email" type="email" value="alex.thompson@design.io"/>
+</div>
+<div class="space-y-2">
+<label class="text-sm font-semibold text-on-surface-variant" for="profile-location-input">Location</label>
+<input class="w-full rounded-xl border border-outline-variant/30 px-4 py-3 focus:border-primary focus:ring-primary/20" id="profile-location-input" name="location" type="text" value="San Francisco, CA"/>
+</div>
+<div class="flex justify-end gap-3 pt-2">
+<button class="rounded-xl border border-outline-variant/30 px-4 py-3 text-sm font-semibold text-on-surface hover:bg-surface-container-low" type="button" data-close-profile-modal>Cancel</button>
+<button class="rounded-xl bg-primary px-5 py-3 text-sm font-bold text-on-primary hover:opacity-90" type="submit">Save Changes</button>
+</div>
+</form>
+</div>
+</div>
+<script src="./app.js"></script>
 </body></html>
