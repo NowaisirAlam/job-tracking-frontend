@@ -112,58 +112,12 @@
 <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline">Company</th>
 <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline">Status</th>
 <th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline">Salary</th>
-<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline text-right">Date Added</th>
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline">Date Added</th>
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline">Resume</th>
+<th class="px-6 py-4 text-xs font-bold text-on-surface-variant uppercase tracking-wider font-headline">Cover Letter</th>
 </tr>
 </thead>
-<tbody class="divide-y notion-border">
-<tr class="hover:bg-surface-container-low/20 transition-colors cursor-pointer group">
-<td class="px-6 py-5">
-<div class="flex items-center space-x-3">
-<div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center">
-<span class="material-symbols-outlined text-primary text-[18px]">description</span>
-</div>
-<span class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">Senior Product Designer</span>
-</div>
-</td>
-<td class="px-6 py-5 text-sm font-medium text-on-surface-variant">Stripe</td>
-<td class="px-6 py-5">
-<span class="px-3 py-1 rounded-lg text-xs font-bold notion-tag-blue">Interviewing</span>
-</td>
-<td class="px-6 py-5 text-sm font-medium text-on-surface-variant">$180K - $220K</td>
-<td class="px-6 py-5 text-sm text-on-surface-variant text-right font-medium">Mar 12, 2024</td>
-</tr>
-<tr class="hover:bg-surface-container-low/20 transition-colors cursor-pointer group">
-<td class="px-6 py-5">
-<div class="flex items-center space-x-3">
-<div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center">
-<span class="material-symbols-outlined text-primary text-[18px]">description</span>
-</div>
-<span class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">Frontend Architect</span>
-</div>
-</td>
-<td class="px-6 py-5 text-sm font-medium text-on-surface-variant">Linear</td>
-<td class="px-6 py-5">
-<span class="px-3 py-1 rounded-lg text-xs font-bold notion-tag-green">Offer</span>
-</td>
-<td class="px-6 py-5 text-sm font-medium text-on-surface-variant">$200K - $240K</td>
-<td class="px-6 py-5 text-sm text-on-surface-variant text-right font-medium">Mar 14, 2024</td>
-</tr>
-<tr class="hover:bg-surface-container-low/20 transition-colors cursor-pointer group">
-<td class="px-6 py-5">
-<div class="flex items-center space-x-3">
-<div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center">
-<span class="material-symbols-outlined text-primary text-[18px]">description</span>
-</div>
-<span class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">Data Infrastructure</span>
-</div>
-</td>
-<td class="px-6 py-5 text-sm font-medium text-on-surface-variant">Snowflake</td>
-<td class="px-6 py-5">
-<span class="px-3 py-1 rounded-lg text-xs font-bold notion-tag-orange">Submitted</span>
-</td>
-<td class="px-6 py-5 text-sm font-medium text-on-surface-variant">$160K - $200K</td>
-<td class="px-6 py-5 text-sm text-on-surface-variant text-right font-medium">Mar 10, 2024</td>
-</tr>
+<tbody class="divide-y notion-border" id="bookmarked-jobs-tbody">
 </tbody>
 </table>
 </div>
@@ -229,11 +183,89 @@
 </div>
 </nav>
 <script>
-    // Purely visual: row click simulation
-    document.querySelectorAll('tr, .md\\:hidden > div').forEach(el => {
-        el.addEventListener('click', () => {
-            console.log('Item clicked - navigation or panel toggle');
-        });
-    });
+    // Load bookmarked jobs from localStorage and populate table
+    function loadBookmarkedJobs() {
+      const tbody = document.getElementById('bookmarked-jobs-tbody');
+      const bookmarkedJobs = JSON.parse(localStorage.getItem('bookmarkedJobs')) || [];
+      
+      // Clear existing rows
+      tbody.innerHTML = '';
+      
+      if (bookmarkedJobs.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="7" class="px-6 py-8 text-center text-on-surface-variant">No bookmarked jobs yet. Go to Job Search to bookmark positions.</td></tr>';
+        return;
+      }
+      
+      // Define job details
+      const jobDetails = {
+        'figma-ux': {
+          status: 'Offer',
+          statusClass: 'notion-tag-green',
+          salary: '$200K - $240K',
+          dateAdded: 'Mar 14, 2024',
+          resume: 'View',
+          coverLetter: 'View'
+        },
+        'microsoft-software': {
+          status: 'Offer',
+          statusClass: 'notion-tag-green',
+          salary: '$200K - $240K',
+          dateAdded: 'Mar 14, 2024',
+          resume: 'View',
+          coverLetter: 'View'
+        }
+      };
+      
+      bookmarkedJobs.forEach(job => {
+        const jobId = typeof job === 'string' ? job : job.id;
+        const jobTitle = typeof job === 'string' ? '' : job.title;
+        const jobCompany = typeof job === 'string' ? '' : job.company;
+        const details = jobDetails[jobId] || {
+          status: 'Submitted',
+          statusClass: 'notion-tag-orange',
+          salary: '$150K - $180K',
+          dateAdded: 'Mar 15, 2024',
+          resume: 'View',
+          coverLetter: 'View'
+        };
+        
+        const row = document.createElement('tr');
+        row.className = 'hover:bg-surface-container-low/20 transition-colors cursor-pointer group';
+        row.innerHTML = `
+          <td class="px-6 py-5">
+            <div class="flex items-center space-x-3">
+              <div class="w-8 h-8 rounded-lg bg-surface-container-highest flex items-center justify-center">
+                <span class="material-symbols-outlined text-primary text-[18px]">description</span>
+              </div>
+              <span class="text-sm font-bold text-on-surface group-hover:text-primary transition-colors">${jobTitle}</span>
+            </div>
+          </td>
+          <td class="px-6 py-5 text-sm font-medium text-on-surface-variant">${jobCompany}</td>
+          <td class="px-6 py-5">
+            <span class="px-3 py-1 rounded-lg text-xs font-bold ${details.statusClass}">${details.status}</span>
+          </td>
+          <td class="px-6 py-5 text-sm font-medium text-on-surface-variant">${details.salary}</td>
+          <td class="px-6 py-5 text-sm font-medium text-on-surface-variant">${details.dateAdded}</td>
+          <td class="px-6 py-5">
+            <button class="text-primary font-semibold text-sm hover:underline flex items-center gap-1">
+              <span class="material-symbols-outlined text-base">description</span>
+              ${details.resume}
+            </button>
+          </td>
+          <td class="px-6 py-5">
+            <button class="text-primary font-semibold text-sm hover:underline flex items-center gap-1">
+              <span class="material-symbols-outlined text-base">description</span>
+              ${details.coverLetter}
+            </button>
+          </td>
+        `;
+        tbody.appendChild(row);
+      });
+    }
+    
+    document.addEventListener('DOMContentLoaded', loadBookmarkedJobs);
+    
+    // Listen for storage changes (for when bookmarks are updated in another tab)
+    window.addEventListener('storage', loadBookmarkedJobs);
 </script>
 </body></html>
