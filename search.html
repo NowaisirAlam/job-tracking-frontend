@@ -132,9 +132,13 @@
           </a>
         </nav>
       </div>
-      <a class="hidden sm:block px-5 py-2.5 bg-primary text-on-primary font-bold rounded-xl text-sm hover:shadow-lg transition-all active:scale-95" href="setting.html" data-nav="settings">
-        My Account
-      </a>
+    <a
+      href="settings.html"
+      data-nav="settings"
+      class="hidden sm:inline-block px-5 py-2.5 bg-primary text-on-primary font-bold rounded-xl text-sm hover:shadow-lg transition-all active:scale-95"
+    >
+      My Account
+    </a>
     </header>
     <main class="px-6 space-y-8">
       <div class="mb-8 mt-6">
@@ -148,22 +152,24 @@
           </div>
         </div>      </div>
       <section class="space-y-4">
-        <div class="grid gap-3 md:grid-cols-2">
-          <div class="relative">
-            <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline" data-icon="search">search</span>
+        <div class="flex gap-3">
+          <div class="relative flex-1">
+            <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline" data-icon="work">work</span>
             <input
               class="w-full pl-12 pr-4 py-4 bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary/20 transition-all text-body"
-              placeholder="Search roles or companies"
+              placeholder="Role or company"
               type="text"
+              id="role-search-input"
               data-search-input
             />
           </div>
-          <div class="relative">
+          <div class="relative flex-1">
             <span class="absolute left-4 top-1/2 -translate-y-1/2 material-symbols-outlined text-outline" data-icon="location_on">location_on</span>
             <input
               class="w-full pl-12 pr-4 py-4 bg-surface-container-low border-none rounded-xl focus:ring-2 focus:ring-primary/20 transition-all text-body"
-              placeholder="Search by location"
+              placeholder="Location or Remote"
               type="text"
+              id="location-search-input"
               data-location-search-input
             />
           </div>
@@ -391,6 +397,55 @@
       </div>
     </div>
 
+    <!-- Profile Setup Modal (shown once after signup) -->
+    <div id="profile-setup-modal" class="hidden fixed inset-0 z-[200] flex items-center justify-center p-4">
+      <div class="absolute inset-0 bg-black/50"></div>
+      <div class="relative bg-white w-full max-w-md rounded-2xl shadow-2xl z-10 overflow-hidden">
+        <!-- Header -->
+        <div class="bg-gradient-to-r from-primary to-blue-700 px-6 py-5">
+          <h2 class="text-xl font-headline font-extrabold text-on-primary">Complete Your Profile</h2>
+          <p class="text-sm text-on-primary/80 mt-1">Help us find the best jobs for you</p>
+        </div>
+        <form id="profile-setup-form" class="px-6 py-6 space-y-5">
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1.5">Role You're Looking For</label>
+            <input
+              id="ps-role"
+              type="text"
+              placeholder="e.g. Software Engineer, Product Manager"
+              class="w-full px-4 py-3 bg-surface-container-low rounded-xl text-sm border-none focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1.5">Preferred Location</label>
+            <input
+              id="ps-location"
+              type="text"
+              placeholder="e.g. New York, Remote, San Francisco"
+              class="w-full px-4 py-3 bg-surface-container-low rounded-xl text-sm border-none focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+            />
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider mb-1.5">Upload Your Resume <span class="text-outline normal-case font-normal">(PDF or DOCX)</span></label>
+            <label id="resume-drop-zone" class="flex flex-col items-center justify-center gap-2 w-full py-6 px-4 bg-surface-container-low rounded-xl border-2 border-dashed border-outline-variant cursor-pointer hover:border-primary hover:bg-primary/5 transition-all">
+              <span class="material-symbols-outlined text-outline text-3xl">upload_file</span>
+              <span class="text-sm font-medium text-on-surface-variant" id="resume-drop-label">Click to upload or drag & drop</span>
+              <span class="text-xs text-outline">PDF or DOCX, up to 10MB</span>
+              <input id="ps-resume" type="file" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="hidden" />
+            </label>
+          </div>
+          <div class="flex gap-3 pt-1">
+            <button type="button" id="ps-skip" class="flex-1 py-3 rounded-xl bg-surface-container-high text-on-surface-variant font-bold text-sm hover:bg-surface-container transition-all active:scale-95">
+              Skip for now
+            </button>
+            <button type="submit" class="flex-1 py-3 rounded-xl bg-primary text-on-primary font-bold text-sm hover:opacity-90 transition-all active:scale-95">
+              Start Job Search
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <script src="./app.js"></script>
     <script>
       const JOB_TYPE_LABELS = { 'full-time': 'Full-time', 'part-time': 'Part-time', 'contract': 'Contract' };
@@ -521,6 +576,77 @@
       });
 
       document.addEventListener('DOMContentLoaded', loadManualJobs);
+
+      // --- Profile Setup Modal ---
+      (function () {
+        const modal = document.getElementById('profile-setup-modal');
+        const form = document.getElementById('profile-setup-form');
+        const skipBtn = document.getElementById('ps-skip');
+        const resumeInput = document.getElementById('ps-resume');
+        const dropLabel = document.getElementById('resume-drop-label');
+        const dropZone = document.getElementById('resume-drop-zone');
+
+        function showModal() { modal.classList.remove('hidden'); }
+        function hideModal() { modal.classList.add('hidden'); }
+
+        function applyProfileToSearch(role, location) {
+          const roleInput = document.getElementById('role-search-input');
+          const locInput = document.getElementById('location-search-input');
+          if (roleInput && role) { roleInput.value = role; roleInput.dispatchEvent(new Event('input')); }
+          if (locInput && location) { locInput.value = location; locInput.dispatchEvent(new Event('input')); }
+          if (typeof applyFiltersAndSort === 'function') applyFiltersAndSort();
+        }
+
+        // Show once after signup
+        const justSignedUp = sessionStorage.getItem('justSignedUp') || localStorage.getItem('justSignedUp');
+        const alreadySetup = localStorage.getItem('profileSetupDone');
+        if (justSignedUp && !alreadySetup) {
+          showModal();
+        }
+
+        // Resume file selection display
+        resumeInput.addEventListener('change', function () {
+          if (this.files && this.files[0]) {
+            dropLabel.textContent = this.files[0].name;
+          }
+        });
+
+        // Drag-and-drop
+        dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('border-primary', 'bg-primary/5'); });
+        dropZone.addEventListener('dragleave', () => { dropZone.classList.remove('border-primary', 'bg-primary/5'); });
+        dropZone.addEventListener('drop', (e) => {
+          e.preventDefault();
+          dropZone.classList.remove('border-primary', 'bg-primary/5');
+          const file = e.dataTransfer.files[0];
+          if (file) {
+            const allowed = ['application/pdf', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+            if (allowed.includes(file.type) || file.name.endsWith('.pdf') || file.name.endsWith('.docx')) {
+              const dt = new DataTransfer();
+              dt.items.add(file);
+              resumeInput.files = dt.files;
+              dropLabel.textContent = file.name;
+            }
+          }
+        });
+
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+          const role = document.getElementById('ps-role').value.trim();
+          const location = document.getElementById('ps-location').value.trim();
+          localStorage.setItem('profileSetupDone', '1');
+          localStorage.removeItem('justSignedUp');
+          sessionStorage.removeItem('justSignedUp');
+          hideModal();
+          applyProfileToSearch(role, location);
+        });
+
+        skipBtn.addEventListener('click', function () {
+          localStorage.setItem('profileSetupDone', '1');
+          localStorage.removeItem('justSignedUp');
+          sessionStorage.removeItem('justSignedUp');
+          hideModal();
+        });
+      })();
     </script>
   </body>
 </html>

@@ -161,6 +161,50 @@
 </div>
 </div>
 </div>
+
+<!-- General Resume Widget -->
+<div class="bg-surface-container-lowest rounded-xl p-8 border border-outline-variant/10" id="resume-widget">
+  <div class="flex items-start justify-between mb-6">
+    <div>
+      <h3 class="text-lg font-bold text-on-surface">General Resume</h3>
+      <p class="text-xs text-on-surface-variant mt-0.5">Your main resume used as the base for all applications.</p>
+    </div>
+    <label id="resume-replace-btn" class="hidden px-4 py-2 bg-blue-50 text-primary text-sm font-semibold rounded-lg hover:bg-blue-100 transition-colors cursor-pointer">
+      Replace
+      <input type="file" id="resume-file-input-replace" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="hidden" />
+    </label>
+  </div>
+
+  <!-- Empty state -->
+  <label id="resume-empty-state" class="flex flex-col items-center justify-center gap-3 w-full py-10 bg-surface-container-low rounded-xl border-2 border-dashed border-outline-variant cursor-pointer hover:border-primary hover:bg-primary/5 transition-all group">
+    <span class="material-symbols-outlined text-outline text-4xl group-hover:text-primary transition-colors">upload_file</span>
+    <div class="text-center">
+      <p class="text-sm font-semibold text-on-surface-variant group-hover:text-on-surface transition-colors">Upload your main resume</p>
+      <p class="text-xs text-outline mt-0.5">PDF or DOCX, up to 10 MB</p>
+    </div>
+    <input type="file" id="resume-file-input-main" accept=".pdf,.docx,application/pdf,application/vnd.openxmlformats-officedocument.wordprocessingml.document" class="hidden" />
+  </label>
+
+  <!-- Uploaded state -->
+  <div id="resume-uploaded-state" class="hidden">
+    <div class="flex items-center gap-4 p-4 bg-surface-container-low rounded-xl">
+      <div id="resume-icon-wrap" class="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-red-50">
+        <span class="material-symbols-outlined text-red-600 text-2xl" id="resume-type-icon">picture_as_pdf</span>
+      </div>
+      <div class="flex-1 min-w-0">
+        <p class="text-sm font-bold text-on-surface truncate" id="resume-file-name">resume.pdf</p>
+        <p class="text-xs text-on-surface-variant mt-0.5" id="resume-file-meta">—</p>
+      </div>
+      <div class="flex items-center gap-2 shrink-0">
+        <span class="text-[10px] font-black uppercase tracking-wider px-2 py-1 bg-primary/10 text-primary rounded-full">Main</span>
+        <button id="resume-remove-btn" class="w-8 h-8 rounded-full flex items-center justify-center text-outline hover:text-error hover:bg-error-container transition-colors" title="Remove">
+          <span class="material-symbols-outlined text-lg">delete</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </section>
 <!-- Sidebar Settings -->
 <aside class="lg:col-span-4 space-y-10">
@@ -310,4 +354,78 @@
 </div>
 </div>
 <script src="./app.js"></script>
+<script>
+  (function () {
+    const STORAGE_KEY = 'mainResume';
+
+    const emptyState    = document.getElementById('resume-empty-state');
+    const uploadedState = document.getElementById('resume-uploaded-state');
+    const replaceBtn    = document.getElementById('resume-replace-btn');
+    const fileNameEl    = document.getElementById('resume-file-name');
+    const fileMetaEl    = document.getElementById('resume-file-meta');
+    const typeIcon      = document.getElementById('resume-type-icon');
+    const iconWrap      = document.getElementById('resume-icon-wrap');
+    const removeBtn     = document.getElementById('resume-remove-btn');
+    const inputMain     = document.getElementById('resume-file-input-main');
+    const inputReplace  = document.getElementById('resume-file-input-replace');
+
+    function formatBytes(bytes) {
+      if (bytes < 1024) return bytes + ' B';
+      if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+      return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    }
+
+    function renderResume(meta) {
+      const isPdf = meta.name.toLowerCase().endsWith('.pdf');
+      fileNameEl.textContent = meta.name;
+      fileMetaEl.textContent = formatBytes(meta.size) + ' · Uploaded ' + new Date(meta.uploadedAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+      if (isPdf) {
+        typeIcon.textContent = 'picture_as_pdf';
+        typeIcon.className = 'material-symbols-outlined text-red-600 text-2xl';
+        iconWrap.className = iconWrap.className.replace('bg-blue-50', 'bg-red-50');
+        iconWrap.classList.add('bg-red-50');
+        iconWrap.classList.remove('bg-blue-50');
+      } else {
+        typeIcon.textContent = 'description';
+        typeIcon.className = 'material-symbols-outlined text-blue-600 text-2xl';
+        iconWrap.classList.add('bg-blue-50');
+        iconWrap.classList.remove('bg-red-50');
+      }
+      emptyState.classList.add('hidden');
+      uploadedState.classList.remove('hidden');
+      replaceBtn.classList.remove('hidden');
+    }
+
+    function clearResume() {
+      localStorage.removeItem(STORAGE_KEY);
+      emptyState.classList.remove('hidden');
+      uploadedState.classList.add('hidden');
+      replaceBtn.classList.add('hidden');
+    }
+
+    function saveAndRender(file) {
+      const meta = { name: file.name, size: file.size, type: file.type, uploadedAt: Date.now() };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(meta));
+      renderResume(meta);
+    }
+
+    // Load persisted resume on page load
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored) {
+      try { renderResume(JSON.parse(stored)); } catch (e) { clearResume(); }
+    }
+
+    inputMain.addEventListener('change', function () {
+      if (this.files && this.files[0]) saveAndRender(this.files[0]);
+    });
+
+    inputReplace.addEventListener('change', function () {
+      if (this.files && this.files[0]) saveAndRender(this.files[0]);
+    });
+
+    removeBtn.addEventListener('click', function () {
+      if (confirm('Remove your main resume?')) clearResume();
+    });
+  })();
+</script>
 </body></html>
