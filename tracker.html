@@ -86,22 +86,14 @@
 <p class="text-on-surface-variant text-lg">Manage your career pipeline with precision.</p>
 </div>
 <!-- Controls -->
-<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 border-b notion-border pb-4">
-<div class="flex items-center space-x-6">
-<div class="flex items-center space-x-2 border-b-2 border-primary pb-4 -mb-4 px-1">
-<span class="material-symbols-outlined text-primary text-[20px]">table_rows</span>
-<span class="text-sm font-bold text-on-surface">Dashboard</span>
-</div>
-</div>
-<div class="flex items-center space-x-3">
-<button class="flex items-center space-x-2 px-4 py-2 bg-white border border-outline-variant/30 rounded-xl text-sm font-semibold hover:bg-surface-container-low transition-all">
-<span class="material-symbols-outlined text-[18px]">filter_list</span>
-<span>Filter</span>
-</button>
+<div class="flex items-center justify-between mb-8 border-b notion-border pb-4">
+<h3 class="text-xl font-headline font-extrabold text-on-surface tracking-tight flex items-center gap-2">
+  <span class="material-symbols-outlined text-primary text-xl">table_rows</span>
+  Dashboard
+</h3>
 <button class="bg-primary text-white px-6 py-2 rounded-xl text-sm font-bold shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95 transition-all">
-                New Application
-            </button>
-</div>
+  New Application
+</button>
 </div>
 <!-- Tracker View -->
 <div class="hidden md:block overflow-hidden bg-white border border-outline-variant/30 rounded-2xl">
@@ -189,17 +181,13 @@
           <td class="px-6 py-5">
             <span class="px-3 py-1 rounded-lg text-xs font-bold notion-tag-gray">Pending</span>
           </td>
-          <td class="px-6 py-5 text-sm font-medium text-on-surface-variant">—</td>
+          <td class="px-6 py-5 text-sm font-medium text-on-surface-variant">${job.salary || '—'}</td>
           <td class="px-6 py-5 text-sm font-medium text-on-surface-variant">${dateAdded}</td>
           <td class="px-6 py-5">
-            <button class="text-primary font-semibold text-sm hover:underline flex items-center gap-1">
-              <span class="material-symbols-outlined text-base">description</span>View
-            </button>
+            <button onclick="window.location.href='generator.html'" class="text-primary font-semibold text-sm underline hover:opacity-75 transition-opacity">Generate</button>
           </td>
           <td class="px-6 py-5">
-            <button class="text-primary font-semibold text-sm hover:underline flex items-center gap-1">
-              <span class="material-symbols-outlined text-base">description</span>View
-            </button>
+            <button onclick="window.location.href='generator.html'" class="text-primary font-semibold text-sm underline hover:opacity-75 transition-opacity">Generate</button>
           </td>
         `;
         tbody.appendChild(row);
@@ -232,4 +220,5 @@
     document.addEventListener('DOMContentLoaded', loadBookmarkedJobs);
     window.addEventListener('storage', loadBookmarkedJobs);
 </script>
+<script src="./app.js"></script>
 </body></html>

@@ -131,7 +131,8 @@ function wireBookmarks() {
     }
 
     button.addEventListener("click", (e) => {
-      e.stopPropagation();
+      e.preventDefault();
+      e.stopImmediatePropagation();
       const isSaved = button.dataset.bookmark === "saved";
       setBookmarkState(button, !isSaved);
 
@@ -165,6 +166,7 @@ function addTrackedJob(card) {
       company: card.dataset.company,
       location: card.dataset.location,
       logo: card.dataset.logo,
+      salary: card.dataset.salary || "—",
     });
     localStorage.setItem("bookmarkedJobs", JSON.stringify(jobs));
   }
