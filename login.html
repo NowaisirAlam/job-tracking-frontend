@@ -121,7 +121,7 @@
 <div class="flex-grow h-[1px] bg-outline-variant/20"></div>
 </div>
 <!-- Email Form -->
-<form class="space-y-6">
+<form class="space-y-6" id="login-form">
 <div class="space-y-4">
 <div class="space-y-2">
 <label class="text-sm font-semibold text-on-surface-variant ml-1" for="email">Email Address</label>
@@ -136,7 +136,7 @@
 </div>
 </div>
 <!-- Primary CTA -->
-<button class="w-full py-4 bg-gradient-to-br from-primary to-primary-container text-white font-headline font-bold rounded-lg shadow-lg shadow-primary/20 active:scale-[0.98] transition-all duration-200" type="submit">
+<button class="w-full py-4 bg-gradient-to-br from-primary to-primary-container text-white font-headline font-bold rounded-lg shadow-lg shadow-primary/20 active:scale-[0.98] transition-all duration-200" id="login-btn" type="submit">
                     Log In
                 </button>
 </form>
@@ -152,4 +152,35 @@
 <!-- Asymmetric Aesthetic Detail (Floating Elements) -->
 <div class="hidden lg:block fixed -bottom-24 -left-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl pointer-events-none"></div>
 <div class="hidden lg:block fixed -top-24 -right-24 w-64 h-64 bg-secondary-container/10 rounded-full blur-3xl pointer-events-none"></div>
+<script src="api.js"></script>
+<script>
+  document.getElementById("login-form").addEventListener("submit", async function(e) {
+    e.preventDefault();
+    const email    = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const btn      = document.getElementById("login-btn");
+
+    btn.textContent = "Logging in...";
+    btn.disabled = true;
+
+    try {
+      await api.login(email, password);
+      window.location.href = "search.html";
+    } catch (err) {
+      btn.textContent = "Log In";
+      btn.disabled = false;
+      // show error using existing toast
+      let toast = document.getElementById("app-toast");
+      if (!toast) {
+        toast = document.createElement("div");
+        toast.id = "app-toast";
+        toast.className = "fixed right-4 top-4 z-[100] max-w-sm rounded-xl bg-slate-900 px-4 py-3 text-sm font-medium text-white shadow-2xl";
+        document.body.appendChild(toast);
+      }
+      toast.textContent = err.message;
+      toast.classList.remove("hidden");
+      setTimeout(() => toast.classList.add("hidden"), 2200);
+    }
+  });
+</script>
 </body></html>
